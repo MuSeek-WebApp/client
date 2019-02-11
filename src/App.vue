@@ -1,28 +1,20 @@
 <template>
-  <div id="app">
-    <img alt="Museek Logo" src="./assets/guitar.png">
-    <Welcome msg="Welcome to Museek."/>
-  </div>
+  <v-app>
+    <Login/>
+    <v-footer class="pa-2">
+    <v-spacer></v-spacer>
+    <div>&copy; {{ new Date().getFullYear() }}</div>
+  </v-footer>
+  </v-app>
 </template>
 
 <script>
-import Welcome from './components/Welcome.vue'
+import Login from "./components/Login.vue";
 
 export default {
-  name: 'app',
+  name: "app",
   components: {
-    Welcome
+    Login
   }
-}
+};
 </script>
-
-<style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
