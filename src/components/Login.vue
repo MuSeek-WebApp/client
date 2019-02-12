@@ -17,7 +17,7 @@
               Sign in With Facebook
               <v-spacer></v-spacer>
             </v-btn>
-            <v-btn block color="secondary">
+            <v-btn block color="secondary" v-on:click="signInWithProvider">
               <img class="mr-3" src="../assets/google.png">
               <v-divider vertical dark></v-divider>
               <v-spacer></v-spacer>
@@ -77,6 +77,14 @@ export default {
   methods: {
     signIn: function() {
       firebase.auth().signInWithEmailAndPassword(this.email,this.password).then(() => {
+        this.$router.push('/Home')
+      }).catch((error) => {
+        this.error = error.message
+      })
+    },
+    signInWithProvider: function() {
+      var provider = new firebase.auth.GoogleAuthProvider();
+      firebase.auth().signInWithPopup(provider).then(() => {
         this.$router.push('/Home')
       }).catch((error) => {
         this.error = error.message
