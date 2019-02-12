@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <Login/>
+    <router-view/>
     <v-footer class="pa-2">
     <v-spacer></v-spacer>
     <div>&copy; {{ new Date().getFullYear() }}</div>
@@ -9,12 +9,7 @@
 </template>
 
 <script>
-import Login from "./components/Login.vue";
-
 export default {
-  name: "app",
-  components: {
-    Login
-  }
+  name: "app"
 };
 </script>
