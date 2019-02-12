@@ -42,12 +42,13 @@
                 :rules="passwordRules"
                 required
               ></v-text-field>
+              <p class="red--text">{{error}}</p>
             </v-form>
           </v-card-text>
           <v-card-actions>
             <v-btn class="ml-2" outline color="primary">Sign up</v-btn>
             <v-spacer></v-spacer>
-            <v-btn class="mr-2" outline color="primary">Sign in</v-btn>
+            <v-btn class="mr-2" outline color="primary" v-on:click="signIn">Sign in</v-btn>
           </v-card-actions>
         </v-card>
       </v-flex>
@@ -56,11 +57,14 @@
 </template>
 
 <script>
+import firebase from 'firebase'
+
 export default {
   name: "Login",
   data: () => ({
     email: "",
     password: "",
+    error:"",
     emailRules: [
       v => !!v || "Email is required",
       v => /.+@.+/.test(v) || "E-mail must be valid"
@@ -69,6 +73,15 @@ export default {
         v => !!v || "Password is required",
         v => (v && (v.length >= 6 && v.length <= 12)) || "Password length should be between 6 to 12"
     ]
-  })
+  }),
+  methods: {
+    signIn: function() {
+      firebase.auth().signInWithEmailAndPassword(this.email,this.password).then(() => {
+        this.$router.push('/Home')
+      }).catch((error) => {
+        this.error = error.message
+      })
+    }
+  }
 };
 </script>
