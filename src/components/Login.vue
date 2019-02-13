@@ -13,15 +13,13 @@
             <v-btn block color="primary">
               <img class="mr-3" src="../assets/facebook.png">
               <v-divider vertical dark></v-divider>
-              <v-spacer></v-spacer>
-              Sign in With Facebook
+              <v-spacer></v-spacer>Sign in With Facebook
               <v-spacer></v-spacer>
             </v-btn>
             <v-btn block color="secondary" v-on:click="signInWithProvider">
               <img class="mr-3" src="../assets/google.png">
               <v-divider vertical dark></v-divider>
-              <v-spacer></v-spacer>
-              Sign in With Google
+              <v-spacer></v-spacer>Sign in With Google
               <v-spacer></v-spacer>
             </v-btn>
             <p class="text-xs-center">or</p>
@@ -48,7 +46,7 @@
           <v-card-actions>
             <v-btn class="ml-2" outline color="primary">Sign up</v-btn>
             <v-spacer></v-spacer>
-            <v-btn class="mr-2" outline color="primary" v-on:click="signIn">Sign in</v-btn>
+            <v-btn class="mr-2" outline color="primary" v-on:click="signInWithEmailAndPassword">Sign in</v-btn>
           </v-card-actions>
         </v-card>
       </v-flex>
@@ -57,38 +55,52 @@
 </template>
 
 <script>
-import firebase from 'firebase'
+import firebase from "firebase";
+import axios from "axios";
 
 export default {
   name: "Login",
   data: () => ({
     email: "",
     password: "",
-    error:"",
+    error: "",
     emailRules: [
       v => !!v || "Email is required",
       v => /.+@.+/.test(v) || "E-mail must be valid"
     ],
     passwordRules: [
-        v => !!v || "Password is required",
-        v => (v && (v.length >= 6 && v.length <= 12)) || "Password length should be between 6 to 12"
+      v => !!v || "Password is required",
+      v =>
+        (v && (v.length >= 6 && v.length <= 12)) ||
+        "Password length should be between 6 to 12"
     ]
   }),
   methods: {
-    signIn: function() {
-      firebase.auth().signInWithEmailAndPassword(this.email,this.password).then(() => {
-        this.$router.push('/Home')
-      }).catch((error) => {
-        this.error = error.message
-      })
+    signIn: function(promise) {
+      promise.then(result => {
+          result.user.getIdToken().then(tokenId => {
+            axios
+              .post("/api/users/login", {
+                tokenId: tokenId
+              })
+              .then(() => {
+                this.$router.push("/home");
+              })
+              .catch(error => {
+                this.error = error.message;
+              });
+          });
+        })
+        .catch(error => {
+          this.error = error.message;
+        });
+    },
+    signInWithEmailAndPassword: function() {
+      this.signIn(firebase.auth().signInWithEmailAndPassword(this.email,this.password))
     },
     signInWithProvider: function() {
       var provider = new firebase.auth.GoogleAuthProvider();
-      firebase.auth().signInWithPopup(provider).then(() => {
-        this.$router.push('/Home')
-      }).catch((error) => {
-        this.error = error.message
-      })
+      this.signIn(firebase.auth().signInWithPopup(provider))
     }
   }
 };
