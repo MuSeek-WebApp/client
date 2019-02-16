@@ -11,13 +11,13 @@
           </v-card-title>
           <v-card-text>
             <v-btn block color="primary">
-              <img class="mr-3" src="../assets/facebook.png">
+              <img class="mr-3" src="../../public/img/icons/facebook.png">
               <v-divider vertical dark></v-divider>
               <v-spacer></v-spacer>Sign in With Facebook
               <v-spacer></v-spacer>
             </v-btn>
             <v-btn block color="secondary" v-on:click="signInWithProvider">
-              <img class="mr-3" src="../assets/google.png">
+              <img class="mr-3" src="../../public/img/icons/google.png">
               <v-divider vertical dark></v-divider>
               <v-spacer></v-spacer>Sign in With Google
               <v-spacer></v-spacer>
