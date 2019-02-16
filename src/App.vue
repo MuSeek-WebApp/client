@@ -1,15 +1,20 @@
 <template>
   <v-app>
+    <Header/>
     <router-view/>
-    <v-footer class="pa-2">
-    <v-spacer></v-spacer>
-    <div>&copy; {{ new Date().getFullYear() }}</div>
-  </v-footer>
+    <Footer/>
   </v-app>
 </template>
 
 <script>
+import Header from './components/Header.vue'
+import Footer from './components/Footer.vue'
+
 export default {
-  name: "app"
+  name: "app",
+  components: {
+    Header,
+    Footer
+  }
 };
 </script>
