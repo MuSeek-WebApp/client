@@ -1,21 +1,21 @@
-import Vue from 'vue'
-import Vuetify from 'vuetify'
-import 'vuetify/src/stylus/app.styl'
-import App from './App.vue'
-import 'material-design-icons-iconfont/dist/material-design-icons.css'
-import router from './router/index.js'
-import firebase from 'firebase'
-import config from './common/firebase.js'
-import store from './store'
+import Vue from "vue";
+import Vuetify from "vuetify";
+import "vuetify/src/stylus/app.styl";
+import App from "./App.vue";
+import "material-design-icons-iconfont/dist/material-design-icons.css";
+import router from "./router/index.js";
+import firebase from "firebase";
+import config from "./common/firebase.js";
+import store from "./store";
 
 Vue.use(Vuetify, {
-  iconfont: 'md'
-})
+  iconfont: "md"
+});
 
 new Vue({
   router,
   store,
-  render: h => h(App),
-}).$mount('#app')
+  render: h => h(App)
+}).$mount("#app");
 
-firebase.initializeApp(config)
+firebase.initializeApp(config);

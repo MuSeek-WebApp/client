@@ -11,13 +11,13 @@
           </v-card-title>
           <v-card-text>
             <v-btn block color="primary">
-              <img class="mr-3" src="../../public/img/icons/facebook.png">
+              <img class="mr-3" src="../../public/img/icons/facebook.png" />
               <v-divider vertical dark></v-divider>
               <v-spacer></v-spacer>Sign in With Facebook
               <v-spacer></v-spacer>
             </v-btn>
             <v-btn block color="secondary" v-on:click="signInWithProvider">
-              <img class="mr-3" src="../../public/img/icons/google.png">
+              <img class="mr-3" src="../../public/img/icons/google.png" />
               <v-divider vertical dark></v-divider>
               <v-spacer></v-spacer>Sign in With Google
               <v-spacer></v-spacer>
@@ -40,13 +40,19 @@
                 :rules="passwordRules"
                 required
               ></v-text-field>
-              <p class="red--text">{{error}}</p>
+              <p class="red--text">{{ error }}</p>
             </v-form>
           </v-card-text>
           <v-card-actions>
             <v-btn class="ml-2" outline color="primary">Sign up</v-btn>
             <v-spacer></v-spacer>
-            <v-btn class="mr-2" outline color="primary" v-on:click="signInWithEmailAndPassword">Sign in</v-btn>
+            <v-btn
+              class="mr-2"
+              outline
+              color="primary"
+              v-on:click="signInWithEmailAndPassword"
+              >Sign in</v-btn
+            >
           </v-card-actions>
         </v-card>
       </v-flex>
@@ -77,7 +83,8 @@ export default {
   }),
   methods: {
     signIn: function(promise) {
-      promise.then(result => {
+      promise
+        .then(result => {
           result.user.getIdToken().then(tokenId => {
             axios
               .post("/api/users/login", {
@@ -96,11 +103,13 @@ export default {
         });
     },
     signInWithEmailAndPassword: function() {
-      this.signIn(firebase.auth().signInWithEmailAndPassword(this.email,this.password))
+      this.signIn(
+        firebase.auth().signInWithEmailAndPassword(this.email, this.password)
+      );
     },
     signInWithProvider: function() {
       var provider = new firebase.auth.GoogleAuthProvider();
-      this.signIn(firebase.auth().signInWithPopup(provider))
+      this.signIn(firebase.auth().signInWithPopup(provider));
     }
   }
 };

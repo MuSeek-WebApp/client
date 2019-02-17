@@ -5,4 +5,4 @@ export default {
   projectId: "museek-ebe73",
   storageBucket: "museek-ebe73.appspot.com",
   messagingSenderId: "550779950359"
-}
+};
