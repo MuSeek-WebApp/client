@@ -87,7 +87,7 @@ export default {
         .then(result => {
           result.user.getIdToken().then(tokenId => {
             axios
-              .post("/api/users/login", {
+              .post("/api/auth/login", {
                 tokenId: tokenId
               })
               .then(() => {
