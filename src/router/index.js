@@ -4,6 +4,7 @@ import Login from "../views/Login.vue";
 import Home from "../views/Home.vue";
 
 Vue.use(VueRouter);
+
 export default new VueRouter({
   routes: [
     {

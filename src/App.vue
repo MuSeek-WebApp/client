@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <Header />
+    <Header v-if="isAuthenticated" />
     <router-view />
     <Footer />
   </v-app>
@@ -15,6 +15,11 @@ export default {
   components: {
     Header,
     Footer
+  },
+  computed: {
+    isAuthenticated() {
+      return this.$store.getters.isAuthenticated;
+    }
   }
 };
 </script>

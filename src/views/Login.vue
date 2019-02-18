@@ -16,7 +16,7 @@
               <v-spacer></v-spacer>Sign in With Facebook
               <v-spacer></v-spacer>
             </v-btn>
-            <v-btn block color="secondary" v-on:click="signInWithProvider">
+            <v-btn block color="secondary" v-on:click="signInWithGoogle">
               <img class="mr-3" src="../../public/img/icons/google.png" />
               <v-divider vertical dark></v-divider>
               <v-spacer></v-spacer>Sign in With Google
@@ -50,7 +50,7 @@
               class="mr-2"
               outline
               color="primary"
-              v-on:click="signInWithEmailAndPassword"
+              v-on:click="signInWithEmailAndPassword(email, password)"
               >Sign in</v-btn
             >
           </v-card-actions>
@@ -61,8 +61,7 @@
 </template>
 
 <script>
-import firebase from "firebase";
-import axios from "axios";
+import { SIGN_IN, SIGN_IN_WITH_GOOGLE } from "@/store/actions.type";
 
 export default {
   name: "Login",
@@ -82,34 +81,25 @@ export default {
     ]
   }),
   methods: {
-    signIn: function(promise) {
-      promise
-        .then(result => {
-          result.user.getIdToken().then(tokenId => {
-            axios
-              .post("/api/auth/login", {
-                tokenId: tokenId
-              })
-              .then(() => {
-                this.$router.push("/home");
-              })
-              .catch(error => {
-                this.error = error.message;
-              });
-          });
+    signInWithEmailAndPassword: function(email, password) {
+      this.$store
+        .dispatch(SIGN_IN, { email, password })
+        .then(() => {
+          this.$router.push("/home");
         })
         .catch(error => {
           this.error = error.message;
         });
     },
-    signInWithEmailAndPassword: function() {
-      this.signIn(
-        firebase.auth().signInWithEmailAndPassword(this.email, this.password)
-      );
-    },
-    signInWithProvider: function() {
-      var provider = new firebase.auth.GoogleAuthProvider();
-      this.signIn(firebase.auth().signInWithPopup(provider));
+    signInWithGoogle: function() {
+      this.$store
+        .dispatch(SIGN_IN_WITH_GOOGLE)
+        .then(() => {
+          this.$router.push("/home");
+        })
+        .catch(error => {
+          this.error = error.message;
+        });
     }
   }
 };

@@ -1,15 +1,38 @@
 import Vue from "vue";
 import Vuetify from "vuetify";
 import "vuetify/src/stylus/app.styl";
-import App from "./App.vue";
 import "material-design-icons-iconfont/dist/material-design-icons.css";
-import router from "./router/index.js";
+import App from "./App.vue";
+import router from "./router";
 import firebase from "firebase";
-import config from "./common/firebase.js";
 import store from "./store";
+import ApiService from "./common/api.service";
+import config from "./common/firebase.js";
+import { CHECK_AUTH } from "./store/actions.type";
 
 Vue.use(Vuetify, {
   iconfont: "md"
+});
+
+ApiService.init();
+
+router.beforeEach((to, from, next) => {
+  store
+    .dispatch(CHECK_AUTH)
+    .then(() => {
+      if (to.name === "Login") {
+        next("/home");
+      } else {
+        next();
+      }
+    })
+    .catch(() => {
+      if (to.name === "Login") {
+        next();
+      } else {
+        next("/login");
+      }
+    });
 });
 
 new Vue({
