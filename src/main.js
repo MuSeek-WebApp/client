@@ -27,7 +27,7 @@ router.beforeEach((to, from, next) => {
       }
     })
     .catch(() => {
-      if (to.name === "Login") {
+      if (to.name === "Login" || to.name === "Register") {
         next();
       } else {
         next("/login");

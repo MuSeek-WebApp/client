@@ -44,7 +44,13 @@
             </v-form>
           </v-card-text>
           <v-card-actions>
-            <v-btn class="ml-2" outline color="primary">Sign up</v-btn>
+            <v-btn
+              class="ml-2"
+              outline
+              color="primary"
+              v-on:click="redirectToRegister()"
+              >Sign up</v-btn
+            >
             <v-spacer></v-spacer>
             <v-btn
               class="mr-2"
@@ -100,6 +106,9 @@ export default {
         .catch(error => {
           this.error = error.message;
         });
+    },
+    redirectToRegister: function() {
+      this.$router.push("/register");
     }
   }
 };
