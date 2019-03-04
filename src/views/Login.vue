@@ -16,7 +16,7 @@
               <v-spacer></v-spacer>Sign in With Facebook
               <v-spacer></v-spacer>
             </v-btn>
-            <v-btn block color="secondary" v-on:click="signInWithGoogle">
+            <v-btn block color="secondary" @click="signInWithGoogle">
               <img class="mr-3" src="../../public/img/icons/google.png" />
               <v-divider vertical dark></v-divider>
               <v-spacer></v-spacer>Sign in With Google
@@ -48,7 +48,7 @@
               class="ml-2"
               outline
               color="primary"
-              v-on:click="redirectToRegister()"
+              @click="redirectToRegister()"
               >Sign up</v-btn
             >
             <v-spacer></v-spacer>
@@ -56,7 +56,7 @@
               class="mr-2"
               outline
               color="primary"
-              v-on:click="signInWithEmailAndPassword(email, password)"
+              @click="signInWithEmailAndPassword(email, password)"
               >Sign in</v-btn
             >
           </v-card-actions>

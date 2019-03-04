@@ -4,7 +4,7 @@
     <v-spacer></v-spacer>
     <v-toolbar-items>
       <v-btn flat>Profile</v-btn>
-      <v-btn flat v-on:click="signOut">Sign out</v-btn>
+      <v-btn flat @click="signOut">Sign out</v-btn>
     </v-toolbar-items>
   </v-toolbar>
 </template>

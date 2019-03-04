@@ -68,12 +68,12 @@
           ></v-text-field>
         </v-flex>
         <v-flex>
-          <v-btn v-on:click="previusStep" color="secondary">
+          <v-btn @click="previusStep" color="secondary">
             <v-icon>arrow_left</v-icon>Back
           </v-btn>
         </v-flex>
         <v-flex offset-md8>
-          <v-btn :disabled="!valid" v-on:click="nextStep" color="primary"
+          <v-btn :disabled="!valid" @click="nextStep" color="primary"
             >Next
             <v-icon>arrow_right</v-icon>
           </v-btn>

@@ -1,5 +1,6 @@
 import Vue from "vue";
 import Vuetify from "vuetify";
+import VeeValidate from "vee-validate";
 import "vuetify/src/stylus/app.styl";
 import "material-design-icons-iconfont/dist/material-design-icons.css";
 import App from "./App.vue";
@@ -13,6 +14,7 @@ import { CHECK_AUTH } from "./store/actions.type";
 Vue.use(Vuetify, {
   iconfont: "md"
 });
+Vue.use(VeeValidate);
 
 ApiService.init();
 
