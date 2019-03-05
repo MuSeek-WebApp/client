@@ -29,7 +29,9 @@
                 prepend-icon="person"
                 label="E-mail"
                 v-model="email"
-                :rules="emailRules"
+                v-validate="emailRules"
+                data-vv-name="e-mail"
+                :error-messages="errors.collect('e-mail')"
                 required
               ></v-text-field>
               <v-text-field
@@ -37,7 +39,9 @@
                 type="password"
                 label="Password"
                 v-model="password"
-                :rules="passwordRules"
+                v-validate="passwordRules"
+                data-vv-name="password"
+                :error-messages="errors.collect('password')"
                 required
               ></v-text-field>
               <p class="red--text">{{ error }}</p>
@@ -71,36 +75,42 @@ import { SIGN_IN, SIGN_IN_WITH_GOOGLE } from "@/store/actions.type";
 import { START_PROGRESS, STOP_PROGRESS } from "../store/mutations.type";
 
 export default {
+  $_veeValidate: {
+    validator: "new"
+  },
   name: "Login",
   data: () => ({
     email: "",
     password: "",
     error: "",
-    emailRules: [
-      v => !!v || "Email is required",
-      v => /.+@.+/.test(v) || "E-mail must be valid"
-    ],
-    passwordRules: [
-      v => !!v || "Password is required",
-      v =>
-        (v && (v.length >= 6 && v.length <= 12)) ||
-        "Password length should be between 6 to 12"
-    ]
+    emailRules: {
+      required: true,
+      email: true
+    },
+    passwordRules: {
+      required: true,
+      max: 15,
+      min: 8
+    }
   }),
   methods: {
     signInWithEmailAndPassword: function(email, password) {
-      this.$store.commit(START_PROGRESS);
-      this.$store
-        .dispatch(SIGN_IN, { email, password })
-        .then(() => {
-          this.$router.push("/home");
-        })
-        .catch(error => {
-          this.error = error.message;
-        })
-        .finally(() => {
-          this.$store.commit(STOP_PROGRESS);
-        });
+      this.$validator.validate().then(isValid => {
+        if (isValid) {
+          this.$store.commit(START_PROGRESS);
+          this.$store
+            .dispatch(SIGN_IN, { email, password })
+            .then(() => {
+              this.$router.push("/home");
+            })
+            .catch(error => {
+              this.error = error.message;
+            })
+            .finally(() => {
+              this.$store.commit(STOP_PROGRESS);
+            });
+        }
+      });
     },
     signInWithGoogle: function() {
       this.$store.commit(START_PROGRESS);
