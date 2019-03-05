@@ -97,7 +97,14 @@ const actions = {
     return new Promise((resolve, reject) => {
       ApiService.post("/auth/register", user)
         .then(() => {
-          resolve();
+          context
+            .dispatch(SIGN_IN, user.auth)
+            .then(() => {
+              resolve();
+            })
+            .catch(error => {
+              reject(error);
+            });
         })
         .catch(error => {
           reject(error);

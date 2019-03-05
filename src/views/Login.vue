@@ -68,6 +68,7 @@
 
 <script>
 import { SIGN_IN, SIGN_IN_WITH_GOOGLE } from "@/store/actions.type";
+import { START_PROGRESS, STOP_PROGRESS } from "../store/mutations.type";
 
 export default {
   name: "Login",
@@ -88,6 +89,7 @@ export default {
   }),
   methods: {
     signInWithEmailAndPassword: function(email, password) {
+      this.$store.commit(START_PROGRESS);
       this.$store
         .dispatch(SIGN_IN, { email, password })
         .then(() => {
@@ -95,9 +97,13 @@ export default {
         })
         .catch(error => {
           this.error = error.message;
+        })
+        .finally(() => {
+          this.$store.commit(STOP_PROGRESS);
         });
     },
     signInWithGoogle: function() {
+      this.$store.commit(START_PROGRESS);
       this.$store
         .dispatch(SIGN_IN_WITH_GOOGLE)
         .then(() => {
@@ -105,6 +111,9 @@ export default {
         })
         .catch(error => {
           this.error = error.message;
+        })
+        .finally(() => {
+          this.$store.commit(STOP_PROGRESS);
         });
     },
     redirectToRegister: function() {

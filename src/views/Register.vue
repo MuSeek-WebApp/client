@@ -225,9 +225,9 @@
                               v-for="(member, index) in userData.bandMembers"
                             >
                               <v-list-tile-content>
-                                <v-list-tile-title>
-                                  {{ member.name }}
-                                </v-list-tile-title>
+                                <v-list-tile-title>{{
+                                  member.name
+                                }}</v-list-tile-title>
                                 <v-list-tile-sub-title>
                                   <span :key="role" v-for="role in member.roles"
                                     >{{ role }},</span
@@ -271,7 +271,8 @@
 </template>
 
 <script>
-import { REGISTER, SIGN_IN } from "../store/actions.type";
+import { REGISTER } from "../store/actions.type";
+import { START_PROGRESS, STOP_PROGRESS } from "../store/mutations.type";
 
 export default {
   $_veeValidate: {
@@ -368,6 +369,7 @@ export default {
       this.step = 1;
     },
     register: function() {
+      this.$store.commit(START_PROGRESS);
       this.$validator.validate().then(() => {
         if (this.extraInformationFormValidation) {
           let user = {
@@ -378,11 +380,14 @@ export default {
             },
             userData: this.userData
           };
-          this.$store.dispatch(REGISTER, user).then(() => {
-            this.$store.dispatch(SIGN_IN, user.auth).then(() => {
+          this.$store
+            .dispatch(REGISTER, user)
+            .then(() => {
               this.$router.push("/home");
+            })
+            .finally(() => {
+              this.$store.commit(STOP_PROGRESS);
             });
-          });
         }
       });
     }
