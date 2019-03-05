@@ -4,7 +4,8 @@ import {
   SIGN_IN,
   SIGN_OUT,
   SIGN_IN_WITH_GOOGLE,
-  CHECK_AUTH
+  CHECK_AUTH,
+  REGISTER
 } from "./actions.type";
 import { SET_AUTH, PURGE_AUTH } from "./mutations.type";
 import firebase from "firebase";
@@ -78,7 +79,6 @@ const actions = {
         });
     });
   },
-
   [SIGN_OUT](context) {
     return new Promise((resolve, reject) => {
       firebase
@@ -86,6 +86,17 @@ const actions = {
         .signOut()
         .then(() => {
           context.commit(PURGE_AUTH);
+          resolve();
+        })
+        .catch(error => {
+          reject(error);
+        });
+    });
+  },
+  [REGISTER](context, user) {
+    return new Promise((resolve, reject) => {
+      ApiService.post("/auth/register", user)
+        .then(() => {
           resolve();
         })
         .catch(error => {
