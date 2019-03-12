@@ -118,21 +118,9 @@
                               : 'Business name'
                           "
                         ></v-text-field>
-                        <v-select
-                          dense
-                          v-validate="validationRules.genersRule"
-                          data-vv-name="geners"
-                          :error-messages="errors.collect('geners')"
-                          v-if="userData.type.band"
-                          v-model="userData.selectedGeners"
-                          required
-                          deletable-chips
-                          chips
-                          clearable
-                          multiple
-                          label="Select Your Genres"
-                          :items="geners"
-                        ></v-select>
+                        <GenreSelect
+                          v-model="userData.selectedGenres"
+                        ></GenreSelect>
                       </v-flex>
                       <v-flex md6>
                         <v-textarea
@@ -273,10 +261,19 @@
 <script>
 import { REGISTER } from "../store/actions.type";
 import { START_PROGRESS, STOP_PROGRESS } from "../store/mutations.type";
+import GenreSelect from "../components/GenreSelect";
 
 export default {
+  components: {
+    GenreSelect
+  },
   $_veeValidate: {
     validator: "new"
+  },
+  provide: function() {
+    return {
+      validator: this.$validator
+    };
   },
   data: () => ({
     step: 1,
@@ -295,7 +292,7 @@ export default {
       name: "",
       description: "",
       bandMembers: [],
-      selectedGeners: [],
+      selectedGenres: [],
       address: {
         country: "",
         city: "",
@@ -306,7 +303,6 @@ export default {
     confirmPassword: "",
     memberName: "",
     memberRoles: [],
-    geners: [],
     roles: [],
     countries: [],
     validationRules: {
@@ -340,9 +336,6 @@ export default {
         alpha_spaces: true
       },
       streetAddressRule: {
-        required: true
-      },
-      genersRule: {
         required: true
       }
     }
@@ -393,16 +386,6 @@ export default {
     }
   },
   mounted: function() {
-    this.geners = [
-      "Pop",
-      "Rock",
-      "Metal",
-      "Jazz",
-      "Progressive Rock",
-      "Electronic",
-      "House",
-      "EDM"
-    ];
     this.countries = [
       "Israel",
       "United States",
