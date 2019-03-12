@@ -119,6 +119,7 @@
                           "
                         ></v-text-field>
                         <GenreSelect
+                          v-if="userData.type.band"
                           v-model="userData.selectedGenres"
                         ></GenreSelect>
                       </v-flex>
@@ -164,77 +165,16 @@
                       ></v-text-field>
                     </v-flex>
                     <v-flex>
-                      <template v-if="userData.type.band">
-                        <h5 class="pb-1">Band members:</h5>
-                        <v-toolbar>
-                          <v-form>
-                            <v-container>
-                              <v-layout wrap>
-                                <v-flex md6>
-                                  <v-text-field
-                                    v-model="memberName"
-                                    label="Member name"
-                                  ></v-text-field>
-                                </v-flex>
-                                <v-flex md6>
-                                  <v-select
-                                    dense
-                                    multiple
-                                    :items="roles"
-                                    v-model="memberRoles"
-                                    label="Member roles"
-                                  ></v-select>
-                                </v-flex>
-                              </v-layout>
-                            </v-container>
-                          </v-form>
-                          <v-spacer></v-spacer>
-                          <v-btn
-                            @click="
-                              userData.bandMembers.push({
-                                name: memberName,
-                                roles: memberRoles
-                              })
-                            "
-                            >Add</v-btn
-                          >
-                        </v-toolbar>
-                        <v-card max-height="150" height="150" class="scroll-y">
-                          <v-list>
-                            <v-list-tile
-                              :key="member.name"
-                              v-for="(member, index) in userData.bandMembers"
-                            >
-                              <v-list-tile-content>
-                                <v-list-tile-title>
-                                  {{ member.name }}
-                                </v-list-tile-title>
-                                <v-list-tile-sub-title>
-                                  <span :key="role" v-for="role in member.roles"
-                                    >{{ role }},</span
-                                  >
-                                </v-list-tile-sub-title>
-                              </v-list-tile-content>
-                              <v-list-tile-action>
-                                <v-btn
-                                  @click="userData.bandMembers.splice(index, 1)"
-                                  icon
-                                  ripple
-                                >
-                                  <v-icon color="red">delete_forever</v-icon>
-                                </v-btn>
-                              </v-list-tile-action>
-                            </v-list-tile>
-                          </v-list>
-                        </v-card>
-                        <v-flex md6></v-flex>
-                      </template>
+                      <BandMembersList
+                        v-if="userData.type.band"
+                        v-model="userData.bandMembers"
+                      ></BandMembersList>
                     </v-flex>
                   </v-container>
                 </v-form>
                 <v-divider></v-divider>
                 <v-card-actions>
-                  <v-btn @click="prevStep">Back</v-btn>
+                  <v-btn @click="step = 1">Back</v-btn>
                   <v-spacer></v-spacer>
                   <v-btn
                     :disabled="!extraInformationFormValidation"
@@ -256,11 +196,13 @@ import { REGISTER } from "../store/actions.type";
 import { START_PROGRESS, STOP_PROGRESS } from "../store/mutations.type";
 import GenreSelect from "../components/GenreSelect";
 import CountrySelect from "../components/CountrySelect";
+import BandMembersList from "../components/BandMembersList";
 
 export default {
   components: {
     GenreSelect,
-    CountrySelect
+    CountrySelect,
+    BandMembersList
   },
   $_veeValidate: {
     validator: "new"
@@ -296,9 +238,6 @@ export default {
     },
     password: "",
     confirmPassword: "",
-    memberName: "",
-    memberRoles: [],
-    roles: [],
     validationRules: {
       nameRule: {
         required: true,
@@ -349,9 +288,6 @@ export default {
         }
       });
     },
-    prevStep: function() {
-      this.step = 1;
-    },
     register: function() {
       this.$validator.validate().then(() => {
         if (this.extraInformationFormValidation) {
@@ -375,18 +311,6 @@ export default {
         }
       });
     }
-  },
-  mounted: function() {
-    this.roles = [
-      "Lead Singer",
-      "Lead Guitars",
-      "Guitars",
-      "Piano",
-      "Bass",
-      "Drums",
-      "Vocals",
-      "Keyboard"
-    ];
   }
 };
 </script>
