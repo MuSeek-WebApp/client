@@ -139,16 +139,9 @@
                         ></v-textarea>
                       </v-flex>
                       <v-flex md6>
-                        <v-select
-                          dense
-                          v-validate="validationRules.countryRule"
-                          data-vv-name="country"
-                          :error-messages="errors.collect('country')"
+                        <CountrySelect
                           v-model="userData.address.country"
-                          required
-                          label="Select Country"
-                          :items="countries"
-                        ></v-select>
+                        ></CountrySelect>
                       </v-flex>
                       <v-flex md6>
                         <v-text-field
@@ -213,9 +206,9 @@
                               v-for="(member, index) in userData.bandMembers"
                             >
                               <v-list-tile-content>
-                                <v-list-tile-title>{{
-                                  member.name
-                                }}</v-list-tile-title>
+                                <v-list-tile-title>
+                                  {{ member.name }}
+                                </v-list-tile-title>
                                 <v-list-tile-sub-title>
                                   <span :key="role" v-for="role in member.roles"
                                     >{{ role }},</span
@@ -262,10 +255,12 @@
 import { REGISTER } from "../store/actions.type";
 import { START_PROGRESS, STOP_PROGRESS } from "../store/mutations.type";
 import GenreSelect from "../components/GenreSelect";
+import CountrySelect from "../components/CountrySelect";
 
 export default {
   components: {
-    GenreSelect
+    GenreSelect,
+    CountrySelect
   },
   $_veeValidate: {
     validator: "new"
@@ -304,7 +299,6 @@ export default {
     memberName: "",
     memberRoles: [],
     roles: [],
-    countries: [],
     validationRules: {
       nameRule: {
         required: true,
@@ -327,9 +321,6 @@ export default {
       descriptionRule: {
         required: true,
         max: 400
-      },
-      countryRule: {
-        required: true
       },
       cityRule: {
         required: true,
@@ -386,14 +377,6 @@ export default {
     }
   },
   mounted: function() {
-    this.countries = [
-      "Israel",
-      "United States",
-      "United Kingdom",
-      "Sweden",
-      "Denemark",
-      "Saudi Arabia"
-    ];
     this.roles = [
       "Lead Singer",
       "Lead Guitars",
