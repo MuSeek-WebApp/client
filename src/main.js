@@ -14,7 +14,9 @@ import { CHECK_AUTH } from "./store/actions.type";
 Vue.use(Vuetify, {
   iconfont: "md"
 });
-Vue.use(VeeValidate);
+Vue.use(VeeValidate, {
+  events: "change"
+});
 
 ApiService.init();
 
