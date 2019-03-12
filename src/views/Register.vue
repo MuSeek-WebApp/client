@@ -369,9 +369,9 @@ export default {
       this.step = 1;
     },
     register: function() {
-      this.$store.commit(START_PROGRESS);
       this.$validator.validate().then(() => {
         if (this.extraInformationFormValidation) {
+          this.$store.commit(START_PROGRESS);
           let user = {
             auth: {
               email: this.userData.contactDetails.email,
