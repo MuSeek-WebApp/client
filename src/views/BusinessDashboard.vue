@@ -44,9 +44,7 @@
                             <span v-html="event.details"></span>
                           </v-card-title>
                           <v-card-actions>
-                            <v-btn flat color="secondary">
-                              Cancel
-                            </v-btn>
+                            <v-btn flat color="secondary">Cancel</v-btn>
                           </v-card-actions>
                         </v-card>
                       </v-menu>
@@ -55,6 +53,7 @@
                 </v-calendar>
               </v-sheet>
             </v-flex>
+
             <v-flex class="text-sm-left" xs6>
               <v-btn @click="$refs.calendar.prev()">Prev</v-btn>
             </v-flex>
@@ -63,14 +62,28 @@
             </v-flex>
           </v-layout>
         </v-sheet>
+        <v-dialog v-model="dialog" persistent max-width="1000px" hide-overlay>
+          <template v-slot:activator="{ on }">
+            <v-btn fixed dark fab button right v-on="on" color="pink">
+              <v-icon>add</v-icon>
+            </v-btn>
+          </template>
+          <Event v-on:dialog-close="onDialogClose"></Event>
+        </v-dialog>
       </v-flex>
     </v-layout>
   </v-container>
 </template>
 
 <script>
+import Event from "../components/Event";
+
 export default {
+  components: {
+    Event
+  },
   data: () => ({
+    dialog: false,
     date: "",
     events: [
       {
@@ -128,6 +141,9 @@ export default {
   methods: {
     open(event) {
       alert(event.title);
+    },
+    onDialogClose() {
+      this.dialog = false;
     }
   }
 };
