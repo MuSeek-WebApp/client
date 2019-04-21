@@ -1,7 +1,7 @@
 <template>
   <v-card>
-    <v-toolbar>
-      <v-btn icon @click="$emit('dialog-close')">
+    <v-toolbar flat>
+      <v-btn icon @click="close">
         <v-icon>close</v-icon>
       </v-btn>
       <v-spacer></v-spacer>
@@ -12,6 +12,7 @@
         <v-layout wrap>
           <v-flex md12>
             <v-text-field
+              prepend-icon="event_note"
               v-model="event.name"
               label="Event Name"
             ></v-text-field>
@@ -81,6 +82,44 @@
           <v-flex md2>
             <v-select v-model="event.endTime" :items="endTimes"></v-select>
           </v-flex>
+          <v-flex md12>
+            <v-textarea
+              prepend-icon="subject"
+              solo
+              no-resize
+              label="More details..."
+              v-model="event.description"
+            ></v-textarea>
+          </v-flex>
+          <v-flex md12>
+            <GenreSelect v-model="event.genres"></GenreSelect>
+          </v-flex>
+          <v-flex md2 align-self-center>
+            <span class="title text-md-center">Event Lineup</span>
+          </v-flex>
+          <v-spacer></v-spacer>
+          <v-flex md2>
+            <v-btn dark color="red">Invite Band</v-btn>
+          </v-flex>
+          <v-flex md12>
+            <v-data-table
+              class="elevation-2"
+              hide-actions
+              :items="event.bands"
+              :headers="headers"
+            >
+              <template v-slot:no-data
+                >Add bands to your event</template
+              >
+              <template v-slot:items="props">
+                <td>{{ props.item.name }}</td>
+                <td>{{ props.item.status }}</td>
+                <td>
+                  <v-icon color="red">delete</v-icon>
+                </td>
+              </template>
+            </v-data-table>
+          </v-flex>
         </v-layout>
       </v-container>
     </v-form>
@@ -89,20 +128,31 @@
 
 <script>
 import { SAVE_EVENT } from "../store/actions.type";
+import GenreSelect from "./GenreSelect";
+import moment from "moment";
 export default {
+  components: {
+    GenreSelect
+  },
+  $_veeValidate: {
+    validator: "new"
+  },
+  provide: function() {
+    return {
+      validator: this.$validator
+    };
+  },
   data: function() {
     return {
       startDatePicker: false,
       endDatePicker: false,
-      event: {
-        name: "",
-        startDate: "",
-        endDate: "",
-        startTime: "0:00",
-        endTime: "0:00"
-      },
-
-      startTimes: []
+      event: this.getEmptyEvent(),
+      startTimes: [],
+      headers: [
+        { text: "Band", value: "name", sortable: false },
+        { text: "Status", value: "status" },
+        { text: "Actions", sortable: false }
+      ]
     };
   },
   beforeMount: function() {
@@ -112,23 +162,26 @@ export default {
   },
   computed: {
     endTimes: function() {
-      let t = [];
-      let selectedStartTime = this.event.startTime.split(":");
+      if (!moment(this.event.endDate).isAfter(this.event.startDate)) {
+        let t = [];
+        let selectedStartTime = this.event.startTime.split(":");
 
-      if (selectedStartTime[1] == "00") {
-        t.push(selectedStartTime[0] + ":00");
+        if (selectedStartTime[1] == "00") {
+          t.push(selectedStartTime[0] + ":00");
+        }
+        t.push(selectedStartTime[0] + ":30");
+
+        for (
+          let i = parseInt(this.event.startTime.split(":")[0]) + 1;
+          i < 24;
+          i++
+        ) {
+          t.push(i + ":00", i + ":30");
+        }
+        return t;
+      } else {
+        return this.startTimes;
       }
-      t.push(selectedStartTime[0] + ":30");
-
-      for (
-        let i = parseInt(this.event.startTime.split(":")[0]) + 1;
-        i < 24;
-        i++
-      ) {
-        t.push(i + ":00", i + ":30");
-      }
-
-      return t;
     }
   },
   methods: {
@@ -136,9 +189,32 @@ export default {
       this.$store
         .dispatch(SAVE_EVENT, this.event)
         .then(() => {
+          this.event = this.getEmptyEvent();
           this.$emit("dialog-close");
         })
         .catch(() => {});
+    },
+    close() {
+      this.event = this.getEmptyEvent();
+      this.$emit("dialog-close");
+    },
+    getEmptyEvent() {
+      let event = {
+        name: "",
+        startDate: moment().format("YYYY-MM-DD"),
+        endDate: moment().format("YYYY-MM-DD"),
+        startTime: "0:00",
+        endTime: "0:00",
+        description: "",
+        genres: [],
+        bands: [
+          { name: "Metallica", status: "Aprroved" },
+          { name: "Pearl Jam", status: "Waiting Aprroval" },
+          { name: "Megadeth", status: "Invitation Sent" }
+        ]
+      };
+
+      return event;
     }
   }
 };

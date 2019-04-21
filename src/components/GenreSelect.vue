@@ -1,5 +1,6 @@
 <template>
   <v-select
+    prepend-icon="music_note"
     dense
     v-validate="genresRule"
     data-vv-name="geners"
