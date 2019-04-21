@@ -1,29 +1,12 @@
 <template>
-  <v-container fill-height>
+  <v-container fill-height class="background">
     <v-layout justify-center align-center>
-      <v-flex md3 xs6>
-        <v-card>
+      <v-flex md4>
+        <v-card fill-height class="login-form">
           <v-card-title primary-title>
-            <v-flex>
-              <h2 class="text-xs-center">Sign in</h2>
-              <h4 class="text-xs-center">to continue to Museek</h4>
-            </v-flex>
+            <img class="banner" src="../../public/img/banner.png" />
           </v-card-title>
-          <v-card-text>
-            <v-btn block color="primary">
-              <img class="mr-3" src="../../public/img/icons/facebook.png" />
-              <v-divider vertical dark></v-divider>
-              <v-spacer></v-spacer>Sign in With Facebook
-              <v-spacer></v-spacer>
-            </v-btn>
-            <v-btn block color="secondary" @click="signInWithGoogle">
-              <img class="mr-3" src="../../public/img/icons/google.png" />
-              <v-divider vertical dark></v-divider>
-              <v-spacer></v-spacer>Sign in With Google
-              <v-spacer></v-spacer>
-            </v-btn>
-            <p class="text-xs-center">or</p>
-            <v-divider></v-divider>
+          <v-card-text class="login-details">
             <v-form>
               <v-text-field
                 prepend-icon="person"
@@ -47,28 +30,74 @@
               <p class="red--text">{{ error }}</p>
             </v-form>
           </v-card-text>
-          <v-card-actions>
+          <v-card-actions class="card-action">
             <v-btn
-              class="ml-2"
-              outline
-              color="primary"
-              @click="redirectToRegister()"
-              >Sign up</v-btn
-            >
-            <v-spacer></v-spacer>
-            <v-btn
-              class="mr-2"
+              block
               outline
               color="primary"
               @click="signInWithEmailAndPassword(email, password)"
               >Sign in</v-btn
             >
+            <p class="sign-up-link">
+              Don’t have an account?
+              <a v-on:click="redirectToRegister()"> Sign up </a>
+            </p>
           </v-card-actions>
+          <v-divider></v-divider>
+          <v-card-text>
+            <v-btn block color="primary" class="social-media-btn">
+              <img class="mr-3" src="../../public/img/icons/facebook.png" />
+              <v-divider vertical dark></v-divider>
+              <v-spacer></v-spacer>Sign in With Facebook
+              <v-spacer></v-spacer>
+            </v-btn>
+            <v-btn
+              block
+              color="secondary"
+              @click="signInWithGoogle"
+              class="social-media-btn"
+            >
+              <img class="mr-3" src="../../public/img/icons/google.png" />
+              <v-divider vertical dark></v-divider>
+              <v-spacer></v-spacer>Sign in With Google
+              <v-spacer></v-spacer>
+            </v-btn>
+          </v-card-text>
         </v-card>
       </v-flex>
+      <v-flex md8 xs6> </v-flex>
     </v-layout>
   </v-container>
 </template>
+
+<style scoped>
+.background {
+  background-image: url(../../public/img/background/login-background.jpg);
+  max-width: 100%;
+  margin: 0px;
+}
+.login-form {
+  margin-left: 150px;
+  padding: 10px;
+  background-color: rgba(250, 245, 245, 0.9);
+}
+.card-action {
+  display: flex;
+  flex-direction: column;
+}
+.login-details {
+  padding: 0px 16px;
+}
+.sign-up-link {
+  padding: 10px 0px;
+}
+.banner {
+  width: 100%;
+}
+.social-media-btn {
+  margin: 20px 0px;
+}
+</style>
 
 <script>
 import { SIGN_IN, SIGN_IN_WITH_GOOGLE } from "@/store/actions.type";
