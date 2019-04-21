@@ -5,3 +5,4 @@ export const SIGN_OUT = "signOut";
 export const CHECK_AUTH = "checkAuth";
 export const REGISTER = "register";
 export const SAVE_EVENT = "saveEvent";
+export const FETCH_EVENTS = "fetchEvents";

@@ -99,7 +99,7 @@
           </v-flex>
           <v-spacer></v-spacer>
           <v-flex md2>
-            <v-btn dark color="red">Invite Band</v-btn>
+            <v-btn>Invite Band</v-btn>
           </v-flex>
           <v-flex md12>
             <v-data-table
@@ -115,7 +115,7 @@
                 <td>{{ props.item.name }}</td>
                 <td>{{ props.item.status }}</td>
                 <td>
-                  <v-icon color="red">delete</v-icon>
+                  <v-icon>cancel</v-icon>
                 </td>
               </template>
             </v-data-table>

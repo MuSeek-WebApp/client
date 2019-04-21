@@ -16,18 +16,17 @@
                   <template v-slot:day="{ date }">
                     <template v-for="event in eventsMap[date]">
                       <v-menu
-                        :key="event.title"
+                        :key="event.name"
                         v-model="event.open"
                         full-width
                         offset-x
                       >
                         <template v-slot:activator="{ on }">
                           <div
-                            v-if="!event.time"
                             v-ripple
                             class="my-event"
                             v-on="on"
-                            v-html="event.title"
+                            v-html="event.name"
                           ></div>
                         </template>
                         <v-card color="grey lighten-4" min-width="350px" flat>
@@ -36,16 +35,13 @@
                               <v-icon>edit</v-icon>
                             </v-btn>
                             <v-toolbar-title
-                              v-html="event.title"
+                              v-html="event.name"
                             ></v-toolbar-title>
                             <v-spacer></v-spacer>
                           </v-toolbar>
                           <v-card-title primary-title>
-                            <span v-html="event.details"></span>
+                            <span v-html="event.description"></span>
                           </v-card-title>
-                          <v-card-actions>
-                            <v-btn flat color="secondary">Cancel</v-btn>
-                          </v-card-actions>
                         </v-card>
                       </v-menu>
                     </template>
@@ -77,6 +73,7 @@
 
 <script>
 import Event from "../components/Event";
+import { FETCH_EVENTS } from "../store/actions.type";
 
 export default {
   components: {
@@ -84,59 +81,20 @@ export default {
   },
   data: () => ({
     dialog: false,
-    date: "",
-    events: [
-      {
-        title: "Open Mic Evening",
-        details: "Regular open mic evening",
-        date: "2019-03-01",
-        open: false
-      },
-      {
-        title: "Eric Clapton",
-        details: "Eric Clapton show at The Zone",
-        date: "2019-03-02",
-        open: false
-      },
-      {
-        title: "70s&80s Evening",
-        details: "",
-        date: "2019-03-03",
-        open: false
-      },
-      {
-        title: "Jam Evening",
-        details: "Jam night",
-        date: "2019-03-07",
-        open: false
-      },
-      {
-        title: "Classic Jazz",
-        details: "",
-        date: "2019-03-07",
-        open: false
-      },
-      {
-        title: "Open Mic Evening",
-        details: "Regular open mic evening",
-        date: "2019-03-08",
-        open: false
-      },
-      {
-        title: "Pearl Jam",
-        details: "Pearl Jam show at The Zone",
-        date: "2019-03-09",
-        open: false
-      }
-    ]
+    date: ""
   }),
   computed: {
     // convert the list of events into a map of lists keyed by date
     eventsMap() {
       const map = {};
-      this.events.forEach(e => (map[e.date] = map[e.date] || []).push(e));
+      this.$store.getters.getAllEvents.forEach(e =>
+        (map[e.startDate] = map[e.startDate] || []).push(e)
+      );
       return map;
     }
+  },
+  created() {
+    this.$store.dispatch(FETCH_EVENTS);
   },
   methods: {
     open(event) {
