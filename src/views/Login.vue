@@ -1,6 +1,6 @@
 <template>
   <v-container fill-height class="background">
-    <v-layout justify-center align-center>
+    <v-layout justify-start align-center fill-height>
       <v-flex md4>
         <v-card fill-height class="mx-5 pa-3 login-form">
           <v-card-title primary-title>
@@ -89,6 +89,7 @@
 }
 .login-form {
   background-color: rgba(250, 245, 245, 0.9);
+  max-height: 550px;
 }
 .card-action {
   display: flex;
