@@ -20,7 +20,7 @@ const getters = {
 const actions = {
   [NEW_EVENT](context, event) {
     return new Promise((resolve, reject) => {
-      ApiService.post("api/events", event)
+      ApiService.post("api/event", event)
         .then(result => {
           context.commit(SET_EVENT, result.data);
           resolve();
@@ -32,7 +32,7 @@ const actions = {
   },
   [UPDATE_EVENT](context, event) {
     return new Promise((resolve, reject) => {
-      ApiService.put("api/events/" + event._id, event)
+      ApiService.put("api/event/" + event._id, event)
         .then(result => {
           context.commit(SET_EVENT, result.data);
           resolve();
@@ -44,7 +44,7 @@ const actions = {
   },
   [REMOVE_EVENT](context, event) {
     return new Promise((resolve, reject) => {
-      ApiService.delete("api/events/" + event._id)
+      ApiService.delete("api/event/" + event._id)
         .then(() => {
           context.commit(DELETE_EVENT, event);
           resolve();
@@ -56,7 +56,7 @@ const actions = {
   },
   [FETCH_EVENTS](context) {
     return new Promise((resolve, reject) => {
-      ApiService.get("api/events")
+      ApiService.get("api/event")
         .then(result => {
           context.commit(SET_EVENTS, result.data);
           resolve();
