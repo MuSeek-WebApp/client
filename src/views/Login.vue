@@ -45,20 +45,26 @@
           </v-card-actions>
           <v-divider></v-divider>
           <v-card-text>
-            <v-btn block color="primary" class="social-media-btn">
-              <img class="mr-3" src="../../public/img/icons/facebook.png" />
+            <v-btn block color="#4267B2" class="social-media-btn text-none">
+              <img
+                class="mr-3 social-media-btn-icon"
+                src="../../public/img/icons/facebook.png"
+              />
               <v-divider vertical dark></v-divider>
-              <v-spacer></v-spacer>Sign in With Facebook
+              <v-spacer></v-spacer>Continue With Facebook
               <v-spacer></v-spacer>
             </v-btn>
             <v-btn
               block
-              color="secondary"
+              color="#FFF"
               @click="signInWithGoogle"
-              class="social-media-btn"
+              class="text-none google-btn social-media-btn "
             >
-              <img class="mr-3" src="../../public/img/icons/google.png" />
-              <v-divider vertical dark></v-divider>
+              <img
+                class="mr-3 social-media-btn-icon"
+                src="../../public/img/icons/google.png"
+              />
+              <v-divider vertical></v-divider>
               <v-spacer></v-spacer>Sign in With Google
               <v-spacer></v-spacer>
             </v-btn>
@@ -96,6 +102,15 @@
 }
 .social-media-btn {
   margin: 20px 0px;
+  color: #fff;
+}
+.social-media-btn-icon {
+  height: 24px;
+  width: 24px;
+}
+.google-btn {
+  color: #737373;
+  font-family: "Roboto", sans-serif;
 }
 </style>
 
