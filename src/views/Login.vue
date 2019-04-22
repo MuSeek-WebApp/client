@@ -2,11 +2,11 @@
   <v-container fill-height class="background">
     <v-layout justify-center align-center>
       <v-flex md4>
-        <v-card fill-height class="login-form">
+        <v-card fill-height class="mx-5 pa-3 login-form">
           <v-card-title primary-title>
             <img class="banner" src="../../public/img/banner.png" />
           </v-card-title>
-          <v-card-text class="login-details">
+          <v-card-text class="py-0">
             <v-form>
               <v-text-field
                 prepend-icon="person"
@@ -38,14 +38,14 @@
               @click="signInWithEmailAndPassword(email, password)"
               >Sign in</v-btn
             >
-            <p class="sign-up-link">
+            <p class="py-2">
               Don’t have an account?
               <a v-on:click="redirectToRegister()"> Sign up </a>
             </p>
           </v-card-actions>
           <v-divider></v-divider>
           <v-card-text>
-            <v-btn block color="#4267B2" class="social-media-btn text-none">
+            <v-btn block color="#4267B2" class="text-none facebook-btn">
               <img
                 class="mr-3 social-media-btn-icon"
                 src="../../public/img/icons/facebook.png"
@@ -58,7 +58,7 @@
               block
               color="#FFF"
               @click="signInWithGoogle"
-              class="text-none google-btn social-media-btn "
+              class="mt-3 text-none google-btn "
             >
               <img
                 class="mr-3 social-media-btn-icon"
@@ -71,42 +71,34 @@
           </v-card-text>
         </v-card>
       </v-flex>
-      <v-flex md8 xs6> </v-flex>
+      <v-flex md7 xs6> </v-flex>
     </v-layout>
   </v-container>
 </template>
 
 <style scoped>
 .background {
-  background-image: url(../../public/img/background/login-background.jpg);
+  background-image: url(../../public/img/background/pink4.jpg);
+  background-size: 100%;
   max-width: 100%;
-  margin: 0px;
 }
 .login-form {
-  margin-left: 150px;
-  padding: 10px;
   background-color: rgba(250, 245, 245, 0.9);
 }
 .card-action {
   display: flex;
   flex-direction: column;
 }
-.login-details {
-  padding: 0px 16px;
-}
-.sign-up-link {
-  padding: 10px 0px;
-}
 .banner {
   width: 100%;
-}
-.social-media-btn {
-  margin: 20px 0px;
-  color: #fff;
 }
 .social-media-btn-icon {
   height: 24px;
   width: 24px;
+}
+.facebook-btn {
+  color: #fff;
+  font-family: "Roboto", sans-serif;
 }
 .google-btn {
   color: #737373;
