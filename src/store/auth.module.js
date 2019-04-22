@@ -61,7 +61,7 @@ const actions = {
     return new Promise((resolve, reject) => {
       firebase
         .auth()
-        .signInWithPopup(new firebase.auth.GoogleAuthProvider())
+        .signInWithPopup(new firebase.auth.FacebookAuthProvider())
         .then(result => {
           result.user.getIdToken().then(idToken => {
             ApiService.post("/auth/login", { idToken: idToken })
