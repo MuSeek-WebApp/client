@@ -22,20 +22,9 @@
                 <v-form v-model="userInformationFormValidation">
                   <v-container>
                     <v-layout wrap>
-                      <v-flex md12>
-                        <v-radio-group v-model="userData.type" row>
-                          <v-radio
-                            label="Artist/Band"
-                            :value="{ band: true }"
-                          ></v-radio>
-                          <v-radio
-                            label="Business Owner"
-                            :value="{ business: true }"
-                          ></v-radio>
-                        </v-radio-group>
-                      </v-flex>
-                      <v-flex md6>
+                      <v-flex md4>
                         <v-text-field
+                          prepend-icon="person"
                           v-validate="validationRules.nameRule"
                           data-vv-name="first name"
                           :error-messages="errors.collect('first name')"
@@ -43,7 +32,7 @@
                           label="First name"
                         ></v-text-field>
                       </v-flex>
-                      <v-flex md6>
+                      <v-flex md4>
                         <v-text-field
                           v-validate="validationRules.nameRule"
                           data-vv-name="last name"
@@ -52,17 +41,9 @@
                           label="Last name"
                         ></v-text-field>
                       </v-flex>
-                      <v-flex md6>
+                      <v-flex md4>
                         <v-text-field
-                          v-validate="validationRules.emailRule"
-                          data-vv-name="e-mail"
-                          :error-messages="errors.collect('e-mail')"
-                          v-model="userData.contactDetails.email"
-                          label="E-mail"
-                        ></v-text-field>
-                      </v-flex>
-                      <v-flex md6>
-                        <v-text-field
+                          prepend-icon="phone"
                           v-validate="validationRules.phoneNumberRule"
                           data-vv-name="phone number"
                           :error-messages="errors.collect('phone number')"
@@ -70,8 +51,19 @@
                           label="Phone number"
                         ></v-text-field>
                       </v-flex>
+                      <v-flex md12>
+                        <v-text-field
+                          prepend-icon="email"
+                          v-validate="validationRules.emailRule"
+                          data-vv-name="e-mail"
+                          :error-messages="errors.collect('e-mail')"
+                          v-model="userData.contactDetails.email"
+                          label="E-mail"
+                        ></v-text-field>
+                      </v-flex>
                       <v-flex>
                         <v-text-field
+                          prepend-icon="lock"
                           v-validate="validationRules.passwordRule"
                           data-vv-name="password"
                           :error-messages="errors.collect('password')"
@@ -86,7 +78,7 @@
                           data-vv-name="confirm"
                           :error-messages="errors.collect('confirm')"
                           v-model="confirmPassword"
-                          label="Confirm"
+                          label="Confirm Password"
                           type="password"
                         ></v-text-field>
                       </v-flex>
@@ -99,8 +91,10 @@
                   <v-btn
                     :disabled="!userInformationFormValidation"
                     @click="nextStep"
-                    >Next</v-btn
                   >
+                    Next
+                    <v-icon dark>arrow_forward</v-icon>
+                  </v-btn>
                 </v-card-actions>
               </v-card>
             </v-stepper-content>
@@ -109,6 +103,18 @@
                 <v-form v-model="extraInformationFormValidation">
                   <v-container>
                     <v-layout wrap>
+                      <v-flex md12>
+                        <v-radio-group v-model="userData.type" row>
+                          <v-radio
+                            label="Artist/Band"
+                            :value="{ band: true }"
+                          ></v-radio>
+                          <v-radio
+                            label="Business Owner"
+                            :value="{ business: true }"
+                          ></v-radio>
+                        </v-radio-group>
+                      </v-flex>
                       <v-flex md6>
                         <v-text-field
                           v-validate="validationRules.nameRule"
