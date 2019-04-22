@@ -4,6 +4,7 @@ import {
   SIGN_IN,
   SIGN_OUT,
   SIGN_IN_WITH_GOOGLE,
+  SIGN_IN_WITH_FACEBOOK,
   CHECK_AUTH,
   REGISTER
 } from "./actions.type";
@@ -56,7 +57,28 @@ const actions = {
         });
     });
   },
-
+  [SIGN_IN_WITH_FACEBOOK](context) {
+    return new Promise((resolve, reject) => {
+      firebase
+        .auth()
+        .signInWithPopup(new firebase.auth.GoogleAuthProvider())
+        .then(result => {
+          result.user.getIdToken().then(idToken => {
+            ApiService.post("/auth/login", { idToken: idToken })
+              .then(() => {
+                context.commit(SET_AUTH, idToken);
+                resolve();
+              })
+              .catch(error => {
+                reject(error);
+              });
+          });
+        })
+        .catch(error => {
+          reject(error);
+        });
+    });
+  },
   [SIGN_IN_WITH_GOOGLE](context) {
     return new Promise((resolve, reject) => {
       firebase

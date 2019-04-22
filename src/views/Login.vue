@@ -27,7 +27,7 @@
                 :error-messages="errors.collect('password')"
                 required
               ></v-text-field>
-              <p class="red--text">{{ error }}</p>
+              <p class="ma-1 red--text">{{ error }}</p>
             </v-form>
           </v-card-text>
           <v-card-actions class="card-action">
@@ -45,7 +45,12 @@
           </v-card-actions>
           <v-divider></v-divider>
           <v-card-text>
-            <v-btn block color="#4267B2" class="text-none facebook-btn">
+            <v-btn
+              block
+              color="#4267B2"
+              @click="signInWithFacebook"
+              class="text-none facebook-btn"
+            >
               <img
                 class="mr-3 social-media-btn-icon"
                 src="../../public/img/icons/facebook.png"
@@ -107,7 +112,11 @@
 </style>
 
 <script>
-import { SIGN_IN, SIGN_IN_WITH_GOOGLE } from "@/store/actions.type";
+import {
+  SIGN_IN,
+  SIGN_IN_WITH_GOOGLE,
+  SIGN_IN_WITH_FACEBOOK
+} from "@/store/actions.type";
 import { START_PROGRESS, STOP_PROGRESS } from "../store/mutations.type";
 
 export default {
@@ -147,6 +156,20 @@ export default {
             });
         }
       });
+    },
+    signInWithFacebook: function() {
+      this.$store.commit(START_PROGRESS);
+      this.$store
+        .dispatch(SIGN_IN_WITH_FACEBOOK)
+        .then(() => {
+          this.$router.push("/home");
+        })
+        .catch(error => {
+          this.error = error.message;
+        })
+        .finally(() => {
+          this.$store.commit(STOP_PROGRESS);
+        });
     },
     signInWithGoogle: function() {
       this.$store.commit(START_PROGRESS);
