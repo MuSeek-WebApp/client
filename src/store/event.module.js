@@ -1,5 +1,10 @@
-import { SAVE_EVENT, FETCH_EVENTS } from "./actions.type";
-import { SET_EVENTS } from "./mutations.type";
+import {
+  NEW_EVENT,
+  FETCH_EVENTS,
+  UPDATE_EVENT,
+  REMOVE_EVENT
+} from "./actions.type";
+import { SET_EVENTS, SET_EVENT, DELETE_EVENT } from "./mutations.type";
 import ApiService from "@/common/api.service";
 
 const state = {
@@ -13,11 +18,35 @@ const getters = {
 };
 
 const actions = {
-  [SAVE_EVENT](context, event) {
+  [NEW_EVENT](context, event) {
     return new Promise((resolve, reject) => {
       ApiService.post("api/events", event)
+        .then(result => {
+          context.commit(SET_EVENT, result.data);
+          resolve();
+        })
+        .catch(err => {
+          reject(err);
+        });
+    });
+  },
+  [UPDATE_EVENT](context, event) {
+    return new Promise((resolve, reject) => {
+      ApiService.put("api/events/" + event._id, event)
+        .then(result => {
+          context.commit(SET_EVENT, result.data);
+          resolve();
+        })
+        .catch(err => {
+          reject(err);
+        });
+    });
+  },
+  [REMOVE_EVENT](context, event) {
+    return new Promise((resolve, reject) => {
+      ApiService.delete("api/events/" + event._id)
         .then(() => {
-          context.commit(SET_EVENTS, [event]);
+          context.commit(DELETE_EVENT, event);
           resolve();
         })
         .catch(err => {
@@ -42,6 +71,22 @@ const actions = {
 const mutations = {
   [SET_EVENTS](state, events) {
     state.events.push(...events);
+  },
+  [SET_EVENT](state, event) {
+    let index = state.events.findIndex(obj => obj._id === event._id);
+
+    if (index !== -1) {
+      state.events.splice(index, 1);
+    }
+
+    state.events.push(event);
+  },
+  [DELETE_EVENT](state, event) {
+    let index = state.events.findIndex(obj => obj._id === event._id);
+
+    if (index !== -1) {
+      state.events.splice(index, 1);
+    }
   }
 };
 

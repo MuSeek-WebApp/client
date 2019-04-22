@@ -6,45 +6,13 @@
           <v-layout wrap>
             <v-flex xs12>
               <v-sheet height="600">
-                <v-calendar
-                  ref="calendar"
-                  v-model="date"
-                  :now="today"
-                  :value="today"
-                  color="primary"
-                >
+                <v-calendar ref="calendar" v-model="date" color="primary">
                   <template v-slot:day="{ date }">
-                    <template v-for="event in eventsMap[date]">
-                      <v-menu
-                        :key="event.name"
-                        v-model="event.open"
-                        full-width
-                        offset-x
-                      >
-                        <template v-slot:activator="{ on }">
-                          <div
-                            v-ripple
-                            class="my-event"
-                            v-on="on"
-                            v-html="event.name"
-                          ></div>
-                        </template>
-                        <v-card color="grey lighten-4" min-width="350px" flat>
-                          <v-toolbar color="primary" dark>
-                            <v-btn icon>
-                              <v-icon>edit</v-icon>
-                            </v-btn>
-                            <v-toolbar-title
-                              v-html="event.name"
-                            ></v-toolbar-title>
-                            <v-spacer></v-spacer>
-                          </v-toolbar>
-                          <v-card-title primary-title>
-                            <span v-html="event.description"></span>
-                          </v-card-title>
-                        </v-card>
-                      </v-menu>
-                    </template>
+                    <CalendarEvent
+                      v-bind:event="event"
+                      v-bind:key="event._id"
+                      v-for="event in eventsMap[date]"
+                    ></CalendarEvent>
                   </template>
                 </v-calendar>
               </v-sheet>
@@ -72,12 +40,14 @@
 </template>
 
 <script>
+import CalendarEvent from "../components/CalendarEvent";
 import Event from "../components/Event";
 import { FETCH_EVENTS } from "../store/actions.type";
 
 export default {
   components: {
-    Event
+    Event,
+    CalendarEvent
   },
   data: () => ({
     dialog: false,
@@ -106,20 +76,3 @@ export default {
   }
 };
 </script>
-
-<style lang="stylus" scoped>
-.my-event {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  border-radius: 2px;
-  background-color: #1867c0;
-  color: #ffffff;
-  border: 1px solid #1867c0;
-  width: 100%;
-  font-size: 12px;
-  padding: 3px;
-  cursor: pointer;
-  margin-bottom: 1px;
-}
-</style>

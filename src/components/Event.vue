@@ -99,7 +99,7 @@
           </v-flex>
           <v-spacer></v-spacer>
           <v-flex md2>
-            <v-btn>Invite Band</v-btn>
+            <v-btn>Find Band</v-btn>
           </v-flex>
           <v-flex md12>
             <v-data-table
@@ -115,7 +115,9 @@
                 <td>{{ props.item.name }}</td>
                 <td>{{ props.item.status }}</td>
                 <td>
-                  <v-icon>cancel</v-icon>
+                  <v-btn icon>
+                    <v-icon>cancel</v-icon>
+                  </v-btn>
                 </td>
               </template>
             </v-data-table>
@@ -127,9 +129,10 @@
 </template>
 
 <script>
-import { SAVE_EVENT } from "../store/actions.type";
+import { NEW_EVENT, UPDATE_EVENT } from "../store/actions.type";
 import GenreSelect from "./GenreSelect";
 import moment from "moment";
+import { START_PROGRESS, STOP_PROGRESS } from "../store/mutations.type";
 export default {
   components: {
     GenreSelect
@@ -137,6 +140,7 @@ export default {
   $_veeValidate: {
     validator: "new"
   },
+  props: ["bindedEvent"],
   provide: function() {
     return {
       validator: this.$validator
@@ -158,6 +162,11 @@ export default {
   beforeMount: function() {
     for (let i = 0; i < 24; i++) {
       this.startTimes.push(i + ":00", i + ":30");
+    }
+
+    this.event = this.bindedEvent;
+    if (!this.bindedEvent) {
+      this.event = this.getEmptyEvent();
     }
   },
   computed: {
@@ -186,16 +195,21 @@ export default {
   },
   methods: {
     save() {
+      this.$store.commit(START_PROGRESS);
+      let action = this.event._id ? UPDATE_EVENT : NEW_EVENT;
       this.$store
-        .dispatch(SAVE_EVENT, this.event)
+        .dispatch(action, this.event)
         .then(() => {
-          this.event = this.getEmptyEvent();
           this.$emit("dialog-close");
         })
-        .catch(() => {});
+        .catch(() => {
+          // // TODO print error message
+        })
+        .finally(() => {
+          this.$store.commit(STOP_PROGRESS);
+        });
     },
     close() {
-      this.event = this.getEmptyEvent();
       this.$emit("dialog-close");
     },
     getEmptyEvent() {
@@ -207,11 +221,7 @@ export default {
         endTime: "0:00",
         description: "",
         genres: [],
-        bands: [
-          { name: "Metallica", status: "Aprroved" },
-          { name: "Pearl Jam", status: "Waiting Aprroval" },
-          { name: "Megadeth", status: "Invitation Sent" }
-        ]
+        bands: []
       };
 
       return event;
