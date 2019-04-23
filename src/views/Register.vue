@@ -9,6 +9,9 @@
               <v-divider></v-divider>
               <v-form v-model="userInformationFormValidation">
                 <v-layout wrap class="my-3">
+                  <v-flex md12>
+                    <div class="py-3 title">1. User Information</div>
+                  </v-flex>
                   <!-- first name -->
                   <v-flex md6 class="px-1">
                     <v-text-field
@@ -79,7 +82,97 @@
               </v-form>
             </v-flex>
             <v-divider vertical></v-divider>
-            <v-flex md8 class="pa-2"> </v-flex>
+            <v-flex md8 class="pa-2">
+              <v-form v-model="extraInformationFormValidation">
+                <v-layout wrap>
+                  <!-- title & page information -->
+                  <v-flex md12 class="px-1">
+                    <div class="py-3 title">2. Page Information</div>
+                    <v-radio-group v-model="userData.type" row>
+                      <v-radio
+                        label="Artist/Band"
+                        :value="{ band: true }"
+                      ></v-radio>
+                      <v-radio
+                        label="Business Owner"
+                        :value="{ business: true }"
+                      ></v-radio>
+                    </v-radio-group>
+                  </v-flex>
+                  <!-- name-->
+                  <v-flex md6 class="px-1">
+                    <v-text-field
+                      v-validate="validationRules.nameRule"
+                      :counter="validationRules.nameRule.max"
+                      data-vv-name="name"
+                      :error-messages="errors.collect('name')"
+                      v-model="userData.name"
+                      :label="
+                        userData.type.band
+                          ? 'Band/Artist name'
+                          : 'Business name'
+                      "
+                    ></v-text-field>
+                  </v-flex>
+                  <!-- if band - select genres -->
+                  <v-flex md6 class="px-1" v-if="userData.type.band">
+                    <GenreSelect
+                      v-model="userData.selectedGenres"
+                    ></GenreSelect>
+                  </v-flex>
+                  <!-- country -->
+                  <v-flex md6 class="px-1">
+                    <CountrySelect
+                      v-model="userData.address.country"
+                    ></CountrySelect>
+                  </v-flex>
+                  <!-- if business - address -->
+                  <v-flex md6 class="px-1" v-if="!userData.type.band">
+                    <v-text-field
+                      v-validate="validationRules.streetAddressRule"
+                      data-vv-name="street address"
+                      :error-messages="errors.collect('street address')"
+                      v-model="userData.address.streetAddress"
+                      label="Street address"
+                    ></v-text-field>
+                  </v-flex>
+                  <!-- city -->
+                  <v-flex md6 class="px-1">
+                    <v-text-field
+                      v-validate="validationRules.cityRule"
+                      data-vv-name="city"
+                      :error-messages="errors.collect('city')"
+                      v-model="userData.address.city"
+                      label="City"
+                    ></v-text-field>
+                  </v-flex>
+                  <!-- description -->
+                  <v-flex md12 class="px-1">
+                    <v-textarea
+                      v-validate="validationRules.descriptionRule"
+                      data-vv-name="description"
+                      :error-messages="errors.collect('description')"
+                      :counter="validationRules.descriptionRule.max"
+                      box
+                      no-resize
+                      v-model="userData.description"
+                      :label="
+                        userData.type.band
+                          ? 'Band/Artist description'
+                          : 'Business description'
+                      "
+                    ></v-textarea>
+                  </v-flex>
+                  <!-- band members list -->
+                  <v-flex md 12 class="px-1">
+                    <BandMembersList
+                      v-if="userData.type.band"
+                      v-model="userData.bandMembers"
+                    ></BandMembersList>
+                  </v-flex>
+                </v-layout>
+              </v-form>
+            </v-flex>
           </v-layout>
         </v-card>
       </v-flex>
@@ -102,7 +195,7 @@
 } */
 .v-card {
   background-color: rgba(250, 245, 245, 0.9);
-  max-height: 550px;
+  /* max-height: 550px; */
 }
 /* .v-card {
   background-color: rgba(0, 0, 0, 0);
