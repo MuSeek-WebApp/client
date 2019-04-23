@@ -1,285 +1,87 @@
 <template>
   <v-container fill-height class="background">
-    <v-layout justify-start align-center fill-height>
-      <v-flex md8>
-        <v-stepper :value="step" class="mx-5 pa-3 stepper" fill-height>
-          <v-stepper-header>
-            <v-stepper-step :complete="step > 1" step="1"
-              >User Information</v-stepper-step
-            >
-            <v-divider></v-divider>
-            <v-stepper-step :complete="step > 2" step="2"
-              >Extra Information</v-stepper-step
-            >
-            <v-divider></v-divider>
-            <v-stepper-step :complete="step > 3" step="3"
-              >Social Media</v-stepper-step
-            >
-          </v-stepper-header>
-          <v-stepper-items>
-            <v-stepper-content step="1">
-              <v-card>
-                <v-form v-model="userInformationFormValidation">
-                  <v-container>
-                    <v-layout wrap>
-                      <v-flex md4>
-                        <v-text-field
-                          prepend-icon="person"
-                          v-validate="validationRules.nameRule"
-                          data-vv-name="first name"
-                          :error-messages="errors.collect('first name')"
-                          v-model="userData.contactDetails.firstName"
-                          label="First name"
-                        ></v-text-field>
-                      </v-flex>
-                      <v-flex md4>
-                        <v-text-field
-                          v-validate="validationRules.nameRule"
-                          data-vv-name="last name"
-                          :error-messages="errors.collect('last name')"
-                          v-model="userData.contactDetails.lastName"
-                          label="Last name"
-                        ></v-text-field>
-                      </v-flex>
-                      <v-flex md4>
-                        <v-text-field
-                          prepend-icon="phone"
-                          v-validate="validationRules.phoneNumberRule"
-                          data-vv-name="phone number"
-                          :error-messages="errors.collect('phone number')"
-                          v-model="userData.contactDetails.phoneNumber"
-                          label="Phone number"
-                        ></v-text-field>
-                      </v-flex>
-                      <v-flex md12>
-                        <v-text-field
-                          prepend-icon="email"
-                          v-validate="validationRules.emailRule"
-                          data-vv-name="e-mail"
-                          :error-messages="errors.collect('e-mail')"
-                          v-model="userData.contactDetails.email"
-                          label="E-mail"
-                        ></v-text-field>
-                      </v-flex>
-                      <v-flex>
-                        <v-text-field
-                          prepend-icon="lock"
-                          v-validate="validationRules.passwordRule"
-                          data-vv-name="password"
-                          :error-messages="errors.collect('password')"
-                          v-model="password"
-                          label="Password"
-                          type="password"
-                        ></v-text-field>
-                      </v-flex>
-                      <v-flex>
-                        <v-text-field
-                          v-validate="confirmPasswordRule"
-                          data-vv-name="confirm"
-                          :error-messages="errors.collect('confirm')"
-                          v-model="confirmPassword"
-                          label="Confirm Password"
-                          type="password"
-                        ></v-text-field>
-                      </v-flex>
-                    </v-layout>
-                  </v-container>
-                </v-form>
-                <v-divider></v-divider>
-                <v-card-actions>
-                  <v-spacer></v-spacer>
-                  <v-btn
-                    :disabled="!userInformationFormValidation"
-                    @click="nextStep"
-                  >
-                    Next
-                    <v-icon dark>arrow_forward</v-icon>
-                  </v-btn>
-                </v-card-actions>
-              </v-card>
-            </v-stepper-content>
-            <v-stepper-content step="2">
-              <v-card>
-                <v-form v-model="extraInformationFormValidation">
-                  <v-container>
-                    <v-layout wrap>
-                      <v-flex md12>
-                        <v-radio-group v-model="userData.type" row>
-                          <v-radio
-                            label="Artist/Band"
-                            :value="{ band: true }"
-                          ></v-radio>
-                          <v-radio
-                            label="Business Owner"
-                            :value="{ business: true }"
-                          ></v-radio>
-                        </v-radio-group>
-                      </v-flex>
-                      <v-flex md6>
-                        <v-text-field
-                          v-validate="validationRules.nameRule"
-                          :counter="validationRules.nameRule.max"
-                          data-vv-name="name"
-                          :error-messages="errors.collect('name')"
-                          v-model="userData.name"
-                          :label="
-                            userData.type.band
-                              ? 'Band/Artist name'
-                              : 'Business name'
-                          "
-                        ></v-text-field>
-                        <GenreSelect
-                          v-if="userData.type.band"
-                          v-model="userData.selectedGenres"
-                        ></GenreSelect>
-                      </v-flex>
-                      <v-flex md6>
-                        <v-textarea
-                          v-validate="validationRules.descriptionRule"
-                          data-vv-name="description"
-                          :error-messages="errors.collect('description')"
-                          :counter="validationRules.descriptionRule.max"
-                          box
-                          no-resize
-                          v-model="userData.description"
-                          :label="
-                            userData.type.band
-                              ? 'Band/Artist description'
-                              : 'Business description'
-                          "
-                        ></v-textarea>
-                      </v-flex>
-                      <v-flex md6>
-                        <CountrySelect
-                          v-model="userData.address.country"
-                        ></CountrySelect>
-                      </v-flex>
-                      <v-flex md6>
-                        <v-text-field
-                          v-validate="validationRules.cityRule"
-                          data-vv-name="city"
-                          :error-messages="errors.collect('city')"
-                          v-model="userData.address.city"
-                          label="City"
-                        ></v-text-field>
-                      </v-flex>
-                    </v-layout>
-                    <v-flex md12>
-                      <v-text-field
-                        v-if="!userData.type.band"
-                        v-validate="validationRules.streetAddressRule"
-                        data-vv-name="street address"
-                        :error-messages="errors.collect('street address')"
-                        v-model="userData.address.streetAddress"
-                        label="Street address"
-                      ></v-text-field>
-                    </v-flex>
-                    <v-flex>
-                      <BandMembersList
-                        v-if="userData.type.band"
-                        v-model="userData.bandMembers"
-                      ></BandMembersList>
-                    </v-flex>
-                  </v-container>
-                </v-form>
-                <v-divider></v-divider>
-                <v-card-actions>
-                  <v-btn @click="step = 1">Back</v-btn>
-                  <v-spacer></v-spacer>
-                  <v-btn
-                    :disabled="!extraInformationFormValidation"
-                    @click="register"
-                    >Finish</v-btn
-                  >
-                </v-card-actions>
-              </v-card>
-            </v-stepper-content>
-            <v-stepper-content step="3">
-              <v-card>
-                <v-form v-model="extraInformationFormValidation">
-                  <v-container>
-                    <v-layout wrap>
-                      <v-flex md6>
-                        <v-text-field
-                          v-validate="validationRules.nameRule"
-                          :counter="validationRules.nameRule.max"
-                          data-vv-name="name"
-                          :error-messages="errors.collect('name')"
-                          v-model="userData.name"
-                          :label="
-                            userData.type.band
-                              ? 'Band/Artist name'
-                              : 'Business name'
-                          "
-                        ></v-text-field>
-                        <GenreSelect
-                          v-if="userData.type.band"
-                          v-model="userData.selectedGenres"
-                        ></GenreSelect>
-                      </v-flex>
-                      <v-flex md6>
-                        <v-textarea
-                          v-validate="validationRules.descriptionRule"
-                          data-vv-name="description"
-                          :error-messages="errors.collect('description')"
-                          :counter="validationRules.descriptionRule.max"
-                          box
-                          no-resize
-                          v-model="userData.description"
-                          :label="
-                            userData.type.band
-                              ? 'Band/Artist description'
-                              : 'Business description'
-                          "
-                        ></v-textarea>
-                      </v-flex>
-                      <v-flex md6>
-                        <CountrySelect
-                          v-model="userData.address.country"
-                        ></CountrySelect>
-                      </v-flex>
-                      <v-flex md6>
-                        <v-text-field
-                          v-validate="validationRules.cityRule"
-                          data-vv-name="city"
-                          :error-messages="errors.collect('city')"
-                          v-model="userData.address.city"
-                          label="City"
-                        ></v-text-field>
-                      </v-flex>
-                    </v-layout>
-                    <v-flex md12>
-                      <v-text-field
-                        v-if="!userData.type.band"
-                        v-validate="validationRules.streetAddressRule"
-                        data-vv-name="street address"
-                        :error-messages="errors.collect('street address')"
-                        v-model="userData.address.streetAddress"
-                        label="Street address"
-                      ></v-text-field>
-                    </v-flex>
-                    <v-flex>
-                      <BandMembersList
-                        v-if="userData.type.band"
-                        v-model="userData.bandMembers"
-                      ></BandMembersList>
-                    </v-flex>
-                  </v-container>
-                </v-form>
-                <v-divider></v-divider>
-                <v-card-actions>
-                  <v-btn @click="step = 1">Back</v-btn>
-                  <v-spacer></v-spacer>
-                  <v-btn
-                    :disabled="!extraInformationFormValidation"
-                    @click="register"
-                    >Finish</v-btn
-                  >
-                </v-card-actions>
-              </v-card>
-            </v-stepper-content>
-          </v-stepper-items>
-        </v-stepper>
+    <v-layout justify-space-around align-center fill-height>
+      <v-flex md10>
+        <v-card fill-height class="mx-5 pa-4">
+          <v-layout align-center justify-center row fill-height>
+            <v-flex md4 class="pa-2">
+              <img class="banner" src="../../public/img/banner.png" />
+              <v-divider></v-divider>
+              <v-form v-model="userInformationFormValidation">
+                <v-layout wrap class="my-3">
+                  <!-- first name -->
+                  <v-flex md6 class="px-1">
+                    <v-text-field
+                      prepend-icon="person"
+                      v-validate="validationRules.nameRule"
+                      data-vv-name="first name"
+                      :error-messages="errors.collect('first name')"
+                      v-model="userData.contactDetails.firstName"
+                      label="First name"
+                    ></v-text-field>
+                  </v-flex>
+                  <!-- last lame -->
+                  <v-flex md6 class="px-1">
+                    <v-text-field
+                      v-validate="validationRules.nameRule"
+                      data-vv-name="last name"
+                      :error-messages="errors.collect('last name')"
+                      v-model="userData.contactDetails.lastName"
+                      label="Last name"
+                    ></v-text-field>
+                  </v-flex>
+                  <!-- e-mail -->
+                  <v-flex md12 class="px-1">
+                    <v-text-field
+                      prepend-icon="email"
+                      v-validate="validationRules.emailRule"
+                      data-vv-name="e-mail"
+                      :error-messages="errors.collect('e-mail')"
+                      v-model="userData.contactDetails.email"
+                      label="E-mail"
+                    ></v-text-field>
+                  </v-flex>
+                  <!-- phone number -->
+                  <v-flex md12 class="px-1">
+                    <v-text-field
+                      prepend-icon="phone"
+                      v-validate="validationRules.phoneNumberRule"
+                      data-vv-name="phone number"
+                      :error-messages="errors.collect('phone number')"
+                      v-model="userData.contactDetails.phoneNumber"
+                      label="Phone number"
+                    ></v-text-field>
+                  </v-flex>
+                  <!-- password -->
+                  <v-flex md6 class="px-1">
+                    <v-text-field
+                      prepend-icon="lock"
+                      v-validate="validationRules.passwordRule"
+                      data-vv-name="password"
+                      :error-messages="errors.collect('password')"
+                      v-model="password"
+                      label="Password"
+                      type="password"
+                    ></v-text-field>
+                  </v-flex>
+                  <!-- confirm password -->
+                  <v-flex md6 class="px-1">
+                    <v-text-field
+                      v-validate="confirmPasswordRule"
+                      data-vv-name="confirm"
+                      :error-messages="errors.collect('confirm')"
+                      v-model="confirmPassword"
+                      label="Confirm"
+                      type="password"
+                    ></v-text-field>
+                  </v-flex>
+                </v-layout>
+              </v-form>
+            </v-flex>
+            <v-divider vertical></v-divider>
+            <v-flex md8 class="pa-2"> </v-flex>
+          </v-layout>
+        </v-card>
       </v-flex>
     </v-layout>
   </v-container>
@@ -291,13 +93,22 @@
   background-size: 100%;
   max-width: 100%;
 }
-.stepper {
+.banner {
+  height: 100px;
+}
+/* .registration-form {
+  transition: width 2s;
+  transition: height 2s;
+} */
+.v-card {
   background-color: rgba(250, 245, 245, 0.9);
   max-height: 550px;
 }
-.v-card {
+/* .v-card {
   background-color: rgba(0, 0, 0, 0);
-}
+  max-height: 400px;
+  overflow-y: scroll;
+} */
 </style>
 
 <script>
