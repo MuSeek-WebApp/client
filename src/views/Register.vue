@@ -14,18 +14,28 @@
                   </v-flex>
                   <!-- first name -->
                   <v-flex md6 class="px-1">
-                    <v-text-field
-                      prepend-icon="person"
-                      v-validate="validationRules.nameRule"
-                      data-vv-name="first name"
-                      :error-messages="errors.collect('first name')"
-                      v-model="userData.contactDetails.firstName"
-                      label="First name"
-                    ></v-text-field>
+                    <v-layout row>
+                      <v-icon
+                        class="mr-2"
+                        :color="usernameFocus ? 'primary' : ''"
+                        >person</v-icon
+                      >
+                      <v-text-field
+                        @focus="usernameFocus = true"
+                        @blur="usernameFocus = false"
+                        v-validate="validationRules.nameRule"
+                        data-vv-name="first name"
+                        :error-messages="errors.collect('first name')"
+                        v-model="userData.contactDetails.firstName"
+                        label="First name"
+                      ></v-text-field>
+                    </v-layout>
                   </v-flex>
                   <!-- last lame -->
                   <v-flex md6 class="px-1">
                     <v-text-field
+                      @focus="usernameFocus = true"
+                      @blur="usernameFocus = false"
                       v-validate="validationRules.nameRule"
                       data-vv-name="last name"
                       :error-messages="errors.collect('last name')"
@@ -57,19 +67,29 @@
                   </v-flex>
                   <!-- password -->
                   <v-flex md6 class="px-1">
-                    <v-text-field
-                      prepend-icon="lock"
-                      v-validate="validationRules.passwordRule"
-                      data-vv-name="password"
-                      :error-messages="errors.collect('password')"
-                      v-model="password"
-                      label="Password"
-                      type="password"
-                    ></v-text-field>
+                    <v-layout row>
+                      <v-icon
+                        class="mr-2"
+                        :color="passwordFocus ? 'primary' : ''"
+                        >lock</v-icon
+                      >
+                      <v-text-field
+                        @focus="passwordFocus = true"
+                        @blur="passwordFocus = false"
+                        v-validate="validationRules.passwordRule"
+                        data-vv-name="password"
+                        :error-messages="errors.collect('password')"
+                        v-model="password"
+                        label="Password"
+                        type="password"
+                      ></v-text-field>
+                    </v-layout>
                   </v-flex>
                   <!-- confirm password -->
                   <v-flex md6 class="px-1">
                     <v-text-field
+                      @focus="passwordFocus = true"
+                      @blur="passwordFocus = false"
                       v-validate="confirmPasswordRule"
                       data-vv-name="confirm"
                       :error-messages="errors.collect('confirm')"
@@ -135,8 +155,14 @@
                     class="px-1"
                   >
                     <v-layout row>
-                      <v-icon class="mr-2">place</v-icon>
+                      <v-icon
+                        class="mr-2"
+                        :color="locationFocus ? 'primary' : ''"
+                        >place</v-icon
+                      >
                       <v-text-field
+                        @focus="locationFocus = true"
+                        @blur="locationFocus = false"
                         v-validate="validationRules.cityRule"
                         data-vv-name="city"
                         :error-messages="errors.collect('city')"
@@ -148,6 +174,8 @@
                   <!-- if business - address -->
                   <v-flex md4 class="px-1" v-if="!userData.type.band">
                     <v-text-field
+                      @focus="locationFocus = true"
+                      @blur="locationFocus = false"
                       v-validate="validationRules.streetAddressRule"
                       data-vv-name="street address"
                       :error-messages="errors.collect('street address')"
@@ -162,6 +190,8 @@
                     class="px-1"
                   >
                     <CountrySelect
+                      @focus="locationFocus = true"
+                      @blur="locationFocus = false"
                       v-model="userData.address.country"
                     ></CountrySelect>
                   </v-flex>
@@ -221,19 +251,9 @@
 .banner {
   height: 100px;
 }
-/* .registration-form {
-  transition: width 2s;
-  transition: height 2s;
-} */
 .v-card {
   background-color: rgba(250, 245, 245, 0.9);
-  /* max-height: 550px; */
 }
-/* .v-card {
-  background-color: rgba(0, 0, 0, 0);
-  max-height: 400px;
-  overflow-y: scroll;
-} */
 </style>
 
 <script>
@@ -259,6 +279,9 @@ export default {
   },
   data: () => ({
     step: 1,
+    locationFocus: false,
+    usernameFocus: false,
+    passwordFocus: false,
     userInformationFormValidation: false,
     extraInformationFormValidation: false,
     userData: {
