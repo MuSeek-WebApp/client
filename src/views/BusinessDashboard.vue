@@ -69,7 +69,16 @@ export default {
     return {
       dialog: false,
       date: "",
-      event: this.createEmptyEvent()
+      event: {
+        name: "",
+        startDate: moment().format("YYYY-MM-DD"),
+        endDate: moment().format("YYYY-MM-DD"),
+        startTime: "0:00",
+        endTime: "0:00",
+        description: "",
+        genres: [],
+        bands: []
+      }
     };
   },
   computed: {
@@ -90,27 +99,24 @@ export default {
       this.dialog = false;
     },
     addEventFromCalendar() {
-      this.event = this.createEmptyEvent();
+      this.restoreDefaultEvent();
       this.event.startDate = this.date;
       this.event.endDate = this.date;
       this.dialog = true;
     },
     addEvent() {
-      this.event = this.createEmptyEvent();
+      this.restoreDefaultEvent();
     },
-    createEmptyEvent() {
-      let event = {
-        name: "",
-        startDate: moment().format("YYYY-MM-DD"),
-        endDate: moment().format("YYYY-MM-DD"),
-        startTime: "0:00",
-        endTime: "0:00",
-        description: "",
-        genres: [],
-        bands: []
-      };
-
-      return event;
+    restoreDefaultEvent() {
+      let evnet = this.event;
+      evnet.name = "";
+      evnet.startDate = moment().format("YYYY-MM-DD");
+      evnet.endDate = moment().format("YYYY-MM-DD");
+      evnet.startTime = "0:00";
+      evnet.endTime = "0:00";
+      evnet.description = "";
+      evnet.genres = [];
+      evnet.bands = [];
     }
   }
 };

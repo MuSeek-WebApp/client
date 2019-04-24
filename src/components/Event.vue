@@ -151,6 +151,7 @@ export default {
     return {
       startDatePicker: false,
       endDatePicker: false,
+      event: this.bindedEvent,
       startTimes: [],
       headers: [
         { text: "Band", value: "name", sortable: false },
@@ -165,20 +166,6 @@ export default {
     }
   },
   computed: {
-    event() {
-      let event = this.bindedEvent;
-
-      if (!event) {
-        event = this.getEmptyEvent();
-
-        if (this.bindedDate) {
-          event.startDate = this.bindedDate;
-          event.endDate = this.bindedDate;
-        }
-      }
-
-      return event;
-    },
     endTimes: function() {
       if (!moment(this.event.endDate).isAfter(this.event.startDate)) {
         let t = [];
