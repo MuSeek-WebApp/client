@@ -55,7 +55,7 @@
 
 <script>
 import CalendarEvent from "../components/CalendarEvent";
-import Event from "../components/Event";
+import Event from "../components/event/Event";
 import { FETCH_EVENTS } from "../store/actions.type";
 import moment from "moment";
 export default {

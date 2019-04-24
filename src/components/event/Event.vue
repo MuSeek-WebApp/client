@@ -105,36 +105,7 @@
                 </v-flex>
               </v-tab-item>
               <v-tab-item>
-                <v-layout row>
-                  <v-flex md2 align-self-center>
-                    <span class="title text-md-center">Event Lineup</span>
-                  </v-flex>
-                  <v-spacer></v-spacer>
-                  <v-flex md2>
-                    <v-btn>Find Band</v-btn>
-                  </v-flex>
-                </v-layout>
-                <v-flex md12>
-                  <v-data-table
-                    class="elevation-2"
-                    hide-actions
-                    :items="event.bands"
-                    :headers="headers"
-                  >
-                    <template v-slot:no-data
-                      >Add bands to your event
-                    </template>
-                    <template v-slot:items="props">
-                      <td>{{ props.item.name }}</td>
-                      <td>{{ props.item.status }}</td>
-                      <td>
-                        <v-btn icon>
-                          <v-icon>cancel</v-icon>
-                        </v-btn>
-                      </td>
-                    </template>
-                  </v-data-table>
-                </v-flex>
+                <Lineup v-model="event.bands"></Lineup>
               </v-tab-item>
             </v-tabs>
           </v-flex>
@@ -145,14 +116,16 @@
 </template>
 
 <script>
-import { NEW_EVENT, UPDATE_EVENT } from "../store/actions.type";
-import GenreSelect from "./GenreSelect";
-import moment from "moment";
-import { START_PROGRESS, STOP_PROGRESS } from "../store/mutations.type";
+import { NEW_EVENT, UPDATE_EVENT } from "../../store/actions.type";
+import GenreSelect from "../GenreSelect";
+import Lineup from "./Lineup";
+import moment from "moment/moment";
+import { START_PROGRESS, STOP_PROGRESS } from "../../store/mutations.type";
 
 export default {
   components: {
-    GenreSelect
+    GenreSelect,
+    Lineup
   },
   $_veeValidate: {
     validator: "new"
@@ -168,12 +141,7 @@ export default {
       startDatePicker: false,
       endDatePicker: false,
       event: this.bindedEvent,
-      startTimes: [],
-      headers: [
-        { text: "Band", value: "name", sortable: false },
-        { text: "Status", value: "status" },
-        { text: "Actions", sortable: false }
-      ]
+      startTimes: []
     };
   },
   beforeMount: function() {

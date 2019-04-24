@@ -51,7 +51,7 @@
 </template>
 
 <script>
-import Event from "./Event";
+import Event from "./event/Event";
 import { REMOVE_EVENT } from "../store/actions.type";
 import { STOP_PROGRESS, START_PROGRESS } from "../store/mutations.type";
 import moment from "moment";
