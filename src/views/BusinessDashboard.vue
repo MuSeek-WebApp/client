@@ -6,7 +6,12 @@
           <v-layout wrap>
             <v-flex xs12>
               <v-sheet height="600">
-                <v-calendar ref="calendar" v-model="date" color="primary">
+                <v-calendar
+                  ref="calendar"
+                  v-model="date"
+                  color="primary"
+                  @click:date="addEventFromCalendar()"
+                >
                   <template v-slot:day="{ date }">
                     <CalendarEvent
                       v-bind:event="event"
@@ -17,7 +22,6 @@
                 </v-calendar>
               </v-sheet>
             </v-flex>
-
             <v-flex class="text-sm-left" xs6>
               <v-btn @click="$refs.calendar.prev()">Prev</v-btn>
             </v-flex>
@@ -28,11 +32,23 @@
         </v-sheet>
         <v-dialog v-model="dialog" persistent max-width="1000px" hide-overlay>
           <template v-slot:activator="{ on }">
-            <v-btn fixed dark fab button right v-on="on" color="pink">
+            <v-btn
+              @click="addEvent()"
+              fixed
+              dark
+              fab
+              button
+              right
+              v-on="on"
+              color="pink"
+            >
               <v-icon>add</v-icon>
             </v-btn>
           </template>
-          <Event v-on:dialog-close="onDialogClose"></Event>
+          <Event
+            v-bind:bindedEvent="this.event"
+            v-on:dialog-close="onDialogClose"
+          ></Event>
         </v-dialog>
       </v-flex>
     </v-layout>
@@ -43,16 +59,19 @@
 import CalendarEvent from "../components/CalendarEvent";
 import Event from "../components/Event";
 import { FETCH_EVENTS } from "../store/actions.type";
-
+import moment from "moment";
 export default {
   components: {
     Event,
     CalendarEvent
   },
-  data: () => ({
-    dialog: false,
-    date: ""
-  }),
+  data: function() {
+    return {
+      dialog: false,
+      date: "",
+      event: this.createEmptyEvent()
+    };
+  },
   computed: {
     // convert the list of events into a map of lists keyed by date
     eventsMap() {
@@ -67,11 +86,31 @@ export default {
     this.$store.dispatch(FETCH_EVENTS);
   },
   methods: {
-    open(event) {
-      alert(event.title);
-    },
     onDialogClose() {
       this.dialog = false;
+    },
+    addEventFromCalendar() {
+      this.event = this.createEmptyEvent();
+      this.event.startDate = this.date;
+      this.event.endDate = this.date;
+      this.dialog = true;
+    },
+    addEvent() {
+      this.event = this.createEmptyEvent();
+    },
+    createEmptyEvent() {
+      let event = {
+        name: "",
+        startDate: moment().format("YYYY-MM-DD"),
+        endDate: moment().format("YYYY-MM-DD"),
+        startTime: "0:00",
+        endTime: "0:00",
+        description: "",
+        genres: [],
+        bands: []
+      };
+
+      return event;
     }
   }
 };

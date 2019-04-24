@@ -133,6 +133,7 @@ import { NEW_EVENT, UPDATE_EVENT } from "../store/actions.type";
 import GenreSelect from "./GenreSelect";
 import moment from "moment";
 import { START_PROGRESS, STOP_PROGRESS } from "../store/mutations.type";
+
 export default {
   components: {
     GenreSelect
@@ -150,7 +151,6 @@ export default {
     return {
       startDatePicker: false,
       endDatePicker: false,
-      event: this.getEmptyEvent(),
       startTimes: [],
       headers: [
         { text: "Band", value: "name", sortable: false },
@@ -163,13 +163,22 @@ export default {
     for (let i = 0; i < 24; i++) {
       this.startTimes.push(i + ":00", i + ":30");
     }
-
-    this.event = this.bindedEvent;
-    if (!this.bindedEvent) {
-      this.event = this.getEmptyEvent();
-    }
   },
   computed: {
+    event() {
+      let event = this.bindedEvent;
+
+      if (!event) {
+        event = this.getEmptyEvent();
+
+        if (this.bindedDate) {
+          event.startDate = this.bindedDate;
+          event.endDate = this.bindedDate;
+        }
+      }
+
+      return event;
+    },
     endTimes: function() {
       if (!moment(this.event.endDate).isAfter(this.event.startDate)) {
         let t = [];
@@ -211,20 +220,6 @@ export default {
     },
     close() {
       this.$emit("dialog-close");
-    },
-    getEmptyEvent() {
-      let event = {
-        name: "",
-        startDate: moment().format("YYYY-MM-DD"),
-        endDate: moment().format("YYYY-MM-DD"),
-        startTime: "0:00",
-        endTime: "0:00",
-        description: "",
-        genres: [],
-        bands: []
-      };
-
-      return event;
     }
   }
 };
