@@ -83,44 +83,60 @@
             <v-select v-model="event.endTime" :items="endTimes"></v-select>
           </v-flex>
           <v-flex md12>
-            <v-textarea
-              prepend-icon="subject"
-              solo
-              no-resize
-              label="More details..."
-              v-model="event.description"
-            ></v-textarea>
-          </v-flex>
-          <v-flex md12>
-            <GenreSelect v-model="event.genres"></GenreSelect>
-          </v-flex>
-          <v-flex md2 align-self-center>
-            <span class="title text-md-center">Event Lineup</span>
-          </v-flex>
-          <v-spacer></v-spacer>
-          <v-flex md2>
-            <v-btn>Find Band</v-btn>
-          </v-flex>
-          <v-flex md12>
-            <v-data-table
-              class="elevation-2"
-              hide-actions
-              :items="event.bands"
-              :headers="headers"
-            >
-              <template v-slot:no-data
-                >Add bands to your event</template
-              >
-              <template v-slot:items="props">
-                <td>{{ props.item.name }}</td>
-                <td>{{ props.item.status }}</td>
-                <td>
-                  <v-btn icon>
-                    <v-icon>cancel</v-icon>
-                  </v-btn>
-                </td>
-              </template>
-            </v-data-table>
+            <v-tabs slider-color="#1976d2">
+              <v-tab ripple>
+                Event Details
+              </v-tab>
+              <v-tab ripple>
+                Lineup
+              </v-tab>
+              <v-tab-item>
+                <v-flex md12 pt-2>
+                  <v-textarea
+                    prepend-icon="subject"
+                    solo
+                    no-resize
+                    label="More details..."
+                    v-model="event.description"
+                  ></v-textarea>
+                </v-flex>
+                <v-flex md12>
+                  <GenreSelect v-model="event.genres"></GenreSelect>
+                </v-flex>
+              </v-tab-item>
+              <v-tab-item>
+                <v-layout row>
+                  <v-flex md2 align-self-center>
+                    <span class="title text-md-center">Event Lineup</span>
+                  </v-flex>
+                  <v-spacer></v-spacer>
+                  <v-flex md2>
+                    <v-btn>Find Band</v-btn>
+                  </v-flex>
+                </v-layout>
+                <v-flex md12>
+                  <v-data-table
+                    class="elevation-2"
+                    hide-actions
+                    :items="event.bands"
+                    :headers="headers"
+                  >
+                    <template v-slot:no-data
+                      >Add bands to your event
+                    </template>
+                    <template v-slot:items="props">
+                      <td>{{ props.item.name }}</td>
+                      <td>{{ props.item.status }}</td>
+                      <td>
+                        <v-btn icon>
+                          <v-icon>cancel</v-icon>
+                        </v-btn>
+                      </td>
+                    </template>
+                  </v-data-table>
+                </v-flex>
+              </v-tab-item>
+            </v-tabs>
           </v-flex>
         </v-layout>
       </v-container>
