@@ -13,11 +13,9 @@
                   @click:date="addEventFromCalendar()"
                 >
                   <template v-slot:day="{ date }">
-                    <CalendarEvent
-                      v-bind:event="event"
-                      v-bind:key="event._id"
-                      v-for="event in eventsMap[date]"
-                    ></CalendarEvent>
+                    <div :key="event._id" v-for="event in eventsMap[date]">
+                      <CalendarEvent :event="event"></CalendarEvent>
+                    </div>
                   </template>
                 </v-calendar>
               </v-sheet>
@@ -82,13 +80,19 @@ export default {
     };
   },
   computed: {
-    // convert the list of events into a map of lists keyed by date
     eventsMap() {
-      const map = {};
+      const eventsByDate = {};
       this.$store.getters.getAllEvents.forEach(e =>
-        (map[e.startDate] = map[e.startDate] || []).push(e)
+        (eventsByDate[e.startDate] = eventsByDate[e.startDate] || []).push(e)
       );
-      return map;
+
+      for (let date in eventsByDate) {
+        eventsByDate[date].sort((d1, d2) => {
+          return d1.startTime.split(":")[0] - d2.startTime.split(":")[0];
+        });
+      }
+
+      return eventsByDate;
     }
   },
   created() {
