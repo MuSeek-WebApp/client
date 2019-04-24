@@ -87,21 +87,35 @@
                 <v-layout wrap>
                   <!-- title & page information -->
                   <v-flex md12 class="px-1">
-                    <div class="py-3 title">2. Page Information</div>
-                    <v-radio-group v-model="userData.type" row>
-                      <v-radio
-                        label="Artist/Band"
-                        :value="{ band: true }"
-                      ></v-radio>
-                      <v-radio
-                        label="Business Owner"
-                        :value="{ business: true }"
-                      ></v-radio>
-                    </v-radio-group>
+                    <v-layout
+                      align-center
+                      justify-space-between
+                      row
+                      fill-height
+                    >
+                      <v-flex>
+                        <div class="py-3 title">2. Page Information</div>
+                      </v-flex>
+                      <v-flex>
+                        <v-radio-group v-model="userData.type" row>
+                          <v-radio
+                            label="Artist/Band"
+                            :value="{ band: true }"
+                          ></v-radio>
+                          <v-radio
+                            label="Business Owner"
+                            :value="{ business: true }"
+                          ></v-radio>
+                        </v-radio-group>
+                      </v-flex>
+                    </v-layout>
                   </v-flex>
                   <!-- name-->
-                  <v-flex md6 class="px-1">
+                  <v-flex md12 class="px-1">
                     <v-text-field
+                      :prepend-icon="
+                        userData.type.band ? 'person' : 'business_center'
+                      "
                       v-validate="validationRules.nameRule"
                       :counter="validationRules.nameRule.max"
                       data-vv-name="name"
@@ -114,20 +128,25 @@
                       "
                     ></v-text-field>
                   </v-flex>
-                  <!-- if band - select genres -->
-                  <v-flex md6 class="px-1" v-if="userData.type.band">
-                    <GenreSelect
-                      v-model="userData.selectedGenres"
-                    ></GenreSelect>
-                  </v-flex>
-                  <!-- country -->
-                  <v-flex md6 class="px-1">
-                    <CountrySelect
-                      v-model="userData.address.country"
-                    ></CountrySelect>
+                  <!-- city -->
+                  <v-flex
+                    :md4="!userData.type.band"
+                    :md6="userData.type.band"
+                    class="px-1"
+                  >
+                    <v-layout row>
+                      <v-icon class="mr-2">place</v-icon>
+                      <v-text-field
+                        v-validate="validationRules.cityRule"
+                        data-vv-name="city"
+                        :error-messages="errors.collect('city')"
+                        v-model="userData.address.city"
+                        label="City"
+                      ></v-text-field>
+                    </v-layout>
                   </v-flex>
                   <!-- if business - address -->
-                  <v-flex md6 class="px-1" v-if="!userData.type.band">
+                  <v-flex md4 class="px-1" v-if="!userData.type.band">
                     <v-text-field
                       v-validate="validationRules.streetAddressRule"
                       data-vv-name="street address"
@@ -136,35 +155,48 @@
                       label="Street address"
                     ></v-text-field>
                   </v-flex>
-                  <!-- city -->
-                  <v-flex md6 class="px-1">
-                    <v-text-field
-                      v-validate="validationRules.cityRule"
-                      data-vv-name="city"
-                      :error-messages="errors.collect('city')"
-                      v-model="userData.address.city"
-                      label="City"
-                    ></v-text-field>
+                  <!-- country -->
+                  <v-flex
+                    :md4="!userData.type.band"
+                    :md6="userData.type.band"
+                    class="px-1"
+                  >
+                    <CountrySelect
+                      v-model="userData.address.country"
+                    ></CountrySelect>
                   </v-flex>
-                  <!-- description -->
-                  <v-flex md12 class="px-1">
-                    <v-textarea
-                      v-validate="validationRules.descriptionRule"
-                      data-vv-name="description"
-                      :error-messages="errors.collect('description')"
-                      :counter="validationRules.descriptionRule.max"
-                      box
-                      no-resize
-                      v-model="userData.description"
-                      :label="
-                        userData.type.band
-                          ? 'Band/Artist description'
-                          : 'Business description'
-                      "
-                    ></v-textarea>
-                  </v-flex>
+                  <v-layout align-end justify-center row fill-height>
+                    <!-- description -->
+                    <v-flex
+                      :md12="!userData.type.band"
+                      :md6="userData.type.band"
+                      class="px-1"
+                    >
+                      <v-textarea
+                        prepend-icon="description"
+                        v-validate="validationRules.descriptionRule"
+                        data-vv-name="description"
+                        :error-messages="errors.collect('description')"
+                        :counter="validationRules.descriptionRule.max"
+                        box
+                        no-resize
+                        v-model="userData.description"
+                        :label="
+                          userData.type.band
+                            ? 'Band/Artist description'
+                            : 'Business description'
+                        "
+                      ></v-textarea>
+                    </v-flex>
+                    <!-- if band - select genres -->
+                    <v-flex md6 class="px-1 mb-2" v-if="userData.type.band">
+                      <GenreSelect
+                        v-model="userData.selectedGenres"
+                      ></GenreSelect>
+                    </v-flex>
+                  </v-layout>
                   <!-- band members list -->
-                  <v-flex md 12 class="px-1">
+                  <v-flex md12 class="px-1">
                     <BandMembersList
                       v-if="userData.type.band"
                       v-model="userData.bandMembers"
@@ -294,8 +326,8 @@ export default {
   methods: {
     nextStep: function() {
       this.$validator.validate().then(() => {
-        // if (this.userInformationFormValidation) {
-        if (true) {
+        if (this.userInformationFormValidation) {
+          // if (true) {
           this.$validator.reset();
           // Todo: Check if this email already exist in firebase users before procceed to next step.
           this.step = 2;
