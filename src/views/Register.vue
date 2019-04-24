@@ -134,7 +134,7 @@
                   <v-flex md12 class="px-1">
                     <v-text-field
                       :prepend-icon="
-                        userData.type.band ? 'person' : 'business_center'
+                        userData.type.band ? 'mic' : 'business_center'
                       "
                       v-validate="validationRules.nameRule"
                       :counter="validationRules.nameRule.max"
