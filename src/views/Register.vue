@@ -1,10 +1,10 @@
 <template>
   <v-container fill-height class="background">
     <v-layout justify-space-around align-center fill-height>
-      <v-flex md10>
+      <v-flex md11>
         <v-card fill-height class="mx-5 pa-4">
-          <v-layout align-center justify-center row fill-height>
-            <v-flex md4 class="pa-2">
+          <v-layout align-center justify-center row>
+            <v-flex md4 class="pa-2 mr-3">
               <img class="banner" src="../../public/img/banner.png" />
               <v-divider></v-divider>
               <v-form v-model="userInformationFormValidation">
@@ -102,7 +102,7 @@
               </v-form>
             </v-flex>
             <v-divider vertical></v-divider>
-            <v-flex md8 class="pa-2">
+            <v-flex md8 class="pa-2 ml-3">
               <v-form v-model="extraInformationFormValidation">
                 <v-layout wrap>
                   <!-- title & page information -->
@@ -203,7 +203,7 @@
                       class="px-1"
                     >
                       <v-textarea
-                        prepend-icon="description"
+                        prepend-icon="notes"
                         v-validate="validationRules.descriptionRule"
                         data-vv-name="description"
                         :error-messages="errors.collect('description')"

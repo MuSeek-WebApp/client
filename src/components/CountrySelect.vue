@@ -13,6 +13,8 @@
 </template>
 
 <script>
+import countryByName from "../../public/json/countries.js";
+
 export default {
   inject: ["validator"],
   data: () => ({
@@ -23,14 +25,7 @@ export default {
   }),
   created: function() {
     this.$validator = this.validator;
-    this.countries = [
-      "Israel",
-      "United States",
-      "United Kingdom",
-      "Sweden",
-      "Denemark",
-      "Saudi Arabia"
-    ];
+    this.countries = countryByName.countries;
   },
   props: ["value"]
 };
