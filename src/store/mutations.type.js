@@ -5,3 +5,5 @@ export const STOP_PROGRESS = "stopProgress";
 export const SET_EVENTS = "setEvents";
 export const SET_EVENT = "setEvent";
 export const DELETE_EVENT = "removeEvent";
+export const SET_UID = "setUid";
+export const SET_PROFILE = "setProfile";
