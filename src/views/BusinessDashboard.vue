@@ -28,7 +28,7 @@
             </v-flex>
           </v-layout>
         </v-sheet>
-        <v-dialog v-model="dialog" persistent max-width="1000px" hide-overlay>
+        <v-dialog v-model="dialog" persistent fullscreen>
           <template v-slot:activator="{ on }">
             <v-btn
               @click="addEvent()"
