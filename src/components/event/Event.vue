@@ -8,7 +8,7 @@
       <v-btn color="primary" @click="save">Save</v-btn>
     </v-toolbar>
     <v-form>
-      <v-container>
+      <v-container fluid>
         <v-layout wrap>
           <v-flex md12>
             <v-text-field
@@ -82,13 +82,13 @@
           <v-flex md2>
             <v-select v-model="event.endTime" :items="endTimes"></v-select>
           </v-flex>
-          <v-flex md12>
+          <v-flex md8>
             <v-tabs slider-color="#1976d2">
               <v-tab ripple>
                 Event Details
               </v-tab>
               <v-tab ripple>
-                Lineup
+                Find Bands
               </v-tab>
               <v-tab-item>
                 <v-flex md12 pt-2>
@@ -105,7 +105,22 @@
                 </v-flex>
               </v-tab-item>
               <v-tab-item>
-                <Lineup v-model="event.bands"></Lineup>
+                <v-flex md12>
+                  <FindBands></FindBands>
+                </v-flex>
+              </v-tab-item>
+            </v-tabs>
+          </v-flex>
+          <v-spacer></v-spacer>
+          <v-flex md4>
+            <v-tabs slider-color="#1976d2">
+              <v-tab ripple>
+                Lineup
+              </v-tab>
+              <v-tab-item>
+                <v-flex md12 pt-2>
+                  <lineup pt-2 v-model="event.bands"></lineup>
+                </v-flex>
               </v-tab-item>
             </v-tabs>
           </v-flex>
@@ -119,13 +134,15 @@
 import { NEW_EVENT, UPDATE_EVENT } from "../../store/actions.type";
 import GenreSelect from "../GenreSelect";
 import Lineup from "./Lineup";
+import FindBands from "./FindBands";
 import moment from "moment/moment";
 import { START_PROGRESS, STOP_PROGRESS } from "../../store/mutations.type";
 
 export default {
   components: {
     GenreSelect,
-    Lineup
+    Lineup,
+    FindBands
   },
   $_veeValidate: {
     validator: "new"
