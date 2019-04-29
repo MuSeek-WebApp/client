@@ -1,0 +1,58 @@
+<template>
+  <v-container elevation-2 class="mb-3">
+    <v-layout wrap>
+      <v-flex md2>
+        <h3>{{ momentDate.format("MMM ") }} {{ momentDate.date() }}</h3>
+        <h4>{{ momentDate.format("ddd") }}</h4>
+      </v-flex>
+      <v-flex md4>
+        <h3>
+          <a>{{ event.name }}</a>
+        </h3>
+        <span>{{ event.startTime }} - {{ event.endTime }}</span>
+      </v-flex>
+      <template v-if="event.requests[0].status === '0'">
+        <v-flex md3>
+          <v-btn small> <v-icon>done</v-icon>Going </v-btn>
+        </v-flex>
+        <v-flex md3>
+          <v-btn small> <v-icon>close</v-icon>Ignore </v-btn>
+        </v-flex>
+      </template>
+      <template v-if="event.requests[0].status === '1'">
+        <v-flex md3>
+          <v-menu offset-y>
+            <template v-slot:activator="{ on }">
+              <v-btn v-on="on" small depressed>
+                <v-icon>done</v-icon>Going
+                <v-icon class="ml-1">keyboard_arrow_down</v-icon>
+              </v-btn>
+            </template>
+            <v-sheet>
+              <v-btn flat small class="ma-2">
+                <v-icon>close</v-icon>Not Going
+              </v-btn>
+            </v-sheet>
+          </v-menu>
+        </v-flex>
+      </template>
+      <template v-if="event.requests[0].status === '2'">
+        <v-flex md3>
+          <h4>Request Sent</h4>
+        </v-flex>
+      </template>
+    </v-layout>
+  </v-container>
+</template>
+
+<script>
+import moment from "moment";
+export default {
+  props: ["event"],
+  computed: {
+    momentDate() {
+      return moment(this.event.startDate);
+    }
+  }
+};
+</script>
