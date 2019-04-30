@@ -13,15 +13,25 @@
 </template>
 
 <script>
+import { GET_UID, GET_CURRENT_PROFILE } from "@/store/actions.type";
+import { createNamespacedHelpers, mapState } from "vuex";
+const { mapActions } = createNamespacedHelpers("profile");
 import Header from "./components/Header.vue";
 import Footer from "./components/Footer.vue";
-import { mapState } from "vuex";
 
 export default {
   name: "app",
   components: {
     Header,
     Footer
+  },
+  async created() {
+    await this.getUid();
+    await this.getCurrentProfile();
+  },
+  methods: {
+    ...mapActions([GET_UID]),
+    ...mapActions([GET_CURRENT_PROFILE])
   },
   computed: {
     isAuthenticated() {

@@ -28,18 +28,13 @@
 </template>
 
 <script>
-import { GET_UID, SIGN_OUT } from "@/store/actions.type";
+import { SIGN_OUT } from "@/store/actions.type";
 import { createNamespacedHelpers } from "vuex";
-const { mapState, mapActions } = createNamespacedHelpers("profile");
+const { mapState } = createNamespacedHelpers("profile");
 
 export default {
-  created() {
-    this.getUid();
-  },
   computed: { ...mapState(["uid"]) },
   methods: {
-    ...mapActions([GET_UID]),
-
     signOut: async function() {
       await this.$store.dispatch(SIGN_OUT);
       this.$router.push("/login");

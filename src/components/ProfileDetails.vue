@@ -8,7 +8,7 @@
       ref="imageInput"
     />
     <v-hover>
-      <v-avatar slot-scope="{ hover }" class="mx-auto mb-3 d-block" size="150">
+      <v-avatar slot-scope="{ hover }" class="mx-auto mb-2 d-block" size="175">
         <v-img :src="profile.profile_photo">
           <v-expand-transition>
             <v-btn
@@ -16,7 +16,7 @@
               dark
               fab
               color="blue"
-              class="transition-fast-in-fast-out v-card--reveal mt-5"
+              class="transition-fast-in-fast-out v-card--reveal my-5"
               @click="$refs.imageInput.click()"
             >
               <v-icon dark>cloud_upload</v-icon>
@@ -27,8 +27,8 @@
     </v-hover>
     <v-card-text class="text-xs-center">
       <v-layout justify-center>
-        <h4 class="mx-2 my-auto font-weight-bold" v-text="profile.name"></h4>
-        <v-chip small color="blue" text-color="white">
+        <span class="display-1 mx-2 my-auto font-weight-bold" v-text="profile.name"></span>
+        <v-chip small color="blue" text-color="white" class="my-auto">
           <v-avatar>
             <v-icon v-if="isBand">music_note</v-icon>
             <v-icon v-else>business_center</v-icon>
@@ -36,10 +36,7 @@
           <span v-text="type"></span>
         </v-chip>
       </v-layout>
-      <p
-        class="card-description font-weight-light"
-        v-text="profile.description"
-      ></p>
+      <h3 class="my-1 card-description font-weight-light" v-text="profile.description"></h3>
     </v-card-text>
 
     <v-card>
@@ -50,12 +47,8 @@
           </v-list-tile-action>
 
           <v-list-tile-content>
-            <v-list-tile-title
-              v-text="profile.contactDetails.email"
-            ></v-list-tile-title>
-            <v-list-tile-sub-title
-              >Electronic Mail Address</v-list-tile-sub-title
-            >
+            <v-list-tile-title v-text="profile.contactDetails.email"></v-list-tile-title>
+            <v-list-tile-sub-title>Electronic Mail Address</v-list-tile-sub-title>
           </v-list-tile-content>
 
           <v-btn icon>
@@ -69,20 +62,14 @@
           </v-list-tile-action>
 
           <v-list-tile-content>
-            <v-list-tile-title
-              v-text="profile.contactDetails.phoneNumber"
-            ></v-list-tile-title>
+            <v-list-tile-title v-text="profile.contactDetails.phoneNumber"></v-list-tile-title>
             <v-list-tile-sub-title>Cellphone Number</v-list-tile-sub-title>
           </v-list-tile-content>
         </v-list-tile>
 
         <v-divider inset></v-divider>
 
-        <v-list-tile
-          v-for="(artist, index) in profile.bandMembers"
-          readonly
-          v-bind:key="index"
-        >
+        <v-list-tile v-for="(artist, index) in profile.bandMembers" readonly v-bind:key="index">
           <v-list-tile-action>
             <v-icon color="indigo">person</v-icon>
           </v-list-tile-action>

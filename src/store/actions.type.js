@@ -11,4 +11,5 @@ export const REMOVE_EVENT = "removeEvent";
 export const SAVE_EVENT = "saveEvent";
 export const GET_UID = "getUid";
 export const GET_PROFILE = "getProfile";
+export const GET_CURRENT_PROFILE = "getCurrentProfile";
 export const UPLOAD_PROFILE_IMAGE = "uploadProfileImage";
