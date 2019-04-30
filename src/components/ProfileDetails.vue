@@ -47,7 +47,13 @@
           </v-list-tile-action>
 
           <v-list-tile-content>
-            <v-list-tile-title v-text="profile.contactDetails.email"></v-list-tile-title>
+            <v-list-tile-title>
+              <v-text-field
+                readonly="isEditing"
+                height="0"
+                v-model="profile.contactDetails.email"
+              ></v-text-field>
+            </v-list-tile-title>
             <v-list-tile-sub-title>Electronic Mail Address</v-list-tile-sub-title>
           </v-list-tile-content>
 
@@ -154,5 +160,12 @@ export default {
 <style>
 .v-card--reveal {
   opacity: 0.65;
+}
+
+.v-text-field > .v-input__control > .v-input__slot:before {
+  border-style: none;
+}
+.v-text-field > .v-input__control > .v-input__slot:after {
+  border-style: none;
 }
 </style>
