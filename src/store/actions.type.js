@@ -8,6 +8,7 @@ export const NEW_EVENT = "saveEvent";
 export const FETCH_EVENTS = "fetchEvents";
 export const UPDATE_EVENT = "updateEvent";
 export const REMOVE_EVENT = "removeEvent";
+export const UPDATE_STATUS_BY_ARTIST = "updateStatusByArtist";
 export const SAVE_EVENT = "saveEvent";
 export const GET_UID = "getUid";
 export const GET_PROFILE = "getProfile";

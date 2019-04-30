@@ -16,7 +16,7 @@
         <v-card max-height="500" class="scroll-y">
           <v-card-text>
             <SmallViewEvent
-              :event="event"
+              :event="{ ...event }"
               :key="event._id"
               v-for="event in events"
             ></SmallViewEvent>
@@ -41,6 +41,7 @@ export default {
     };
   },
   created() {
+    console.log("created");
     this.$store.dispatch(FETCH_EVENTS);
   }
 };

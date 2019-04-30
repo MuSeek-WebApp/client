@@ -11,15 +11,19 @@
         </h3>
         <span>{{ event.startTime }} - {{ event.endTime }}</span>
       </v-flex>
-      <template v-if="event.requests[0].status === '0'">
+      <template v-if="event.requests.status === 'WAITING_FOR_BAND_APPROVAL'">
         <v-flex md3>
-          <v-btn small> <v-icon>done</v-icon>Going </v-btn>
+          <v-btn small @click="updateStatus('APPROVED')">
+            <v-icon>done</v-icon>Going
+          </v-btn>
         </v-flex>
         <v-flex md3>
-          <v-btn small> <v-icon>close</v-icon>Ignore </v-btn>
+          <v-btn small @click="updateStatus('DENIED')">
+            <v-icon>close</v-icon>Ignore
+          </v-btn>
         </v-flex>
       </template>
-      <template v-if="event.requests[0].status === '1'">
+      <template v-if="event.requests.status === 'APPROVED'">
         <v-flex md3>
           <v-menu offset-y>
             <template v-slot:activator="{ on }">
@@ -29,14 +33,16 @@
               </v-btn>
             </template>
             <v-sheet>
-              <v-btn flat small class="ma-2">
+              <v-btn flat small class="ma-2" @click="updateStatus('DENIED')">
                 <v-icon>close</v-icon>Not Going
               </v-btn>
             </v-sheet>
           </v-menu>
         </v-flex>
       </template>
-      <template v-if="event.requests[0].status === '2'">
+      <template
+        v-if="event.requests.status === 'WAITING_FOR_BUISNESS_APPROVAL'"
+      >
         <v-flex md3>
           <h4>Request Sent</h4>
         </v-flex>
@@ -52,6 +58,11 @@ export default {
   computed: {
     momentDate() {
       return moment(this.event.startDate);
+    }
+  },
+  methods: {
+    updateStatus(newStatus) {
+      // impelemnt update status api
     }
   }
 };
