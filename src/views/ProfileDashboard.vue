@@ -7,7 +7,7 @@
       <v-flex xs12 md8>
         <v-layout row wrap>
           <v-flex v-for="n in profileData.reviews.length" :key="n" xs12 md6>
-            <review :review="profileData.reviews[n - 1]"></review>
+            <review :review="profileData.reviews[n - 1]" :colour="colors[n - 1]"></review>
           </v-flex>
         </v-layout>
       </v-flex>
@@ -23,6 +23,9 @@ import { createNamespacedHelpers } from "vuex";
 const { mapState, mapActions } = createNamespacedHelpers("profile");
 
 export default {
+  data: () => ({
+    colors: ["blue", "purple", "red"]
+  }),
   created() {
     this.getProfile(this.$route.params.userId);
   },
