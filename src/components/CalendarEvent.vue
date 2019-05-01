@@ -14,7 +14,7 @@
           <v-icon>close</v-icon>
         </v-btn>
         <v-spacer></v-spacer>
-        <v-dialog v-model="dialog" persistent max-width="1000px" hide-overlay>
+        <v-dialog v-model="dialog" persistent fullscreen scrollable>
           <template v-slot:activator="{ on }">
             <v-btn icon v-on="on">
               <v-icon>edit</v-icon>
