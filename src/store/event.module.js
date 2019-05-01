@@ -2,7 +2,8 @@ import {
   NEW_EVENT,
   FETCH_EVENTS,
   UPDATE_EVENT,
-  REMOVE_EVENT
+  REMOVE_EVENT,
+  UPDATE_STATUS_BY_ARTIST
 } from "./actions.type";
 import {
   CLEAR_EVENTS,
@@ -71,6 +72,13 @@ const actions = {
           reject(err);
         });
     });
+  },
+  async [UPDATE_STATUS_BY_ARTIST](context, payload) {
+    const { data } = await ApiService.put(
+      "api/event/status/" + payload.event._id,
+      payload
+    );
+    payload.event.requests.status = data;
   }
 };
 

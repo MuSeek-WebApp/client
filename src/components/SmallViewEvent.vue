@@ -47,12 +47,19 @@
           <h4>Request Sent</h4>
         </v-flex>
       </template>
+      <template v-if="event.requests.status === 'DENIED'">
+        <v-flex md3>
+          <h4>Request Ignored</h4>
+        </v-flex>
+      </template>
     </v-layout>
   </v-container>
 </template>
 
 <script>
 import moment from "moment";
+import { UPDATE_STATUS_BY_ARTIST } from "../store/actions.type";
+
 export default {
   props: ["event"],
   computed: {
@@ -61,8 +68,13 @@ export default {
     }
   },
   methods: {
-    updateStatus(newStatus) {
-      // impelemnt update status api
+    updateStatus(action) {
+      const payload = {
+        event: this.event,
+        action: action
+      };
+
+      this.$store.dispatch(UPDATE_STATUS_BY_ARTIST, payload);
     }
   }
 };
