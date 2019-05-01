@@ -1,42 +1,139 @@
-<template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
-  <v-data-table
-    class="elevation-2"
-    hide-actions
-    :items="bands"
-    :headers="headers"
-  >
-    <template v-slot:no-data
-      >Add bands to your event</template
-    >
-    <template v-slot:items="props">
-      <td>{{ props.item.name }}</td>
-      <td>{{ props.item.status }}</td>
-      <td>
-        <v-btn icon>
-          <v-icon>cancel</v-icon>
-        </v-btn>
-      </td>
+<template>
+  <v-list two-line subheader class="scroll-y">
+    <template v-if="approved.length">
+      <v-list-group value="Expands">
+        <template v-slot:activator>
+          <v-list-tile>
+            <v-list-tile-content>
+              <v-list-tile-title
+                >Approved ({{ approved.length }})</v-list-tile-title
+              >
+            </v-list-tile-content>
+          </v-list-tile>
+        </template>
+
+        <band-list-tile
+          v-for="band in approved"
+          :key="band.name"
+          :band="band"
+        ></band-list-tile>
+      </v-list-group>
+
+      <v-divider></v-divider>
     </template>
-  </v-data-table>
+
+    <template v-if="waitingForBusiness.length">
+      <v-list-group>
+        <template v-slot:activator>
+          <v-list-tile>
+            <v-list-tile-content>
+              <v-list-tile-title
+                >Waiting For Your Approval ({{
+                  waitingForBusiness.length
+                }})</v-list-tile-title
+              >
+            </v-list-tile-content>
+          </v-list-tile>
+        </template>
+
+        <band-list-tile
+          v-for="band in waitingForBusiness"
+          :key="band.name"
+          :band="band"
+        ></band-list-tile>
+      </v-list-group>
+
+      <v-divider></v-divider>
+    </template>
+
+    <template v-if="waitingForBand.length">
+      <v-list-group>
+        <template v-slot:activator>
+          <v-list-tile>
+            <v-list-tile-content>
+              <v-list-tile-title
+                >Waiting For Their Approval ({{
+                  waitingForBand.length
+                }})</v-list-tile-title
+              >
+            </v-list-tile-content>
+          </v-list-tile>
+        </template>
+
+        <band-list-tile
+          v-for="band in waitingForBand"
+          :key="band.name"
+          :band="band"
+        ></band-list-tile>
+      </v-list-group>
+
+      <v-divider></v-divider>
+    </template>
+
+    <template v-if="denied.length">
+      <v-list-group>
+        <template v-slot:activator>
+          <v-list-tile>
+            <v-list-tile-content>
+              <v-list-tile-title
+                >Denied ({{ denied.length }})</v-list-tile-title
+              >
+            </v-list-tile-content>
+          </v-list-tile>
+        </template>
+
+        <band-list-tile
+          v-for="band in denied"
+          :key="band.name"
+          :band="band"
+        ></band-list-tile>
+      </v-list-group>
+    </template>
+  </v-list>
 </template>
 
 <script>
+import BandListTile from "./BandListTile";
+
 export default {
   name: "Lineup",
-  props: ["value"],
-  data: () => ({
-    headers: [
-      { text: "Band", value: "name", sortable: false },
-      { text: "Status", value: "status" },
-      { text: "Actions", sortable: false }
-    ],
-    bands: [
-      { name: "Metallica", status: "Aprroved" },
-      { name: "Pearl Jam", status: "Waiting Aprroval" },
-      { name: "Megadeth", status: "Invitation Sent" }
-    ]
-  })
+  props: ["requests"],
+  components: {
+    BandListTile
+  },
+  methods: {
+    filterByStatus: function(requests, status) {
+      return requests
+        .filter(request => {
+          return request.status === status;
+        })
+        .map(request => {
+          return request.band;
+        });
+    }
+  },
+  computed: {
+    approved: function() {
+      return this.filterByStatus(this.requests, "APPROVED");
+    },
+    waitingForBand: function() {
+      return this.filterByStatus(this.requests, "WAITING_FOR_BAND_APPROVAL");
+    },
+    waitingForBusiness: function() {
+      return this.filterByStatus(
+        this.requests,
+        "WAITING_FOR_BUSINESS_APPROVAL"
+      );
+    },
+    denied: function() {
+      return this.filterByStatus(this.requests, "DENIED");
+    }
+  }
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.v-list {
+  max-height: 450px;
+}
+</style>

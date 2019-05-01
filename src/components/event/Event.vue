@@ -118,8 +118,8 @@
                 Lineup
               </v-tab>
               <v-tab-item>
-                <v-flex md12 pt-2>
-                  <lineup pt-2 v-model="event.bands"></lineup>
+                <v-flex md12>
+                  <lineup :requests="event.requests"></lineup>
                 </v-flex>
               </v-tab-item>
             </v-tabs>
