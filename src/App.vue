@@ -14,7 +14,7 @@
 
 <script>
 import { GET_UID, GET_CURRENT_PROFILE } from "@/store/actions.type";
-import { createNamespacedHelpers, mapState } from "vuex";
+import { createNamespacedHelpers, mapState, mapGetters } from "vuex";
 const { mapActions } = createNamespacedHelpers("profile");
 import Header from "./components/Header.vue";
 import Footer from "./components/Footer.vue";
@@ -34,9 +34,7 @@ export default {
     ...mapActions([GET_CURRENT_PROFILE])
   },
   computed: {
-    isAuthenticated() {
-      return this.$store.getters.isAuthenticated;
-    },
+    ...mapGetters(["isAuthenticated"]),
     ...mapState({
       showProgress: state => state.progress.show,
       isInProgress: state => state.progress.isInProgress

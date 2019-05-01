@@ -37,10 +37,6 @@
             {{ eventDateToString }}
           </h4>
           <h4 class="mb-2">
-            <v-icon class="mr-2">people</v-icon>
-            {{ event.bands.length }} Bands
-          </h4>
-          <h4 class="mb-2">
             <v-icon>music_note</v-icon>
             {{ event.genres.toString() }}
           </h4>

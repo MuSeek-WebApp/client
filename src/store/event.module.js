@@ -8,8 +8,7 @@ import {
   CLEAR_EVENTS,
   SET_EVENTS,
   SET_EVENT,
-  DELETE_EVENT,
-  SET_ARTIST_STATUS
+  DELETE_EVENT
 } from "./mutations.type";
 import ApiService from "@/common/api.service";
 
@@ -61,7 +60,6 @@ const actions = {
     });
   },
   [FETCH_EVENTS](context) {
-    console.log("fetch");
     return new Promise((resolve, reject) => {
       ApiService.get("api/event/my-events")
         .then(result => {

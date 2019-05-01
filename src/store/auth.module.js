@@ -6,19 +6,24 @@ import {
   SIGN_IN_WITH_GOOGLE,
   SIGN_IN_WITH_FACEBOOK,
   CHECK_AUTH,
-  REGISTER
+  REGISTER,
+  GET_USER_DATA
 } from "./actions.type";
-import { SET_AUTH, PURGE_AUTH } from "./mutations.type";
+import { SET_AUTH, PURGE_AUTH, SET_USER_DATA } from "./mutations.type";
 import firebase from "firebase";
 
 const state = {
-  idToken: {},
-  isAuthenticated: !!JwtService.getToken()
+  idToken: null,
+  isAuthenticated: !!JwtService.getToken(),
+  userData: null
 };
 
 const getters = {
   isAuthenticated(state) {
     return state.isAuthenticated;
+  },
+  getUserType(state) {
+    return state.userData.type;
   }
 };
 
@@ -132,6 +137,16 @@ const actions = {
           reject(error);
         });
     });
+  },
+  async [GET_USER_DATA](context) {
+    try {
+      if (!context.state.userData) {
+        let res = await ApiService.get("/auth/getUserData");
+        context.commit(SET_USER_DATA, res.data);
+      }
+    } catch (error) {
+      throw error;
+    }
   }
 };
 
@@ -142,8 +157,12 @@ const mutations = {
   },
   [PURGE_AUTH](state) {
     state.isAuthenticated = false;
-    state.idToken = {};
+    state.idToken = null;
+    state.userData = null;
     JwtService.removeToken();
+  },
+  [SET_USER_DATA](state, userData) {
+    state.userData = userData;
   }
 };
 
