@@ -4,7 +4,12 @@ import {
   UPDATE_EVENT,
   REMOVE_EVENT
 } from "./actions.type";
-import { SET_EVENTS, SET_EVENT, DELETE_EVENT } from "./mutations.type";
+import {
+  CLEAR_EVENTS,
+  SET_EVENTS,
+  SET_EVENT,
+  DELETE_EVENT
+} from "./mutations.type";
 import ApiService from "@/common/api.service";
 
 const state = {
@@ -56,8 +61,9 @@ const actions = {
   },
   [FETCH_EVENTS](context) {
     return new Promise((resolve, reject) => {
-      ApiService.get("api/event")
+      ApiService.get("api/event/my-events")
         .then(result => {
+          context.commit(CLEAR_EVENTS);
           context.commit(SET_EVENTS, result.data);
           resolve();
         })
@@ -69,6 +75,9 @@ const actions = {
 };
 
 const mutations = {
+  [CLEAR_EVENTS](state) {
+    state.events.splice(0, state.events.length);
+  },
   [SET_EVENTS](state, events) {
     state.events.push(...events);
   },
