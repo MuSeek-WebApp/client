@@ -27,7 +27,10 @@
     </v-hover>
     <v-card-text class="text-xs-center">
       <v-layout justify-center>
-        <span class="display-1 mx-2 my-auto font-weight-bold" v-text="profile.name"></span>
+        <span
+          class="display-1 mx-2 my-auto font-weight-bold"
+          v-text="profile.name"
+        ></span>
         <v-chip small color="blue" text-color="white" class="my-auto">
           <v-avatar>
             <v-icon v-if="isBand">music_note</v-icon>
@@ -36,7 +39,10 @@
           <span v-text="type"></span>
         </v-chip>
       </v-layout>
-      <h3 class="my-1 card-description font-weight-light" v-text="profile.description"></h3>
+      <h3
+        class="my-1 card-description font-weight-light"
+        v-text="profile.description"
+      ></h3>
     </v-card-text>
 
     <v-card>
@@ -54,7 +60,9 @@
                 v-model="profile.contactDetails.email"
               ></v-text-field>
             </v-list-tile-title>
-            <v-list-tile-sub-title>Electronic Mail Address</v-list-tile-sub-title>
+            <v-list-tile-sub-title
+              >Electronic Mail Address</v-list-tile-sub-title
+            >
           </v-list-tile-content>
 
           <v-btn icon>
@@ -68,14 +76,20 @@
           </v-list-tile-action>
 
           <v-list-tile-content>
-            <v-list-tile-title v-text="profile.contactDetails.phoneNumber"></v-list-tile-title>
+            <v-list-tile-title
+              v-text="profile.contactDetails.phoneNumber"
+            ></v-list-tile-title>
             <v-list-tile-sub-title>Cellphone Number</v-list-tile-sub-title>
           </v-list-tile-content>
         </v-list-tile>
 
         <v-divider inset></v-divider>
 
-        <v-list-tile v-for="(artist, index) in profile.bandMembers" readonly v-bind:key="index">
+        <v-list-tile
+          v-for="(artist, index) in profile.bandMembers"
+          readonly
+          v-bind:key="index"
+        >
           <v-list-tile-action>
             <v-icon color="indigo">person</v-icon>
           </v-list-tile-action>
@@ -157,7 +171,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .v-card--reveal {
   opacity: 0.65;
 }
