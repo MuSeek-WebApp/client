@@ -122,7 +122,7 @@ export default {
       event.description = "";
       event.genres = [];
       event.bands = [];
-      evnet.requests = [];
+      event.requests = [];
     }
   }
 };
