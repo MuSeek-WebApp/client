@@ -37,7 +37,7 @@
               round
               depressed
               color="success lighten-1"
-              v-on:click="addBand(props.item)"
+              @click="addBand(props.item)"
             >
               add
               <v-icon right>add_circle</v-icon>
