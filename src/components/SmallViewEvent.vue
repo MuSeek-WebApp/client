@@ -11,29 +11,48 @@
         </h3>
         <span>{{ event.startTime }} - {{ event.endTime }}</span>
       </v-flex>
+      <v-spacer></v-spacer>
       <template v-if="event.requests.status === 'WAITING_FOR_BAND_APPROVAL'">
         <v-flex md3>
-          <v-btn small @click="updateStatus('APPROVED')">
-            <v-icon>done</v-icon>Going
+          <v-btn
+            color="green lighten-1"
+            small
+            round
+            @click="updateStatus('APPROVED')"
+          >
+            <v-icon class="mr-1">done</v-icon>Going
           </v-btn>
         </v-flex>
         <v-flex md3>
-          <v-btn small @click="updateStatus('DENIED')">
-            <v-icon>close</v-icon>Ignore
+          <v-btn
+            color="red lighten-1"
+            small
+            round
+            @click="updateStatus('DENIED')"
+          >
+            <v-icon class="mr-1">close</v-icon>Ignore
           </v-btn>
         </v-flex>
       </template>
+
       <template v-if="event.requests.status === 'APPROVED'">
         <v-flex md3>
-          <v-menu offset-y>
+          <v-menu offset-y content-class="rounded-menu">
             <template v-slot:activator="{ on }">
-              <v-btn v-on="on" small depressed>
-                <v-icon>done</v-icon>Going
+              <v-btn round color="green lighten-1" v-on="on" small depressed>
+                <v-icon class="mr-1">done</v-icon>Going
                 <v-icon class="ml-1">keyboard_arrow_down</v-icon>
               </v-btn>
             </template>
             <v-sheet>
-              <v-btn flat small class="ma-2" @click="updateStatus('DENIED')">
+              <v-btn
+                round
+                color="red lighten-1"
+                flat
+                small
+                class="ma-2"
+                @click="updateStatus('DENIED')"
+              >
                 <v-icon>close</v-icon>Not Going
               </v-btn>
             </v-sheet>
@@ -41,20 +60,25 @@
         </v-flex>
       </template>
       <template
-        v-if="event.requests.status === 'WAITING_FOR_BUISNESS_APPROVAL'"
+        v-if="event.requests.status === 'WAITING_FOR_BUSINESS_APPROVAL'"
       >
         <v-flex md3>
-          <h4>Request Sent</h4>
+          <v-btn round disabled small depressed>Request Sent</v-btn>
         </v-flex>
       </template>
       <template v-if="event.requests.status === 'DENIED'">
         <v-flex md3>
-          <h4>Request Ignored</h4>
+          <v-btn round disabled small depressed>Ignored</v-btn>
         </v-flex>
       </template>
     </v-layout>
   </v-container>
 </template>
+<style>
+.rounded-menu {
+  border-radius: 50px;
+}
+</style>
 
 <script>
 import moment from "moment";
