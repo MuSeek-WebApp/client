@@ -106,7 +106,7 @@
               </v-tab-item>
               <v-tab-item>
                 <v-flex md12>
-                  <FindBands></FindBands>
+                  <FindBands v-model="event.requests"></FindBands>
                 </v-flex>
               </v-tab-item>
             </v-tabs>
@@ -119,7 +119,7 @@
               </v-tab>
               <v-tab-item>
                 <v-flex md12>
-                  <lineup :requests="event.requests"></lineup>
+                  <lineup v-model="event.requests"></lineup>
                 </v-flex>
               </v-tab-item>
             </v-tabs>

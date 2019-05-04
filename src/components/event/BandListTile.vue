@@ -10,13 +10,13 @@
       <v-list-tile-sub-title v-html="band.description"></v-list-tile-sub-title>
     </v-list-tile-content>
 
-    <v-list-tile-action v-if="band.status === 'WAITING_FOR_BUSINESS_APPROVAL'">
+    <v-list-tile-action v-if="status === 'WAITING_FOR_BUSINESS_APPROVAL'">
       <v-btn icon ripple>
         <v-icon color="green lighten-1">check_circle</v-icon>
       </v-btn>
     </v-list-tile-action>
 
-    <v-list-tile-action v-if="band.status !== 'DENIED'">
+    <v-list-tile-action v-if="status !== 'DENIED'">
       <v-btn icon ripple>
         <v-icon color="red lighten-1">cancel</v-icon>
       </v-btn>
@@ -33,7 +33,7 @@
 <script>
 export default {
   name: "BandListTile",
-  props: ["band"]
+  props: ["band", "status"]
 };
 </script>
 

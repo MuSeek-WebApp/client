@@ -75,7 +75,8 @@ export default {
         endTime: "0:00",
         description: "",
         genres: [],
-        bands: []
+        bands: [],
+        requests: []
       }
     };
   },
@@ -121,6 +122,7 @@ export default {
       evnet.description = "";
       evnet.genres = [];
       evnet.bands = [];
+      evnet.requests = [];
     }
   }
 };

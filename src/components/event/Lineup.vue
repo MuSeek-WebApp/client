@@ -16,6 +16,7 @@
           v-for="band in approved"
           :key="band.name"
           :band="band"
+          :status="'APPROVED'"
         ></band-list-tile>
       </v-list-group>
 
@@ -40,6 +41,7 @@
           v-for="band in waitingForBusiness"
           :key="band.name"
           :band="band"
+          :status="'WAITING_FOR_BUSINESS_APPROVAL'"
         ></band-list-tile>
       </v-list-group>
 
@@ -62,8 +64,9 @@
 
         <band-list-tile
           v-for="band in waitingForBand"
-          :key="band.name"
+          :key="band._id"
           :band="band"
+          :status="'WAITING_FOR_BAND_APPROVAL'"
         ></band-list-tile>
       </v-list-group>
 
@@ -86,6 +89,7 @@
           v-for="band in denied"
           :key="band.name"
           :band="band"
+          :status="'DENIED'"
         ></band-list-tile>
       </v-list-group>
     </template>
@@ -97,7 +101,7 @@ import BandListTile from "./BandListTile";
 
 export default {
   name: "Lineup",
-  props: ["requests"],
+  props: ["value"],
   components: {
     BandListTile
   },
@@ -114,19 +118,16 @@ export default {
   },
   computed: {
     approved: function() {
-      return this.filterByStatus(this.requests, "APPROVED");
+      return this.filterByStatus(this.value, "APPROVED");
     },
     waitingForBand: function() {
-      return this.filterByStatus(this.requests, "WAITING_FOR_BAND_APPROVAL");
+      return this.filterByStatus(this.value, "WAITING_FOR_BAND_APPROVAL");
     },
     waitingForBusiness: function() {
-      return this.filterByStatus(
-        this.requests,
-        "WAITING_FOR_BUSINESS_APPROVAL"
-      );
+      return this.filterByStatus(this.value, "WAITING_FOR_BUSINESS_APPROVAL");
     },
     denied: function() {
-      return this.filterByStatus(this.requests, "DENIED");
+      return this.filterByStatus(this.value, "DENIED");
     }
   }
 };

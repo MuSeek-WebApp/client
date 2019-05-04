@@ -11,3 +11,4 @@ export const SET_UID = "setUid";
 export const SET_PROFILE = "setProfile";
 export const SET_CURRENT_PROFILE = "setCurrentProfile";
 export const SET_USER_DATA = "setUserData";
+export const SET_FIND_BANDS = "setFindBands";
