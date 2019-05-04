@@ -6,7 +6,8 @@ import {
   SIGN_IN_WITH_GOOGLE,
   SIGN_IN_WITH_FACEBOOK,
   CHECK_AUTH,
-  REGISTER
+  REGISTER,
+  PROFILE_GET_UID
 } from "./actions.type";
 import { SET_AUTH, PURGE_AUTH } from "./mutations.type";
 import firebase from "firebase";
@@ -45,6 +46,7 @@ const actions = {
             ApiService.post("/auth/login", { idToken: idToken })
               .then(() => {
                 context.commit(SET_AUTH, idToken);
+                context.dispatch(PROFILE_GET_UID, null, { root: true });
                 resolve();
               })
               .catch(error => {

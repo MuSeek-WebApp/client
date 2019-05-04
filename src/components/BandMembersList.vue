@@ -54,8 +54,7 @@ export default {
   data: () => ({
     roles: [],
     memberName: "",
-    memberRoles: [],
-    headline: true
+    memberRoles: []
   }),
   created: function() {
     this.roles = [

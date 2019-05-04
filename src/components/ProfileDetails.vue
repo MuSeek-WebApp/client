@@ -41,10 +41,17 @@
             <span v-text="type"></span>
           </v-chip>
         </v-layout>
-        <h3
-          class="mb-1 card-description font-weight-light"
-          v-text="profile.description"
-        ></h3>
+
+        <textarea-autosize
+          v-model="profileCopy.description"
+          class="full"
+          :readonly="!isEditing"
+          placeholder="A Profile's short description (40-400 characters)."
+        ></textarea-autosize>
+        <span class="error--text" v-if="!isDescriptionGood"
+          >A description has to be at least 40 characters and 400 characters
+          max.</span
+        >
       </v-card-text>
 
       <v-divider></v-divider>
@@ -207,7 +214,7 @@
                 v-model="profileCopy.address.country"
               />
             </v-list-tile-title>
-            <v-list-tile-sub-title v-if="profile.address.streetAddress">
+            <v-list-tile-sub-title v-if="profileCopy.address.streetAddress">
               <input
                 :readonly="!isEditing"
                 type="text"
@@ -223,7 +230,7 @@
 </template>
 
 <script>
-import { UPLOAD_PROFILE_IMAGE } from "@/store/actions.type";
+import { UPLOAD_PROFILE_IMAGE, SAVE_PROFILE_DATA } from "@/store/actions.type";
 import { createNamespacedHelpers } from "vuex";
 import BandMembersList from "./BandMembersList";
 import genres from "../common/genres";
@@ -245,7 +252,13 @@ export default {
       return this.profile.type === "band";
     },
     selectedGenres: function() {
-      return this.profileCopy.genres.join();
+      return this.profileCopy.genres.join().replace(",", ", ");
+    },
+    isDescriptionGood: function() {
+      return (
+        this.profileCopy.description.length > 40 &&
+        this.profileCopy.description.length < 400
+      );
     }
   },
   created: function() {
@@ -254,6 +267,7 @@ export default {
   },
   methods: {
     ...mapActions([UPLOAD_PROFILE_IMAGE]),
+    ...mapActions([SAVE_PROFILE_DATA]),
 
     startEdit: function() {
       this.isEditing = true;
@@ -264,7 +278,8 @@ export default {
       this.profileCopy = JSON.parse(JSON.stringify(this.profile));
     },
 
-    saveEdit: function() {
+    saveEdit: async function() {
+      await this.saveProfileData(this.profileCopy);
       this.isEditing = false;
     },
 
@@ -299,5 +314,15 @@ input:focus {
 
 .moveGroup {
   white-space: nowrap;
+}
+
+textarea {
+  border: none;
+  overflow: auto;
+  outline: none;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+  resize: none;
 }
 </style>
