@@ -113,16 +113,16 @@ export default {
       this.restoreDefaultEvent();
     },
     restoreDefaultEvent() {
-      let evnet = this.event;
-      evnet.name = "";
-      evnet.startDate = moment().format("YYYY-MM-DD");
-      evnet.endDate = moment().format("YYYY-MM-DD");
-      evnet.startTime = "0:00";
-      evnet.endTime = "0:00";
-      evnet.description = "";
-      evnet.genres = [];
-      evnet.bands = [];
-      evnet.requests = [];
+      let event = this.event;
+      event.name = "";
+      event.startDate = moment().format("YYYY-MM-DD");
+      event.endDate = moment().format("YYYY-MM-DD");
+      event.startTime = "0:00";
+      event.endTime = "0:00";
+      event.description = "";
+      event.genres = [];
+      event.bands = [];
+      event.requests = [];
     }
   }
 };
