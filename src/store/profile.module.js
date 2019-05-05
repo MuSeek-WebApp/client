@@ -46,7 +46,7 @@ const actions = {
 
   async [SAVE_PROFILE_DATA]({ state, dispatch }, profile) {
     try {
-      await ApiService.post("/api/profile/update", profile);
+      await ApiService.post("/api/profile/update", { profile: profile });
       dispatch(GET_PROFILE, state.uid);
     } catch (error) {
       console.log("ERROR");
