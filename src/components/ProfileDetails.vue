@@ -2,7 +2,7 @@
   <v-container class="py-0">
     <v-card>
       <input
-        style="display: none"
+        class="hide"
         type="file"
         accept=".png, .jpg, .jpeg"
         @change="onFileSelected"
@@ -48,9 +48,9 @@
           :readonly="!isEditing"
           placeholder="A Profile's short description (40-400 characters)."
         ></textarea-autosize>
-        <span class="error--text" v-if="!isDescriptionGood"
+        <span class="error--text" v-if="!isDescriptionValid"
           >A description has to be at least 40 characters and 400 characters
-          max.</span
+          maximum.</span
         >
       </v-card-text>
 
@@ -74,6 +74,9 @@
             <v-list-tile-sub-title
               >Electronic Mail Address</v-list-tile-sub-title
             >
+            <span class="error--text" v-if="!isEmailValid"
+              >Invalid email format.</span
+            >
           </v-list-tile-content>
 
           <v-expand-x-transition>
@@ -88,7 +91,7 @@
               <v-btn icon @click="cancelEdit()">
                 <v-icon color="red">cancel</v-icon>
               </v-btn>
-              <v-btn icon @click="saveEdit()">
+              <v-btn icon @click="saveEdit()" :disabled="validationErrors">
                 <v-icon color="indigo">save</v-icon>
               </v-btn>
             </div>
@@ -108,6 +111,9 @@
               v-model="profileCopy.contactDetails.phoneNumber"
             />
             <v-list-tile-sub-title>Cellphone Number</v-list-tile-sub-title>
+            <span class="error--text" v-if="!isCellphoneValid"
+              >A cellphone must have 9 digits only.</span
+            >
           </v-list-tile-content>
         </v-list-tile>
 
@@ -254,11 +260,26 @@ export default {
     selectedGenres: function() {
       return this.profileCopy.genres.join().replace(",", ", ");
     },
-    isDescriptionGood: function() {
+    isDescriptionValid: function() {
       return (
         this.profileCopy.description.length > 40 &&
         this.profileCopy.description.length < 400
       );
+    },
+    isEmailValid: function() {
+      let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      return re.test(
+        String(this.profileCopy.contactDetails.email).toLowerCase()
+      );
+    },
+    isCellphoneValid: function() {
+      return this.profileCopy.contactDetails.phoneNumber.length === 9;
+    },
+    validationErrors: function() {
+      if (!this.isDescriptionValid) return true;
+      if (!this.isEmailValid) return true;
+      if (!this.isCellphoneValid) return true;
+      return false;
     }
   },
   created: function() {
@@ -324,5 +345,13 @@ textarea {
   -moz-box-shadow: none;
   box-shadow: none;
   resize: none;
+}
+
+.hide {
+  display: none;
+}
+
+.error--text {
+  font-size: 14px;
 }
 </style>
