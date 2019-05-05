@@ -273,7 +273,10 @@ export default {
       );
     },
     isCellphoneValid: function() {
-      return this.profileCopy.contactDetails.phoneNumber.length === 9;
+      return (
+        this.profileCopy.contactDetails.phoneNumber.length === 9 &&
+        parseInt(this.profileCopy.contactDetails.phoneNumber)
+      );
     },
     validationErrors: function() {
       if (!this.isDescriptionValid) return true;
