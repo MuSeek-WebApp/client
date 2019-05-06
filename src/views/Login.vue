@@ -4,7 +4,10 @@
       <v-flex md4>
         <v-card fill-height class="mx-5 pa-3 login-form">
           <v-card-title primary-title>
-            <img class="banner" src="../../public/img/banner.png" />
+            <img
+              class="banner animated jackInTheBox slow"
+              src="../../public/img/banner.png"
+            />
           </v-card-title>
           <v-card-text class="py-0">
             <v-form>
@@ -82,6 +85,8 @@
 </template>
 
 <style scoped>
+@import "../../node_modules/animate.css/animate.min.css";
+
 .background {
   background-image: url(../../public/img/background/pink4.jpg);
   background-size: 100%;
