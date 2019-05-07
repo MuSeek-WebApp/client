@@ -64,13 +64,10 @@ export default {
   },
   computed: {
     eventDateToString: function() {
-      let startDate = moment(this.event.startDate + " " + this.event.startTime);
-      let endDate = moment(this.event.endDate + " " + this.event.endTime);
-
       return (
-        startDate.format("MMMM, DD, YYYY, HH:mm") +
+        moment(this.event.startDate).format("MMMM, DD, YYYY, HH:mm") +
         " - " +
-        endDate.format("MMMM, DD, YYYY, HH:mm")
+        moment(this.event.endDate).format("MMMM, DD, YYYY, HH:mm")
       );
     }
   },
@@ -94,9 +91,7 @@ export default {
         });
     },
     isActive() {
-      return !moment(this.event.endDate + " " + this.event.endTime).isBefore(
-        moment()
-      );
+      return !moment(this.event.endDate).isBefore(moment());
     }
   }
 };

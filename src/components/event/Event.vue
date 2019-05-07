@@ -17,79 +17,24 @@
               label="Event Name"
             ></v-text-field>
           </v-flex>
-
-          <v-flex md4>
-            <v-menu
-              v-model="startDatePicker"
-              :close-on-content-click="false"
-              :nudge-right="40"
-              lazy
-              transition="scale-transition"
-              offset-y
-              full-width
-              max-width="290px"
-              min-width="290px"
-            >
-              <template v-slot:activator="{ on }">
-                <v-text-field
-                  v-model="event.startDate"
-                  label="Start Date"
-                  persistent-hint
-                  prepend-icon="event"
-                  readonly
-                  v-on="on"
-                ></v-text-field>
-              </template>
-              <v-date-picker
-                v-model="event.startDate"
-                no-title
-                @input="startDatePicker = false"
-              ></v-date-picker>
-            </v-menu>
+          <v-flex md6>
+            <DatetimePicker
+              v-model="event.startDate"
+              format="YYYY-MM-DD"
+            ></DatetimePicker>
           </v-flex>
-          <v-flex md2>
-            <v-select v-model="event.startTime" :items="startTimes"></v-select>
-          </v-flex>
-          <v-flex md4>
-            <v-menu
-              v-model="endDatePicker"
-              :close-on-content-click="false"
-              :nudge-right="40"
-              lazy
-              transition="scale-transition"
-              offset-y
-              full-width
-              max-width="290px"
-              min-width="290px"
-            >
-              <template v-slot:activator="{ on }">
-                <v-text-field
-                  v-model="event.endDate"
-                  label="End Date"
-                  persistent-hint
-                  prepend-icon="event"
-                  readonly
-                  v-on="on"
-                ></v-text-field>
-              </template>
-              <v-date-picker
-                v-model="event.endDate"
-                no-title
-                @input="endDatePicker = false"
-              ></v-date-picker>
-            </v-menu>
-          </v-flex>
-          <v-flex md2>
-            <v-select v-model="event.endTime" :items="endTimes"></v-select>
+          <v-flex md6>
+            <DatetimePicker
+              v-model="event.endDate"
+              format="YYYY-MM-DD"
+              :minTime="minTime"
+              :minDate="minDate"
+            ></DatetimePicker>
           </v-flex>
           <v-flex md8>
             <v-tabs slider-color="#1976d2">
-              <v-tab ripple>
-                Event Details
-              </v-tab>
-              <v-tab ripple>
-                Find Bands
-              </v-tab>
+              <v-tab ripple>Event Details</v-tab>
+              <v-tab ripple>Find Bands</v-tab>
               <v-tab-item>
                 <v-flex md12 pt-2>
                   <v-textarea
@@ -114,9 +59,7 @@
           <v-spacer></v-spacer>
           <v-flex md4>
             <v-tabs slider-color="#1976d2">
-              <v-tab ripple>
-                Lineup
-              </v-tab>
+              <v-tab ripple>Lineup</v-tab>
               <v-tab-item>
                 <v-flex md12>
                   <lineup v-model="event.requests"></lineup>
@@ -135,14 +78,16 @@ import { NEW_EVENT, UPDATE_EVENT } from "../../store/actions.type";
 import GenreSelect from "../GenreSelect";
 import Lineup from "./Lineup";
 import FindBands from "./FindBands";
-import moment from "moment/moment";
+import DatetimePicker from "../DatetimePicker";
 import { START_PROGRESS, STOP_PROGRESS } from "../../store/mutations.type";
+import moment from "moment";
 
 export default {
   components: {
     GenreSelect,
     Lineup,
-    FindBands
+    FindBands,
+    DatetimePicker
   },
   $_veeValidate: {
     validator: "new"
@@ -167,27 +112,11 @@ export default {
     }
   },
   computed: {
-    endTimes: function() {
-      if (!moment(this.event.endDate).isAfter(this.event.startDate)) {
-        let t = [];
-        let selectedStartTime = this.event.startTime.split(":");
-
-        if (selectedStartTime[1] == "00") {
-          t.push(selectedStartTime[0] + ":00");
-        }
-        t.push(selectedStartTime[0] + ":30");
-
-        for (
-          let i = parseInt(this.event.startTime.split(":")[0]) + 1;
-          i < 24;
-          i++
-        ) {
-          t.push(i + ":00", i + ":30");
-        }
-        return t;
-      } else {
-        return this.startTimes;
-      }
+    minTime: function() {
+      return moment(this.event.startDate).format("H:mm");
+    },
+    minDate: function() {
+      return moment(this.event.startDate).format("YYYY-MM-DD");
     }
   },
   methods: {
