@@ -1,6 +1,7 @@
 import {
   NEW_EVENT,
   FETCH_EVENTS,
+  FETCH_FEED,
   UPDATE_EVENT,
   REMOVE_EVENT,
   UPDATE_STATUS_BY_ARTIST
@@ -9,17 +10,23 @@ import {
   CLEAR_EVENTS,
   SET_EVENTS,
   SET_EVENT,
-  DELETE_EVENT
+  DELETE_EVENT,
+  SET_FEED,
+  CLEAR_FEED
 } from "./mutations.type";
 import ApiService from "@/common/api.service";
 
 const state = {
-  events: []
+  events: [],
+  feed: []
 };
 
 const getters = {
   getAllEvents(state) {
     return state.events;
+  },
+  getAllFeed(state) {
+    return state.feed;
   }
 };
 
@@ -73,6 +80,19 @@ const actions = {
         });
     });
   },
+  [FETCH_FEED](context) {
+    return new Promise((resolve, reject) => {
+      ApiService.post("api/event/my-feed")
+        .then(result => {
+          context.commit(CLEAR_FEED);
+          context.commit(SET_FEED, result.data);
+          resolve();
+        })
+        .catch(err => {
+          reject(err);
+        });
+    });
+  },
   async [UPDATE_STATUS_BY_ARTIST](context, payload) {
     const { data } = await ApiService.put(
       "api/event/status/" + payload.event._id,
@@ -86,8 +106,14 @@ const mutations = {
   [CLEAR_EVENTS](state) {
     state.events.splice(0, state.events.length);
   },
+  [CLEAR_FEED](state) {
+    state.feed.splice(0, state.feed.length);
+  },
   [SET_EVENTS](state, events) {
     state.events.push(...events);
+  },
+  [SET_FEED](state, feed) {
+    state.feed.push(...feed);
   },
   [SET_EVENT](state, event) {
     let index = state.events.findIndex(obj => obj._id === event._id);

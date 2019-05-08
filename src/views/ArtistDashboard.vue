@@ -2,15 +2,21 @@
   <v-container grid-list-xl>
     <v-layout>
       <v-flex md8>
-        <v-card height="500" class="scroll-y">
-          <v-card-title>
-            <h1 class="pa-3">Plan Your Next Gig!</h1>
-          </v-card-title>
-          <v-card-text></v-card-text>
+        <v-card max-height="700" height="700" class="scroll-y">
+          <v-card-title> </v-card-title>
+          <v-card-text>
+            <v-container>
+              <v-layout wrap>
+                <v-flex md4 :key="item._id" v-for="item in feed">
+                  <FeedViewEvent :event="item"></FeedViewEvent>
+                </v-flex>
+              </v-layout>
+            </v-container>
+          </v-card-text>
         </v-card>
       </v-flex>
       <v-flex md4>
-        <v-card max-height="800" class="scroll-y">
+        <v-card max-height="700" class="scroll-y">
           <v-card-text>
             <h1 class="mb-1">Upcoming Events</h1>
             <div :key="status" v-for="status in Object.keys(displayStatuses)">
@@ -33,10 +39,13 @@
 
 <script>
 import SmallViewEvent from "../components/SmallViewEvent.vue";
-import { FETCH_EVENTS } from "../store/actions.type.js";
+import FeedViewEvent from "../components/FeedViewEvent.vue";
+
+import { FETCH_EVENTS, FETCH_FEED } from "../store/actions.type.js";
 import moment from "moment";
 export default {
   components: {
+    FeedViewEvent,
     SmallViewEvent
   },
   data: function() {
@@ -47,11 +56,13 @@ export default {
         WAITING_FOR_BAND_APPROVAL: "Waiting for your approval",
         WAITING_FOR_BUSINESS_APPROVAL: "Waiting for business approval",
         DENIED: "Ignored Events"
-      }
+      },
+      feed: this.$store.getters.getAllFeed
     };
   },
   created() {
     this.$store.dispatch(FETCH_EVENTS);
+    this.$store.dispatch(FETCH_FEED);
   },
   computed: {
     mapEvents() {
