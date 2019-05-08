@@ -2,14 +2,14 @@
   <v-container elevation-2 class="mb-3">
     <v-layout wrap>
       <v-flex md2>
-        <h3>{{ momentDate.format("MMM ") }} {{ momentDate.date() }}</h3>
-        <h4>{{ momentDate.format("ddd") }}</h4>
+        <h3>{{ month }} {{ date }}</h3>
+        <h4>{{ dayOfWeek }}</h4>
       </v-flex>
       <v-flex md4>
         <h3>
           <a>{{ event.name }}</a>
         </h3>
-        <span>{{ event.startTime }} - {{ event.endTime }}</span>
+        <span>{{ startTime }} - {{ endTime }}</span>
       </v-flex>
       <v-spacer></v-spacer>
       <template v-if="event.requests.status === 'WAITING_FOR_BAND_APPROVAL'">
@@ -86,6 +86,15 @@ import { UPDATE_STATUS_BY_ARTIST } from "../store/actions.type";
 
 export default {
   props: ["event"],
+  data: function() {
+    return {
+      month: moment(this.event.startDate).format("MMM"),
+      date: moment(this.event.startDate).date(),
+      dayOfWeek: moment(this.event.startDate).format("ddd"),
+      startTime: moment(this.event.startDate).format("H:mm"),
+      endTime: moment(this.event.endDate).format("H:mm")
+    };
+  },
   computed: {
     momentDate() {
       return moment(this.event.startDate);
@@ -97,7 +106,6 @@ export default {
         event: this.event,
         action: action
       };
-
       this.$store.dispatch(UPDATE_STATUS_BY_ARTIST, payload);
     }
   }

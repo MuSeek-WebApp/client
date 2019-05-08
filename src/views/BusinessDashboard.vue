@@ -83,13 +83,14 @@ export default {
   computed: {
     eventsMap() {
       const eventsByDate = {};
-      this.$store.getters.getAllEvents.forEach(e =>
-        (eventsByDate[e.startDate] = eventsByDate[e.startDate] || []).push(e)
-      );
+      this.$store.getters.getAllEvents.forEach(e => {
+        (eventsByDate[moment(e.startDate).format("YYYY-MM-DD")] =
+          eventsByDate[moment(e.startDate).format("YYYY-MM-DD")] || []).push(e);
+      });
 
       for (let date in eventsByDate) {
         eventsByDate[date].sort((d1, d2) => {
-          return d1.startTime.split(":")[0] - d2.startTime.split(":")[0];
+          return moment(d1.startDate) - moment(d2.startDate);
         });
       }
 

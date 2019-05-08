@@ -62,10 +62,7 @@ export default {
 
       for (let status in map) {
         map[status].sort((e1, e2) => {
-          return (
-            moment(e1.startDate + " " + e1.startTime) -
-            moment(e2.startDate + " " + e2.startTime)
-          );
+          return moment(e1.startDate) - moment(e2.startDate);
         });
       }
 
