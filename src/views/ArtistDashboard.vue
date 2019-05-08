@@ -7,17 +7,8 @@
           <v-card-text>
             <v-container>
               <v-layout wrap>
-                <v-flex md4>
-                  <FeedViewEvent></FeedViewEvent>
-                </v-flex>
-                <v-flex md4>
-                  <FeedViewEvent></FeedViewEvent>
-                </v-flex>
-                <v-flex md4>
-                  <FeedViewEvent></FeedViewEvent>
-                </v-flex>
-                <v-flex md4>
-                  <FeedViewEvent></FeedViewEvent>
+                <v-flex md4 :key="item._id" v-for="item in feed">
+                  <FeedViewEvent :event="item"></FeedViewEvent>
                 </v-flex>
               </v-layout>
             </v-container>
@@ -50,7 +41,7 @@
 import SmallViewEvent from "../components/SmallViewEvent.vue";
 import FeedViewEvent from "../components/FeedViewEvent.vue";
 
-import { FETCH_EVENTS } from "../store/actions.type.js";
+import { FETCH_EVENTS, FETCH_FEED } from "../store/actions.type.js";
 import moment from "moment";
 export default {
   components: {
@@ -65,11 +56,13 @@ export default {
         WAITING_FOR_BAND_APPROVAL: "Waiting for your approval",
         WAITING_FOR_BUSINESS_APPROVAL: "Waiting for business approval",
         DENIED: "Ignored Events"
-      }
+      },
+      feed: this.$store.getters.getAllFeed
     };
   },
   created() {
     this.$store.dispatch(FETCH_EVENTS);
+    this.$store.dispatch(FETCH_FEED);
   },
   computed: {
     mapEvents() {
