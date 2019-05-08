@@ -2,21 +2,19 @@
   <v-container grid-list-xl>
     <v-layout>
       <v-flex md8>
-        <v-card max-height="700" height="700" class="scroll-y">
-          <v-card-title> </v-card-title>
-          <v-card-text>
-            <v-container>
-              <v-layout wrap>
-                <v-flex md4 :key="item._id" v-for="item in feed">
+        <FilterBar></FilterBar>
+        <v-sheet max-height="700" height="700" class="scroll-y" elevation="1">
+          <v-container>
+            <v-layout wrap>
+              <v-flex md4 :key="item._id" v-for="item in feed">
                   <FeedViewEvent
                     :currentStatus="getFeedEventStatus(item)"
                     :event="item"
                   ></FeedViewEvent>
-                </v-flex>
-              </v-layout>
-            </v-container>
-          </v-card-text>
-        </v-card>
+              </v-flex>
+            </v-layout>
+          </v-container>
+        </v-sheet>
       </v-flex>
       <v-flex md4>
         <v-card max-height="700" class="scroll-y">
@@ -43,13 +41,14 @@
 <script>
 import SmallViewEvent from "../components/SmallViewEvent.vue";
 import FeedViewEvent from "../components/FeedViewEvent.vue";
-
+import FilterBar from "../components/FilterBar.vue";
 import { FETCH_EVENTS, FETCH_FEED } from "../store/actions.type.js";
 import moment from "moment";
 export default {
   components: {
     FeedViewEvent,
-    SmallViewEvent
+    SmallViewEvent,
+    FilterBar
   },
   data: function() {
     return {
