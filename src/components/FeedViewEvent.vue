@@ -55,7 +55,15 @@
     </v-card-actions>
   </v-card>
 </template>
-<style></style>
+<style>
+p {
+  height: 100px;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 5;
+  -webkit-box-orient: vertical;
+}
+</style>
 
 <script>
 import moment from "moment";
