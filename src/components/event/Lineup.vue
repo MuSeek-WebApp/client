@@ -1,9 +1,9 @@
 <template>
-  <RequestsTable
+  <requests-table
     :requests="requests"
     :isShowStatus="true"
     :sortable="false"
-  ></RequestsTable>
+  ></requests-table>
 </template>
 
 <script>

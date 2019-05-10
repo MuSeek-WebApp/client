@@ -7,18 +7,18 @@ const state = {
 };
 
 const actions = {
-  async [FIND_BANDS]({ commit }, name) {
+  async [FIND_BANDS]({ commit }, args) {
     try {
-      if (name) {
+      if (args.name || (args.genres && args.genres.length)) {
         commit(
           SET_FIND_BANDS,
-          await ApiService.get("/api/band/findBands", { name: name })
+          await ApiService.get("/api/band/findBands", args)
         );
       } else {
         commit(SET_FIND_BANDS, await ApiService.get("/api/band/all"));
       }
     } catch (error) {
-      console.log("ERROR");
+      throw error;
     }
   }
 };

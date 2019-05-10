@@ -46,7 +46,7 @@
                       label="More details..."
                       v-model="event.description"
                     ></v-textarea>
-                    <GenreSelect v-model="event.genres"></GenreSelect>
+                    <genre-select v-model="event.genres"></genre-select>
                   </v-flex>
                 </v-layout>
               </v-tab-item>
@@ -64,7 +64,7 @@
                 <lineup v-model="event.requests"></lineup>
               </v-tab-item>
               <v-tab-item :transition="false" :reverse-transition="false">
-                <FindBands v-model="event.requests"></FindBands>
+                <find-bands v-model="event.requests"></find-bands>
               </v-tab-item>
             </v-tabs>
           </v-flex>
