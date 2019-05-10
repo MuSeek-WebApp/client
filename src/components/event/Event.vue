@@ -31,39 +31,40 @@
               :minDate="minDate"
             ></DatetimePicker>
           </v-flex>
-          <v-flex md8>
+          <v-flex md4>
             <v-tabs slider-color="#1976d2">
-              <v-tab ripple>Event Details</v-tab>
-              <v-tab ripple>Find Bands</v-tab>
+              <v-tab ripple>
+                event details
+              </v-tab>
               <v-tab-item>
-                <v-flex md12 pt-2>
-                  <v-textarea
-                    prepend-icon="subject"
-                    solo
-                    no-resize
-                    label="More details..."
-                    v-model="event.description"
-                  ></v-textarea>
-                </v-flex>
-                <v-flex md12>
-                  <GenreSelect v-model="event.genres"></GenreSelect>
-                </v-flex>
-              </v-tab-item>
-              <v-tab-item>
-                <v-flex md12>
-                  <FindBands v-model="event.requests"></FindBands>
-                </v-flex>
+                <v-layout row>
+                  <v-flex md12>
+                    <v-textarea
+                      prepend-icon="subject"
+                      solo
+                      no-resize
+                      label="More details..."
+                      v-model="event.description"
+                    ></v-textarea>
+                    <GenreSelect v-model="event.genres"></GenreSelect>
+                  </v-flex>
+                </v-layout>
               </v-tab-item>
             </v-tabs>
           </v-flex>
-          <v-spacer></v-spacer>
-          <v-flex md4>
+          <v-flex md8 pl-4>
             <v-tabs slider-color="#1976d2">
-              <v-tab ripple>Lineup</v-tab>
-              <v-tab-item>
-                <v-flex md12>
-                  <lineup v-model="event.requests"></lineup>
-                </v-flex>
+              <v-tab ripple>
+                lineup
+              </v-tab>
+              <v-tab ripple>
+                find bands
+              </v-tab>
+              <v-tab-item :transition="false" :reverse-transition="false">
+                <lineup v-model="event.requests"></lineup>
+              </v-tab-item>
+              <v-tab-item :transition="false" :reverse-transition="false">
+                <FindBands v-model="event.requests"></FindBands>
               </v-tab-item>
             </v-tabs>
           </v-flex>
