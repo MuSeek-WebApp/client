@@ -75,20 +75,22 @@ export default {
         endTime: "0:00",
         description: "",
         genres: [],
-        bands: []
+        bands: [],
+        requests: []
       }
     };
   },
   computed: {
     eventsMap() {
       const eventsByDate = {};
-      this.$store.getters.getAllEvents.forEach(e =>
-        (eventsByDate[e.startDate] = eventsByDate[e.startDate] || []).push(e)
-      );
+      this.$store.getters.getAllEvents.forEach(e => {
+        (eventsByDate[moment(e.startDate).format("YYYY-MM-DD")] =
+          eventsByDate[moment(e.startDate).format("YYYY-MM-DD")] || []).push(e);
+      });
 
       for (let date in eventsByDate) {
         eventsByDate[date].sort((d1, d2) => {
-          return d1.startTime.split(":")[0] - d2.startTime.split(":")[0];
+          return moment(d1.startDate) - moment(d2.startDate);
         });
       }
 
@@ -112,15 +114,16 @@ export default {
       this.restoreDefaultEvent();
     },
     restoreDefaultEvent() {
-      let evnet = this.event;
-      evnet.name = "";
-      evnet.startDate = moment().format("YYYY-MM-DD");
-      evnet.endDate = moment().format("YYYY-MM-DD");
-      evnet.startTime = "0:00";
-      evnet.endTime = "0:00";
-      evnet.description = "";
-      evnet.genres = [];
-      evnet.bands = [];
+      let event = this.event;
+      event.name = "";
+      event.startDate = moment().format("YYYY-MM-DD");
+      event.endDate = moment().format("YYYY-MM-DD");
+      event.startTime = "0:00";
+      event.endTime = "0:00";
+      event.description = "";
+      event.genres = [];
+      event.bands = [];
+      event.requests = [];
     }
   }
 };

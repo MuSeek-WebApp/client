@@ -14,7 +14,7 @@
           <v-icon>close</v-icon>
         </v-btn>
         <v-spacer></v-spacer>
-        <v-dialog v-model="dialog" persistent max-width="1000px" hide-overlay>
+        <v-dialog v-model="dialog" persistent fullscreen scrollable>
           <template v-slot:activator="{ on }">
             <v-btn icon v-on="on">
               <v-icon>edit</v-icon>
@@ -35,10 +35,6 @@
           <h4 class="mb-2">
             <v-icon class="mr-2">calendar_today</v-icon>
             {{ eventDateToString }}
-          </h4>
-          <h4 class="mb-2">
-            <v-icon class="mr-2">people</v-icon>
-            {{ event.bands.length }} Bands
           </h4>
           <h4 class="mb-2">
             <v-icon>music_note</v-icon>
@@ -68,13 +64,10 @@ export default {
   },
   computed: {
     eventDateToString: function() {
-      let startDate = moment(this.event.startDate + " " + this.event.startTime);
-      let endDate = moment(this.event.endDate + " " + this.event.endTime);
-
       return (
-        startDate.format("MMMM, DD, YYYY, HH:mm") +
+        moment(this.event.startDate).format("MMMM, DD, YYYY, HH:mm") +
         " - " +
-        endDate.format("MMMM, DD, YYYY, HH:mm")
+        moment(this.event.endDate).format("MMMM, DD, YYYY, HH:mm")
       );
     }
   },
@@ -98,9 +91,7 @@ export default {
         });
     },
     isActive() {
-      return !moment(this.event.endDate + " " + this.event.endTime).isBefore(
-        moment()
-      );
+      return !moment(this.event.endDate).isBefore(moment());
     }
   }
 };

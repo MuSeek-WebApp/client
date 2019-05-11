@@ -9,8 +9,8 @@ import firebase from "firebase";
 import store from "./store";
 import ApiService from "./common/api.service";
 import config from "./common/firebase.js";
-import { CHECK_AUTH } from "./store/actions.type";
 import VueTextareaAutosize from "vue-textarea-autosize";
+import { CHECK_AUTH, GET_USER_DATA } from "./store/actions.type";
 
 Vue.use(Vuetify, {
   iconfont: "md"
@@ -22,23 +22,22 @@ Vue.use(VueTextareaAutosize);
 
 ApiService.init();
 
-router.beforeEach((to, from, next) => {
-  store
-    .dispatch(CHECK_AUTH)
-    .then(() => {
-      if (to.name === "Login") {
-        next("/home");
-      } else {
-        next();
-      }
-    })
-    .catch(() => {
-      if (to.name === "Login" || to.name === "Register") {
-        next();
-      } else {
-        next("/login");
-      }
-    });
+router.beforeEach(async (to, from, next) => {
+  try {
+    await store.dispatch(CHECK_AUTH);
+    if (to.name === "Login") {
+      next("/home");
+    } else {
+      await store.dispatch(GET_USER_DATA);
+      next();
+    }
+  } catch {
+    if (to.name === "Login" || to.name === "Register") {
+      next();
+    } else {
+      next("/login");
+    }
+  }
 });
 
 new Vue({
