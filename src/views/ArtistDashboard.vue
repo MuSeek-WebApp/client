@@ -8,7 +8,10 @@
             <v-container>
               <v-layout wrap>
                 <v-flex md4 :key="item._id" v-for="item in feed">
-                  <FeedViewEvent :event="item"></FeedViewEvent>
+                  <FeedViewEvent
+                    :currentStatus="getFeedEventStatus(item)"
+                    :event="item"
+                  ></FeedViewEvent>
                 </v-flex>
               </v-layout>
             </v-container>
@@ -20,13 +23,13 @@
           <v-card-text>
             <h1 class="mb-1">Upcoming Events</h1>
             <div :key="status" v-for="status in Object.keys(displayStatuses)">
-              <template v-if="mapEvents[status]">
+              <template v-if="mapEventsByStatus[status]">
                 <v-divider class="mb-3"></v-divider>
                 <h3 class="mb-3">{{ displayStatuses[status] }}</h3>
                 <SmallViewEvent
                   :event="{ ...event }"
                   :key="event._id"
-                  v-for="event in mapEvents[status]"
+                  v-for="event in mapEventsByStatus[status]"
                 ></SmallViewEvent>
               </template>
             </div>
@@ -55,7 +58,7 @@ export default {
         APPROVED: "Approved Events",
         WAITING_FOR_BAND_APPROVAL: "Waiting for your approval",
         WAITING_FOR_BUSINESS_APPROVAL: "Waiting for business approval",
-        DENIED: "Ignored Events"
+        DENIED: "Ignored"
       },
       feed: this.$store.getters.getAllFeed
     };
@@ -65,7 +68,7 @@ export default {
     this.$store.dispatch(FETCH_FEED);
   },
   computed: {
-    mapEvents() {
+    mapEventsByStatus() {
       const map = {};
       this.events.forEach(e =>
         (map[e.requests.status] = map[e.requests.status] || []).push(e)
@@ -78,6 +81,22 @@ export default {
       }
 
       return map;
+    },
+    mapEventsById() {
+      const map = {};
+
+      this.events.forEach(e => (map[e._id] = map[e._id] || []).push(e));
+
+      return map;
+    }
+  },
+  methods: {
+    getFeedEventStatus(feedEvent) {
+      return this.mapEventsById[feedEvent._id]
+        ? this.displayStatuses[
+            this.mapEventsById[feedEvent._id][0].requests.status
+          ]
+        : null;
     }
   }
 };

@@ -14,22 +14,12 @@
       <v-spacer></v-spacer>
       <template v-if="event.requests.status === 'WAITING_FOR_BAND_APPROVAL'">
         <v-flex md3>
-          <v-btn
-            color="green lighten-1"
-            small
-            round
-            @click="updateStatus('APPROVED')"
-          >
+          <v-btn color="green lighten-1" small round @click="updateStatus()">
             <v-icon class="mr-1">done</v-icon>Going
           </v-btn>
         </v-flex>
         <v-flex md3>
-          <v-btn
-            color="red lighten-1"
-            small
-            round
-            @click="updateStatus('DENIED')"
-          >
+          <v-btn color="red lighten-1" small round @click="updateStatus()">
             <v-icon class="mr-1">close</v-icon>Ignore
           </v-btn>
         </v-flex>
@@ -51,7 +41,7 @@
                 flat
                 small
                 class="ma-2"
-                @click="updateStatus('DENIED')"
+                @click="updateStatus()"
               >
                 <v-icon>close</v-icon>Not Going
               </v-btn>
@@ -101,10 +91,9 @@ export default {
     }
   },
   methods: {
-    updateStatus(action) {
+    updateStatus() {
       const payload = {
-        event: this.event,
-        action: action
+        event: this.event
       };
       this.$store.dispatch(UPDATE_STATUS_BY_ARTIST, payload);
     }
