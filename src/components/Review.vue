@@ -1,6 +1,9 @@
 <template>
-  <v-card class="my-2" v-bind:color="colour" dark>
-    <v-card-text class="headline font-weight-bold" v-text="review.description"></v-card-text>
+  <v-card class="mb-2" v-bind:color="colour" dark>
+    <v-card-text
+      class="headline font-weight-bold"
+      v-text="review.description"
+    ></v-card-text>
     <v-card-actions>
       <v-list-tile class="grow">
         <v-list-tile-avatar color="grey darken-3">

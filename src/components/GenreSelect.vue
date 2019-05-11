@@ -18,6 +18,8 @@
 </template>
 
 <script>
+import genres from "../common/genres";
+
 export default {
   inject: ["validator"],
   data: () => ({
@@ -28,16 +30,7 @@ export default {
   }),
   created: function() {
     this.$validator = this.validator;
-    this.genres = [
-      "Pop",
-      "Rock",
-      "Metal",
-      "Jazz",
-      "Progressive Rock",
-      "Electronic",
-      "House",
-      "EDM"
-    ];
+    this.genres = genres;
   },
   props: ["value"]
 };

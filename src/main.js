@@ -9,6 +9,7 @@ import firebase from "firebase";
 import store from "./store";
 import ApiService from "./common/api.service";
 import config from "./common/firebase.js";
+import VueTextareaAutosize from "vue-textarea-autosize";
 import { CHECK_AUTH, GET_USER_DATA } from "./store/actions.type";
 
 Vue.use(Vuetify, {
@@ -17,6 +18,7 @@ Vue.use(Vuetify, {
 Vue.use(VeeValidate, {
   events: "change"
 });
+Vue.use(VueTextareaAutosize);
 
 ApiService.init();
 

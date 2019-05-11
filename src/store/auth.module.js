@@ -7,6 +7,7 @@ import {
   SIGN_IN_WITH_FACEBOOK,
   CHECK_AUTH,
   REGISTER,
+  PROFILE_GET_UID,
   GET_USER_DATA
 } from "./actions.type";
 import { SET_AUTH, PURGE_AUTH, SET_USER_DATA } from "./mutations.type";
@@ -50,6 +51,7 @@ const actions = {
             ApiService.post("/auth/login", { idToken: idToken })
               .then(() => {
                 context.commit(SET_AUTH, idToken);
+                context.dispatch(PROFILE_GET_UID, null, { root: true });
                 resolve();
               })
               .catch(error => {
