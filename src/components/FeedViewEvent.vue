@@ -80,6 +80,7 @@ p {
 <script>
 import moment from "moment";
 import { REGISTER_EVENT } from "../store/actions.type";
+import { START_PROGRESS, STOP_PROGRESS } from "../store/mutations.type";
 export default {
   props: ["event", "currentStatus"],
   data: function() {
@@ -100,10 +101,18 @@ export default {
   },
   methods: {
     async sendRequest() {
+      this.$store.commit(START_PROGRESS);
+
       const event = {
         event: this.event
       };
-      await this.$store.dispatch(REGISTER_EVENT, event);
+      try {
+        await this.$store.dispatch(REGISTER_EVENT, event);
+      } catch (error) {
+        // Todo display error to user
+      } finally {
+        this.$store.commit(STOP_PROGRESS);
+      }
     }
   }
 };
