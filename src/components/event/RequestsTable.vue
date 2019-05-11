@@ -57,7 +57,14 @@
         </v-tooltip>
         <v-tooltip bottom>
           <template v-slot:activator="{ on }">
-            <v-btn flat icon class="mx-0" color="pink lighten-1" v-on="on">
+            <v-btn
+              flat
+              icon
+              class="mx-0"
+              color="pink lighten-1"
+              v-on="on"
+              :to="`/profile/${props.item.band._id}`"
+            >
               <v-icon>person</v-icon>
             </v-btn>
           </template>
