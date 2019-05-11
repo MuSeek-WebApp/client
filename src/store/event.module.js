@@ -81,9 +81,9 @@ const actions = {
         });
     });
   },
-  [FETCH_FEED](context) {
+  [FETCH_FEED](context, filter) {
     return new Promise((resolve, reject) => {
-      ApiService.post("api/event/my-feed")
+      ApiService.post("api/event/my-feed", filter)
         .then(result => {
           context.commit(CLEAR_FEED);
           context.commit(SET_FEED, result.data);
