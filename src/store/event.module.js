@@ -4,7 +4,8 @@ import {
   FETCH_FEED,
   UPDATE_EVENT,
   REMOVE_EVENT,
-  UPDATE_STATUS_BY_ARTIST
+  UPDATE_STATUS_BY_ARTIST,
+  REGISTER_EVENT
 } from "./actions.type";
 import {
   CLEAR_EVENTS,
@@ -94,11 +95,12 @@ const actions = {
     });
   },
   async [UPDATE_STATUS_BY_ARTIST](context, payload) {
-    const { data } = await ApiService.put(
-      "api/event/status/" + payload.event._id,
-      payload
-    );
-    payload.event.requests.status = data;
+    await ApiService.post("api/event/approve-band/", payload);
+    await context.dispatch(FETCH_EVENTS);
+  },
+  async [REGISTER_EVENT](context, event) {
+    await ApiService.post("api/event/register-band", event);
+    await context.dispatch(FETCH_EVENTS);
   }
 };
 

@@ -43,16 +43,28 @@
         <v-icon class="pr-2">music_note</v-icon>
         {{ event.genres.toString() }}
       </h4>
-      <p class="mt-3">
-        {{ event.description }}
-      </p>
+      <p class="mt-3">{{ event.description }}</p>
     </v-card-text>
     <v-divider></v-divider>
-    <v-card-actions>
-      <v-spacer></v-spacer>
-      <v-btn dark color="black" @click="sendRequest">RSVP</v-btn>
-      <v-spacer></v-spacer>
-    </v-card-actions>
+
+    <template v-if="currentStatus !== null">
+      <v-card-actions class="purple lighten-3">
+        <v-flex md4>
+          <h5>IN PROGRESS</h5>
+        </v-flex>
+        <v-divider vertical></v-divider>
+        <v-flex>
+          <h4>{{ currentStatus }}</h4>
+        </v-flex>
+      </v-card-actions>
+    </template>
+    <template v-else>
+      <v-card-actions>
+        <v-spacer></v-spacer>
+        <v-btn dark color="black" @click="sendRequest">RSVP</v-btn>
+        <v-spacer></v-spacer>
+      </v-card-actions>
+    </template>
   </v-card>
 </template>
 <style>
@@ -67,8 +79,10 @@ p {
 
 <script>
 import moment from "moment";
+import { REGISTER_EVENT } from "../store/actions.type";
+import { START_PROGRESS, STOP_PROGRESS } from "../store/mutations.type";
 export default {
-  props: ["event"],
+  props: ["event", "currentStatus"],
   data: function() {
     return {
       monthName: moment(this.event.startDate).format("MMM"),
@@ -86,7 +100,20 @@ export default {
     }
   },
   methods: {
-    sendRequest() {}
+    async sendRequest() {
+      this.$store.commit(START_PROGRESS);
+
+      const event = {
+        event: this.event
+      };
+      try {
+        await this.$store.dispatch(REGISTER_EVENT, event);
+      } catch (error) {
+        // Todo display error to user
+      } finally {
+        this.$store.commit(STOP_PROGRESS);
+      }
+    }
   }
 };
 </script>
