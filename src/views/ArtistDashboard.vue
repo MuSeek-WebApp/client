@@ -7,10 +7,10 @@
           <v-container>
             <v-layout wrap>
               <v-flex md4 :key="item._id" v-for="item in feed">
-                  <FeedViewEvent
-                    :currentStatus="getFeedEventStatus(item)"
-                    :event="item"
-                  ></FeedViewEvent>
+                <FeedViewEvent
+                  :currentStatus="getFeedEventStatus(item)"
+                  :event="item"
+                ></FeedViewEvent>
               </v-flex>
             </v-layout>
           </v-container>
@@ -83,9 +83,7 @@ export default {
     },
     mapEventsById() {
       const map = {};
-
       this.events.forEach(e => (map[e._id] = map[e._id] || []).push(e));
-
       return map;
     }
   },

@@ -14,12 +14,12 @@
       <v-spacer></v-spacer>
       <template v-if="event.requests.status === 'WAITING_FOR_BAND_APPROVAL'">
         <v-flex md3>
-          <v-btn color="green lighten-1" small round @click="updateStatus()">
+          <v-btn color="green lighten-1" small round @click="approve()">
             <v-icon class="mr-1">done</v-icon>Going
           </v-btn>
         </v-flex>
         <v-flex md3>
-          <v-btn color="red lighten-1" small round @click="updateStatus()">
+          <v-btn color="red lighten-1" small round @click="deny()">
             <v-icon class="mr-1">close</v-icon>Ignore
           </v-btn>
         </v-flex>
@@ -41,7 +41,7 @@
                 flat
                 small
                 class="ma-2"
-                @click="updateStatus()"
+                @click="deny()"
               >
                 <v-icon>close</v-icon>Not Going
               </v-btn>
@@ -72,7 +72,7 @@
 
 <script>
 import moment from "moment";
-import { UPDATE_STATUS_BY_ARTIST } from "../store/actions.type";
+import { APPROVE_BY_ARTIST, DENY_BY_ARTIST } from "../store/actions.type";
 
 export default {
   props: ["event"],
@@ -91,11 +91,17 @@ export default {
     }
   },
   methods: {
-    updateStatus() {
+    updateStatus(action) {
       const payload = {
         event: this.event
       };
-      this.$store.dispatch(UPDATE_STATUS_BY_ARTIST, payload);
+      this.$store.dispatch(action, payload);
+    },
+    approve() {
+      this.updateStatus(APPROVE_BY_ARTIST);
+    },
+    deny() {
+      this.updateStatus(DENY_BY_ARTIST);
     }
   }
 };
