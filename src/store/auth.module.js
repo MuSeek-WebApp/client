@@ -34,6 +34,12 @@ const actions = {
       if (JwtService.getToken()) {
         //TODO: validate token with backend server. resolve in success otherwise reject.
         resolve();
+        firebase
+          .auth()
+          .currentUser.getIdToken()
+          .then(idToken => {
+            JwtService.setToken(idToken);
+          });
       } else {
         context.commit(PURGE_AUTH);
         reject();
