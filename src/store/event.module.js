@@ -4,7 +4,8 @@ import {
   FETCH_FEED,
   UPDATE_EVENT,
   REMOVE_EVENT,
-  UPDATE_STATUS_BY_ARTIST,
+  APPROVE_BY_ARTIST,
+  DENY_BY_ARTIST,
   REGISTER_EVENT
 } from "./actions.type";
 import {
@@ -81,9 +82,9 @@ const actions = {
         });
     });
   },
-  [FETCH_FEED](context) {
+  [FETCH_FEED](context, filter) {
     return new Promise((resolve, reject) => {
-      ApiService.post("api/event/my-feed")
+      ApiService.post("api/event/my-feed", filter)
         .then(result => {
           context.commit(CLEAR_FEED);
           context.commit(SET_FEED, result.data);
@@ -94,8 +95,12 @@ const actions = {
         });
     });
   },
-  async [UPDATE_STATUS_BY_ARTIST](context, payload) {
+  async [APPROVE_BY_ARTIST](context, payload) {
     await ApiService.post("api/event/approve-band/", payload);
+    await context.dispatch(FETCH_EVENTS);
+  },
+  async [DENY_BY_ARTIST](context, payload) {
+    await ApiService.post("api/event/deny-band/", payload);
     await context.dispatch(FETCH_EVENTS);
   },
   async [REGISTER_EVENT](context, event) {
