@@ -6,7 +6,8 @@ import {
   REMOVE_EVENT,
   APPROVE_BY_ARTIST,
   DENY_BY_ARTIST,
-  REGISTER_EVENT
+  REGISTER_EVENT,
+  FETCH_SINGLE_EVENT
 } from "./actions.type";
 import {
   CLEAR_EVENTS,
@@ -14,13 +15,15 @@ import {
   SET_EVENT,
   DELETE_EVENT,
   SET_FEED,
-  CLEAR_FEED
+  CLEAR_FEED,
+  SET_VIEWED_EVENT
 } from "./mutations.type";
 import ApiService from "@/common/api.service";
 
 const state = {
   events: [],
-  feed: []
+  feed: [],
+  viewedEvent: null
 };
 
 const getters = {
@@ -29,6 +32,9 @@ const getters = {
   },
   getAllFeed(state) {
     return state.feed;
+  },
+  getViewedEvent(state) {
+    return state.viewedEvent;
   }
 };
 
@@ -106,6 +112,10 @@ const actions = {
   async [REGISTER_EVENT](context, event) {
     await ApiService.post("api/event/register-band", event);
     await context.dispatch(FETCH_EVENTS);
+  },
+  async [FETCH_SINGLE_EVENT](context, id) {
+    const { data } = await ApiService.get("api/event/id/" + id);
+    context.commit(SET_VIEWED_EVENT, data);
   }
 };
 
@@ -137,6 +147,9 @@ const mutations = {
     if (index !== -1) {
       state.events.splice(index, 1);
     }
+  },
+  [SET_VIEWED_EVENT](state, event) {
+    state.viewedEvent = event;
   }
 };
 

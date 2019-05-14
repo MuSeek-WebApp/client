@@ -15,9 +15,14 @@
         <v-layout>
           <v-spacer></v-spacer>
           <v-flex md6>
-            <v-btn color="white" icon>
-              <v-icon color="purple" large>info</v-icon>
-            </v-btn>
+            <router-link
+              :to="{ name: 'EventDetails', params: { id: event._id } }"
+              target="_blank"
+            >
+              <v-btn color="white" icon>
+                <v-icon color="purple" large>info</v-icon>
+              </v-btn>
+            </router-link>
           </v-flex>
         </v-layout>
       </v-container>
@@ -67,13 +72,16 @@
     </template>
   </v-card>
 </template>
-<style>
-p {
+<style scoped>
+.v-card >>> p {
   height: 100px;
   overflow: hidden;
   display: -webkit-box;
   -webkit-line-clamp: 5;
   -webkit-box-orient: vertical;
+}
+a {
+  text-decoration: none;
 }
 </style>
 

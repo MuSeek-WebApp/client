@@ -11,6 +11,7 @@ import ApiService from "./common/api.service";
 import config from "./common/firebase.js";
 import VueTextareaAutosize from "vue-textarea-autosize";
 import { CHECK_AUTH, GET_USER_DATA } from "./store/actions.type";
+import * as VueGoogleMaps from "vue2-google-maps";
 
 Vue.use(Vuetify, {
   iconfont: "md"
@@ -19,7 +20,11 @@ Vue.use(VeeValidate, {
   events: "change"
 });
 Vue.use(VueTextareaAutosize);
-
+Vue.use(VueGoogleMaps, {
+  load: {
+    key: config.apiKey
+  }
+});
 ApiService.init();
 
 router.beforeEach(async (to, from, next) => {
