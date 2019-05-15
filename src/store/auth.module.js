@@ -13,16 +13,16 @@ import {
 import { SET_AUTH, PURGE_AUTH, SET_USER_DATA } from "./mutations.type";
 import firebase from "firebase";
 
-if (JwtService.getToken()) {
-  setInterval(function() {
+setInterval(function() {
+  if (JwtService.getToken()) {
     firebase
       .auth()
       .currentUser.getIdToken()
       .then(idToken => {
         JwtService.setToken(idToken);
       });
-  }, 30 * 60 * 1000);
-}
+  }
+}, 30 * 60 * 1000);
 
 const state = {
   idToken: null,
