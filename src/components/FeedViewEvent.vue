@@ -27,27 +27,35 @@
         </v-layout>
       </v-container>
     </v-img>
-    <v-card-title class="pb-2">
-      <h4>{{ event.business.name }}</h4>
-      <v-spacer></v-spacer>
-      <v-rating
-        readonly
-        v-model="rating"
-        background-color="orange lighten-3"
-        color="orange"
-        small
-      ></v-rating>
-    </v-card-title>
+
     <v-divider></v-divider>
     <v-card-text>
-      <h4>
-        <v-icon class="pr-2">access_time</v-icon>
-        {{ startTime }} - {{ endTime }}
-      </h4>
-      <h4>
-        <v-icon class="pr-2">music_note</v-icon>
-        {{ event.genres.toString() }}
-      </h4>
+      <v-layout wrap>
+        <v-flex md7>
+          <h2>
+            <v-icon class="pr-2">access_time</v-icon>
+            {{ startTime }} - {{ endTime }}
+          </h2>
+        </v-flex>
+        <v-flex md5>
+          <router-link
+            :to="{ name: 'Profile', params: { userId: event.business._id } }"
+            target="_blank"
+          >
+            <h4>
+              <v-icon class="pr-2">location_city</v-icon>
+              {{ event.business.name }}
+            </h4>
+          </router-link>
+          <CustomRating :rating="rating"></CustomRating>
+        </v-flex>
+        <v-flex class="pt-0">
+          <h4>
+            <v-icon class="pr-2">music_note</v-icon>
+            {{ event.genres.toString() }}
+          </h4>
+        </v-flex>
+      </v-layout>
       <p class="mt-3">{{ event.description }}</p>
     </v-card-text>
     <v-divider></v-divider>
@@ -89,7 +97,11 @@ a {
 import moment from "moment";
 import { REGISTER_EVENT } from "../store/actions.type";
 import { START_PROGRESS, STOP_PROGRESS } from "../store/mutations.type";
+import CustomRating from "../components/CustomRating.vue";
 export default {
+  components: {
+    CustomRating
+  },
   props: ["event", "currentStatus"],
   data: function() {
     return {

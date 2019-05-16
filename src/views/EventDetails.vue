@@ -5,15 +5,15 @@
         <v-layout>
           <v-flex md6>
             <v-card>
-              <v-carousel height="300">
+              <v-carousel height="225">
                 <v-carousel-item
                   v-for="(item, i) in items"
                   :key="i"
                   :src="item.src"
                 ></v-carousel-item>
               </v-carousel>
-              <v-card-title>
-                <p class="display-2">{{ event.name }}</p>
+              <v-card-title class="justify-center">
+                <p class="display-2 text-xs-center">{{ event.name }}</p>
               </v-card-title>
               <v-card-text>
                 <v-layout wrap>
@@ -34,6 +34,34 @@
                     <p class="subheading mb-0 font-weight-bold">Genres</p>
                     <span>Rock, Jazz, Progressive</span>
                   </v-flex>
+                  <v-flex md1>
+                    <v-icon>person_outline</v-icon>
+                  </v-flex>
+                  <v-flex md6>
+                    <p class="mb-0">Yossi Gartner</p>
+                    <p class="font-weight-bold">
+                      yosigartner@gmail.com +972525419901
+                    </p>
+                  </v-flex>
+                  <v-flex md1>
+                    <v-icon>location_city</v-icon>
+                  </v-flex>
+                  <v-flex md4>
+                    <router-link
+                      :to="{
+                        name: 'Profile',
+                        params: { userId: event.business._id }
+                      }"
+                      target="_blank"
+                    >
+                      <p class="mb-0">{{ event.business.name }}</p>
+                    </router-link>
+                    <p class="mb-0 font-weight-bold">
+                      Tel Aviv, Rothschild Boulevard 99
+                    </p>
+                    <CustomRating rating="5"></CustomRating>
+                  </v-flex>
+                  <v-flex></v-flex>
                   <v-flex md12>
                     <v-divider></v-divider>
                   </v-flex>
@@ -62,40 +90,48 @@
             </v-card>
           </v-flex>
           <v-spacer></v-spacer>
+          <v-divider vertical></v-divider>
+          <v-spacer></v-spacer>
           <v-flex md4>
             <v-card>
-              <v-card-title>
-                <p class="display-1">{{ event.business.name }}</p>
+              <v-card-title class="justify-center">
+                <p class="display-1">Lineup</p>
               </v-card-title>
-              <v-divider></v-divider>
               <v-card-text>
                 <v-layout wrap>
-                  <v-flex md1>
-                    <v-icon>person_outline</v-icon>
+                  <v-flex md3 align-self-center>Band 1#</v-flex>
+                  <v-flex md7 align-self-center>
+                    <CustomRating rating="4"></CustomRating>
                   </v-flex>
-                  <v-flex md11>
-                    <p class="mb-0">Yossi Gartner</p>
-                    <p class="font-weight-bold">
-                      yosigartner@gmail.com +972525419901
-                    </p>
+                  <v-flex md2 align-self-center>
+                    <v-btn icon>
+                      <v-icon>info</v-icon>
+                    </v-btn>
                   </v-flex>
-                  <v-flex md1>
-                    <v-icon>location_city</v-icon>
+                  <v-flex md3 align-self-center>Band 2#</v-flex>
+                  <v-flex md7 align-self-center>
+                    <CustomRating rating="2"></CustomRating>
                   </v-flex>
-                  <v-flex md11>
-                    <p>Tel Aviv, Rothschild Boulevard 99</p>
+                  <v-flex md2 align-self-center>
+                    <v-btn icon>
+                      <v-icon>info</v-icon>
+                    </v-btn>
+                  </v-flex>
+                  <v-flex md3 align-self-center>Band 3#</v-flex>
+                  <v-flex md7 align-self-center>
+                    <CustomRating rating="5"></CustomRating>
+                  </v-flex>
+
+                  <v-flex md2 align-self-center>
+                    <v-btn icon>
+                      <v-icon>info</v-icon>
+                    </v-btn>
                   </v-flex>
                 </v-layout>
               </v-card-text>
             </v-card>
-            <GmapMap
-              class="mt-5"
-              :center="{ lat: 31.824159, lng: 34.75430039 }"
-              :zoom="7"
-              map-type-id="terrain"
-              style="width: 560px; height: 300px"
-            ></GmapMap>
           </v-flex>
+          <v-spacer></v-spacer>
         </v-layout>
       </v-container>
     </v-sheet>
@@ -105,7 +141,12 @@
 <script>
 import { FETCH_SINGLE_EVENT } from "../store/actions.type";
 import { mapState } from "vuex";
+import CustomRating from "../components/CustomRating.vue";
+
 export default {
+  components: {
+    CustomRating
+  },
   data: function() {
     return {
       items: [
