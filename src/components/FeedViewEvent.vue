@@ -61,7 +61,7 @@
     <v-divider></v-divider>
 
     <template v-if="currentStatus !== null">
-      <v-card-actions class="purple lighten-3">
+      <v-card-actions :class="cardActionStyle">
         <v-flex md4>
           <h5>IN PROGRESS</h5>
         </v-flex>
@@ -117,6 +117,23 @@ export default {
         this.event.business.reviews.reduce((a, b) => a + (b["stars"] || 0), 0) /
         this.event.business.reviews.length
       );
+    },
+    cardActionStyle() {
+      let color = null;
+      switch (this.currentStatus) {
+        case "Ignored": {
+          color = "red lighten-3";
+          break;
+        }
+        case "Approved": {
+          color = "green lighten-3";
+          break;
+        }
+        default: {
+          color = "yellow lighten-3";
+        }
+      }
+      return color;
     }
   },
   methods: {

@@ -54,7 +54,7 @@ export default {
     return {
       events: this.$store.getters.getAllEvents,
       displayStatuses: {
-        APPROVED: "Approved Events",
+        APPROVED: "Approved",
         WAITING_FOR_BAND_APPROVAL: "Waiting for your approval",
         WAITING_FOR_BUSINESS_APPROVAL: "Waiting for business approval",
         DENIED: "Ignored"
