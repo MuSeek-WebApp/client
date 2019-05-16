@@ -1,5 +1,5 @@
 <template>
-  <v-app class="background">
+  <v-app>
     <v-progress-linear
       v-if="showProgress"
       class="ma-0"
@@ -13,8 +13,8 @@
   </v-app>
 </template>
 
-<style scoped>
-.background {
+<style>
+.background-image {
   background-image: url(../public/img/background/pink4_opacity.png);
   background-size: 100%;
   max-width: 100%;

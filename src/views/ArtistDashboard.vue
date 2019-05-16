@@ -1,5 +1,5 @@
 <template>
-  <v-container grid-list-xl>
+  <v-container grid-list-xl class="background-image">
     <v-layout>
       <v-flex md8>
         <FilterBar></FilterBar>
