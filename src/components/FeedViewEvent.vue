@@ -6,23 +6,29 @@
       src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"
     >
       <v-container fill-height class="pa-1">
-        <v-layout align-start justify-end column fill-height>
-          <v-flex md4 class="ml-3">
-            <h2>{{ event.name }}</h2>
-            <h3>{{ monthName }} {{ date }}</h3>
-          </v-flex>
-        </v-layout>
         <v-layout>
-          <v-spacer></v-spacer>
-          <v-flex md6>
-            <router-link
-              :to="{ name: 'EventDetails', params: { id: event._id } }"
-              target="_blank"
-            >
-              <v-btn color="white" icon>
-                <v-icon color="purple" large>info</v-icon>
-              </v-btn>
-            </router-link>
+          <v-flex md8>
+            <v-layout align-start justify-end column fill-height>
+              <v-flex md4 class="ml-3">
+                <h2>{{ event.name }}</h2>
+                <h3>{{ monthName }} {{ date }}</h3>
+              </v-flex>
+            </v-layout>
+          </v-flex>
+          <v-flex md3 class="pt-0">
+            <v-layout>
+              <v-spacer></v-spacer>
+              <v-flex md6>
+                <router-link
+                  :to="{ name: 'EventDetails', params: { id: event._id } }"
+                  target="_blank"
+                >
+                  <v-btn color="white" icon>
+                    <v-icon color="purple" large>info</v-icon>
+                  </v-btn>
+                </router-link>
+              </v-flex>
+            </v-layout>
           </v-flex>
         </v-layout>
       </v-container>

@@ -103,6 +103,7 @@
                           params: { userId: request.band._id }
                         }"
                         target="_blank"
+                        class="no-underline"
                       >
                         <v-btn icon>
                           <v-icon color="purple" large>info</v-icon>
@@ -121,7 +122,7 @@
   </v-container>
 </template>
 <style>
-a {
+.no-underline {
   text-decoration: none;
 }
 </style>
