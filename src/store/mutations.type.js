@@ -13,3 +13,4 @@ export const SET_CURRENT_PROFILE = "setCurrentProfile";
 export const SET_USER_DATA = "setUserData";
 export const SET_FIND_BANDS = "setFindBands";
 export const SET_FEED = "setFeed";
+export const SET_VIEWED_EVENT = "setViewedEvent";

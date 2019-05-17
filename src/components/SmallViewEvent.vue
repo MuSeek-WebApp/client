@@ -7,7 +7,11 @@
       </v-flex>
       <v-flex md4>
         <h3>
-          <a>{{ event.name }}</a>
+          <router-link
+            :to="{ name: 'EventDetails', params: { id: event._id } }"
+            target="_blank"
+            >{{ event.name }}</router-link
+          >
         </h3>
         <span>{{ startTime }} - {{ endTime }}</span>
       </v-flex>

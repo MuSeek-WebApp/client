@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container class="background-image">
     <v-layout justify-center>
       <v-flex md8>
         <v-sheet elevation="1">
