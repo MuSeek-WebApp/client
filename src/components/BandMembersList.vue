@@ -1,6 +1,6 @@
 <template>
   <v-sheet>
-    <h5 class="pb-1">Band members:</h5>
+    <h4 class="pb-1">Band members:</h4>
     <v-toolbar>
       <v-form>
         <v-container>
@@ -45,9 +45,14 @@
         </v-list-tile>
       </v-list>
     </v-card>
-    <v-flex md6></v-flex>
   </v-sheet>
 </template>
+
+<style scoped>
+.v-sheet {
+  background-color: rgba(0, 0, 0, 0.06);
+}
+</style>
 
 <script>
 export default {
