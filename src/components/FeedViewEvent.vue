@@ -53,7 +53,7 @@
               {{ event.business.name }}
             </h4>
           </router-link>
-          <CustomRating :rating="rating"></CustomRating>
+          <CustomRating :reviews="event.business.reviews"></CustomRating>
         </v-flex>
         <v-flex class="pt-0">
           <h4>
@@ -118,12 +118,6 @@ export default {
     };
   },
   computed: {
-    rating() {
-      return (
-        this.event.business.reviews.reduce((a, b) => a + (b["stars"] || 0), 0) /
-        this.event.business.reviews.length
-      );
-    },
     cardActionStyle() {
       let color = null;
       switch (this.currentStatus) {
