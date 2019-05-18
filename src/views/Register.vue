@@ -104,9 +104,9 @@
             <v-divider vertical></v-divider>
             <v-flex md8 class="pa-2 ml-3">
               <v-form v-model="extraInformationFormValidation">
-                <v-stepper v-model="e1">
+                <v-stepper v-model="step">
                   <v-stepper-header>
-                    <v-stepper-step :complete="e1 > 1" step="1"
+                    <v-stepper-step :complete="step > 1" step="1"
                       >Page Information</v-stepper-step
                     >
                     <v-divider></v-divider>
@@ -236,14 +236,9 @@
                           ></BandMembersList>
                         </v-flex>
                       </v-layout>
-                      <v-layout align-center justify-center fill-height>
+                      <v-layout align-center justify-start fill-height>
                         <v-flex>
-                          <v-btn color="primary">
-                            <v-icon>arrow_back</v-icon>Back
-                          </v-btn>
-                        </v-flex>
-                        <v-flex>
-                          <v-btn color="primary">
+                          <v-btn color="primary" @click="step = 2">
                             Next<v-icon>arrow_forward</v-icon>
                           </v-btn>
                         </v-flex>
@@ -251,7 +246,19 @@
                     </v-stepper-content>
                     <!-- social media -->
                     <v-stepper-content step="2">
-                      <v-layout> </v-layout>
+                      <v-layout wrap> social media </v-layout>
+                      <v-layout align-center justify-center fill-height>
+                        <v-flex>
+                          <v-btn color="primary" @click="step = 1">
+                            <v-icon>arrow_back</v-icon>Back
+                          </v-btn>
+                        </v-flex>
+                        <v-flex>
+                          <v-btn color="primary" @click="step = 2">
+                            Finish<v-icon>check</v-icon>
+                          </v-btn>
+                        </v-flex>
+                      </v-layout>
                     </v-stepper-content>
                   </v-stepper-items>
                 </v-stepper>
