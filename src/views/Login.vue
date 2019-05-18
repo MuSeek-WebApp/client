@@ -4,7 +4,10 @@
       <v-flex md4>
         <v-card fill-height class="mx-5 pa-3 login-form">
           <v-card-title primary-title>
-            <img class="banner" src="../../public/img/banner.png" />
+            <img
+              class="banner animated jackInTheBox slow"
+              src="../../public/img/banner.png"
+            />
           </v-card-title>
           <v-card-text class="py-0">
             <v-form>
@@ -40,7 +43,7 @@
             >
             <p class="py-2">
               Don’t have an account?
-              <a v-on:click="redirectToRegister()"> Sign up </a>
+              <a v-on:click="redirectToRegister()">Sign up</a>
             </p>
           </v-card-actions>
           <v-divider></v-divider>
@@ -63,7 +66,7 @@
               block
               color="#FFF"
               @click="signInWithGoogle"
-              class="mt-3 text-none google-btn "
+              class="mt-3 text-none google-btn"
             >
               <img
                 class="mr-3 social-media-btn-icon"
@@ -76,12 +79,14 @@
           </v-card-text>
         </v-card>
       </v-flex>
-      <v-flex md7 xs6> </v-flex>
+      <v-flex md7 xs6></v-flex>
     </v-layout>
   </v-container>
 </template>
 
 <style scoped>
+@import "../../node_modules/animate.css/animate.min.css";
+
 .background {
   background-image: url(../../public/img/background/pink4.jpg);
   background-size: 100%;
@@ -140,51 +145,41 @@ export default {
     }
   }),
   methods: {
-    signInWithEmailAndPassword: function(email, password) {
-      this.$validator.validate().then(isValid => {
-        if (isValid) {
-          this.$store.commit(START_PROGRESS);
-          this.$store
-            .dispatch(SIGN_IN, { email, password })
-            .then(() => {
-              this.$router.push("/home");
-            })
-            .catch(error => {
-              this.error = error.message;
-            })
-            .finally(() => {
-              this.$store.commit(STOP_PROGRESS);
-            });
+    signInWithEmailAndPassword: async function(email, password) {
+      let isValid = await this.$validator.validate();
+      if (isValid) {
+        this.$store.commit(START_PROGRESS);
+        try {
+          await this.$store.dispatch(SIGN_IN, { email, password });
+          this.$router.push("/home");
+        } catch (error) {
+          this.error = error.message;
+        } finally {
+          this.$store.commit(STOP_PROGRESS);
         }
-      });
+      }
     },
-    signInWithFacebook: function() {
+    signInWithFacebook: async function() {
       this.$store.commit(START_PROGRESS);
-      this.$store
-        .dispatch(SIGN_IN_WITH_FACEBOOK)
-        .then(() => {
-          this.$router.push("/home");
-        })
-        .catch(error => {
-          this.error = error.message;
-        })
-        .finally(() => {
-          this.$store.commit(STOP_PROGRESS);
-        });
+      try {
+        await this.$store.dispatch(SIGN_IN_WITH_FACEBOOK);
+        this.$router.push("/home");
+      } catch (error) {
+        this.error = error.message;
+      } finally {
+        this.$store.commit(STOP_PROGRESS);
+      }
     },
-    signInWithGoogle: function() {
+    signInWithGoogle: async function() {
       this.$store.commit(START_PROGRESS);
-      this.$store
-        .dispatch(SIGN_IN_WITH_GOOGLE)
-        .then(() => {
-          this.$router.push("/home");
-        })
-        .catch(error => {
-          this.error = error.message;
-        })
-        .finally(() => {
-          this.$store.commit(STOP_PROGRESS);
-        });
+      try {
+        await this.$store.dispatch(SIGN_IN_WITH_GOOGLE);
+        this.$router.push("/home");
+      } catch (error) {
+        this.error = error.message;
+      } finally {
+        this.$store.commit(STOP_PROGRESS);
+      }
     },
     redirectToRegister: function() {
       this.$router.push("/register");

@@ -1,6 +1,6 @@
 <template>
   <v-sheet>
-    <h4 class="pb-1">Band members:</h4>
+    <h5 class="pb-1" v-if="headline">Band members:</h5>
     <v-toolbar>
       <v-form>
         <v-container>
@@ -76,6 +76,6 @@ export default {
   model: {
     prop: "members"
   },
-  props: ["members"]
+  props: ["members", "headline"]
 };
 </script>
