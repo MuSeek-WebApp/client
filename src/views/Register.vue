@@ -236,29 +236,60 @@
                           ></BandMembersList>
                         </v-flex>
                       </v-layout>
-                      <v-layout align-center justify-start fill-height>
-                        <v-flex>
-                          <v-btn color="primary" @click="step = 2">
-                            Next<v-icon>arrow_forward</v-icon>
-                          </v-btn>
-                        </v-flex>
-                      </v-layout>
+                      <v-btn color="primary" @click="step = 2">
+                        Continue <v-icon class="pl-3">arrow_forward</v-icon>
+                      </v-btn>
                     </v-stepper-content>
                     <!-- social media -->
                     <v-stepper-content step="2">
-                      <v-layout wrap> social media </v-layout>
-                      <v-layout align-center justify-center fill-height>
-                        <v-flex>
-                          <v-btn color="primary" @click="step = 1">
-                            <v-icon>arrow_back</v-icon>Back
-                          </v-btn>
+                      <v-layout wrap>
+                        <v-flex md12 class="px-1">
+                          <v-text-field
+                            prepend-icon="email"
+                            v-validate="validationRules.urlRule"
+                            data-vv-name="youtube"
+                            :error-messages="errors.collect('youtube')"
+                            v-model="userData.socialMedia.youtube"
+                            label="Youtube"
+                          ></v-text-field>
                         </v-flex>
-                        <v-flex>
-                          <v-btn color="primary" @click="step = 2">
-                            Finish<v-icon>check</v-icon>
-                          </v-btn>
+                        <v-flex md12 class="px-1">
+                          <v-text-field
+                            prepend-icon="email"
+                            v-validate="validationRules.urlRule"
+                            data-vv-name="spotify"
+                            :error-messages="errors.collect('spotify')"
+                            v-model="userData.socialMedia.spotify"
+                            label="Spotify"
+                          ></v-text-field>
+                        </v-flex>
+                        <v-flex md12 class="px-1">
+                          <v-text-field
+                            prepend-icon="email"
+                            v-validate="validationRules.urlRule"
+                            data-vv-name="facebook"
+                            :error-messages="errors.collect('facebook')"
+                            v-model="userData.socialMedia.facebook"
+                            label="Facebook"
+                          ></v-text-field>
+                        </v-flex>
+                        <v-flex md12 class="px-1">
+                          <v-text-field
+                            prepend-icon="email"
+                            v-validate="validationRules.urlRule"
+                            data-vv-name="instagram"
+                            :error-messages="errors.collect('instagram')"
+                            v-model="userData.socialMedia.instagram"
+                            label="Instagram"
+                          ></v-text-field>
                         </v-flex>
                       </v-layout>
+                      <v-btn @click="step = 1">
+                        <v-icon class="pr-3">arrow_back</v-icon> Back
+                      </v-btn>
+                      <v-btn color="primary">
+                        Finish <v-icon class="pl-3">check</v-icon>
+                      </v-btn>
                     </v-stepper-content>
                   </v-stepper-items>
                 </v-stepper>
@@ -337,16 +368,16 @@ export default {
         country: "",
         city: "",
         streetAddress: ""
+      },
+      socialMedia: {
+        youtube: "",
+        spotify: "",
+        facebook: "",
+        instagram: ""
       }
     },
     password: "",
     confirmPassword: "",
-    socialMedia: {
-      youtube: "",
-      spotify: "",
-      facebook: "",
-      instagram: ""
-    },
     validationRules: {
       nameRule: {
         required: true,
@@ -376,6 +407,11 @@ export default {
       },
       streetAddressRule: {
         required: true
+      },
+      urlRule: {
+        required: false,
+        url: true,
+        require_protocol: true
       }
     }
   }),
