@@ -244,44 +244,64 @@
                     <v-stepper-content step="2">
                       <v-layout wrap>
                         <v-flex md12 class="px-1">
-                          <v-text-field
-                            prepend-icon="email"
-                            v-validate="validationRules.urlRule"
-                            data-vv-name="youtube"
-                            :error-messages="errors.collect('youtube')"
-                            v-model="userData.socialMedia.youtube"
-                            label="Youtube"
-                          ></v-text-field>
+                          <v-layout align-center justify-center row fill-height>
+                            <img
+                              src="../../public/img/icons/youtube.png"
+                              class="mr-3"
+                            />
+                            <v-text-field
+                              v-validate="validationRules.urlRule"
+                              data-vv-name="youtube"
+                              :error-messages="errors.collect('youtube')"
+                              v-model="userData.socialMedia.youtube"
+                              label="Youtube"
+                            ></v-text-field>
+                          </v-layout>
                         </v-flex>
                         <v-flex md12 class="px-1">
-                          <v-text-field
-                            prepend-icon="email"
-                            v-validate="validationRules.urlRule"
-                            data-vv-name="spotify"
-                            :error-messages="errors.collect('spotify')"
-                            v-model="userData.socialMedia.spotify"
-                            label="Spotify"
-                          ></v-text-field>
+                          <v-layout align-center justify-center row fill-height>
+                            <img
+                              src="../../public/img/icons/spotify.png"
+                              class="mr-3"
+                            />
+                            <v-text-field
+                              v-validate="validationRules.urlRule"
+                              data-vv-name="spotify"
+                              :error-messages="errors.collect('spotify')"
+                              v-model="userData.socialMedia.spotify"
+                              label="Spotify"
+                            ></v-text-field>
+                          </v-layout>
                         </v-flex>
                         <v-flex md12 class="px-1">
-                          <v-text-field
-                            prepend-icon="email"
-                            v-validate="validationRules.urlRule"
-                            data-vv-name="facebook"
-                            :error-messages="errors.collect('facebook')"
-                            v-model="userData.socialMedia.facebook"
-                            label="Facebook"
-                          ></v-text-field>
+                          <v-layout align-center justify-center row fill-height>
+                            <img
+                              src="../../public/img/icons/facebook-icon.png"
+                              class="mr-3"
+                            />
+                            <v-text-field
+                              v-validate="validationRules.urlRule"
+                              data-vv-name="facebook"
+                              :error-messages="errors.collect('facebook')"
+                              v-model="userData.socialMedia.facebook"
+                              label="Facebook"
+                            ></v-text-field>
+                          </v-layout>
                         </v-flex>
                         <v-flex md12 class="px-1">
-                          <v-text-field
-                            prepend-icon="email"
-                            v-validate="validationRules.urlRule"
-                            data-vv-name="instagram"
-                            :error-messages="errors.collect('instagram')"
-                            v-model="userData.socialMedia.instagram"
-                            label="Instagram"
-                          ></v-text-field>
+                          <v-layout align-center justify-center row fill-height>
+                            <img
+                              src="../../public/img/icons/instagram.png"
+                              class="mr-3"
+                            />
+                            <v-text-field
+                              v-validate="validationRules.urlRule"
+                              data-vv-name="instagram"
+                              :error-messages="errors.collect('instagram')"
+                              v-model="userData.socialMedia.instagram"
+                              label="Instagram"
+                            ></v-text-field>
+                          </v-layout>
                         </v-flex>
                       </v-layout>
                       <v-btn @click="step = 1">
