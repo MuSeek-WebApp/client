@@ -236,6 +236,18 @@
                           ></BandMembersList>
                         </v-flex>
                       </v-layout>
+                      <v-layout align-center justify-center fill-height>
+                        <v-flex>
+                          <v-btn color="primary">
+                            <v-icon>arrow_back</v-icon>Back
+                          </v-btn>
+                        </v-flex>
+                        <v-flex>
+                          <v-btn color="primary">
+                            Next<v-icon>arrow_forward</v-icon>
+                          </v-btn>
+                        </v-flex>
+                      </v-layout>
                     </v-stepper-content>
                     <!-- social media -->
                     <v-stepper-content step="2">
