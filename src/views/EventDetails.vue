@@ -1,102 +1,95 @@
 <template>
-  <v-container grid-list-xl>
-    <v-sheet elevation="1">
+  <v-container grid-list-xs class="background-image">
+    <v-sheet elevation="1" class="sheet-background">
       <v-container>
         <v-layout>
           <v-flex md6>
-            <v-card>
-              <v-carousel height="225">
-                <v-carousel-item
-                  v-for="(item, i) in items"
-                  :key="i"
-                  :src="item.src"
-                ></v-carousel-item>
-              </v-carousel>
-              <v-card-title class="justify-center">
-                <p class="display-2 text-xs-center">{{ event.name }}</p>
-              </v-card-title>
-              <v-card-text>
-                <v-layout wrap>
-                  <v-flex md1>
-                    <v-icon large>access_time</v-icon>
-                  </v-flex>
-                  <v-flex md2 align-self-center>
-                    <p class="subheading mb-0 font-weight-bold">
-                      {{ monthName }} {{ date }}
-                    </p>
-                    <p class="subheading">{{ dayName }}</p>
-                  </v-flex>
-                  <v-flex md4 align-self-center>
-                    <p class="headline">{{ startTime }} - {{ endTime }}</p>
-                  </v-flex>
-                  <v-flex md1>
-                    <v-icon large>music_note</v-icon>
-                  </v-flex>
-                  <v-flex md4>
-                    <p class="subheading mb-0 font-weight-bold">Genres</p>
-                    <span>{{ event.genres.toString() }}</span>
-                  </v-flex>
-                  <v-flex md1>
-                    <v-icon>person_outline</v-icon>
-                  </v-flex>
-                  <v-flex md6>
-                    <p class="mb-0">
-                      {{ event.business.contactDetails.firstName }}
-                      {{ event.business.contactDetails.lastName }}
-                    </p>
-                    <p class="font-weight-bold">
-                      {{ event.business.contactDetails.email }}
-                      {{ event.business.contactDetails.phoneNumber }}
-                    </p>
-                  </v-flex>
-                  <v-flex md1>
-                    <v-icon>location_city</v-icon>
-                  </v-flex>
-                  <v-flex md4>
-                    <router-link
-                      :to="{
-                        name: 'Profile',
-                        params: { userId: event.business._id }
-                      }"
-                      target="_blank"
-                    >
-                      <p class="mb-0">{{ event.business.name }}</p>
-                    </router-link>
-                    <p class="mb-0 font-weight-bold">
-                      {{ event.business.address.city }},
-                      {{ event.business.address.streetAddress }}
-                    </p>
-                    <CustomRating rating="5"></CustomRating>
-                  </v-flex>
-                  <v-flex></v-flex>
-                  <v-flex md12>
-                    <v-divider></v-divider>
-                  </v-flex>
-                  <v-flex>
-                    <p>{{ event.description }}</p>
-                  </v-flex>
-                </v-layout>
-              </v-card-text>
-            </v-card>
-          </v-flex>
-          <v-spacer></v-spacer>
-          <v-divider vertical></v-divider>
-          <v-spacer></v-spacer>
-          <v-flex md4>
-            <v-card>
-              <v-card-title class="justify-center">
-                <p class="display-1">Lineup</p>
-              </v-card-title>
-              <v-card-text>
-                <v-layout wrap>
-                  <template v-for="request in approvedRequests">
-                    <v-flex :key="request.band._id" md3 align-self-center>{{
-                      request.band.name
-                    }}</v-flex>
-                    <v-flex :key="request.band._id" md7 align-self-center>
-                      <CustomRating rating="4"></CustomRating>
+            <v-container>
+              <v-layout wrap>
+                <v-flex md1>
+                  <p class="mb-0 headline">{{ date }}</p>
+                  <p class="subheading">{{ monthName }}</p>
+                </v-flex>
+                <v-flex md11 align-self-center>
+                  <p class="display-1">{{ event.name }}</p>
+                </v-flex>
+                <v-flex md12>
+                  <v-divider class="mb-3"></v-divider>
+                </v-flex>
+                <v-flex md1>
+                  <v-icon large>access_time</v-icon>
+                </v-flex>
+                <v-flex md6>
+                  <p class="subheading font-weight-bold mb-0">{{ dayName }}</p>
+                  <p class="subheading">{{ startTime }} - {{ endTime }}</p>
+                </v-flex>
+                <v-flex md1>
+                  <v-icon large>music_note</v-icon>
+                </v-flex>
+                <v-flex md4>
+                  <p class="subheading mb-0 font-weight-bold">Genres</p>
+                  <span>{{ event.genres.toString() }}</span>
+                </v-flex>
+                <v-flex md1>
+                  <v-icon large>location_on</v-icon>
+                </v-flex>
+                <v-flex md6>
+                  <router-link
+                    :to="{
+                      name: 'Profile',
+                      params: { userId: event.business._id }
+                    }"
+                    target="_blank"
+                  >
+                    <p class="mb-0">{{ event.business.name }}</p>
+                  </router-link>
+                  <p class="mb-0 font-weight-bold">
+                    {{ event.business.address.city }},
+                    {{ event.business.address.streetAddress }}
+                  </p>
+                  <CustomRating
+                    :reviews="event.business.reviews"
+                  ></CustomRating>
+                </v-flex>
+                <v-flex md1>
+                  <v-icon large>person</v-icon>
+                </v-flex>
+                <v-flex md4>
+                  <p class="mb-0">
+                    {{ event.business.contactDetails.firstName }}
+                    {{ event.business.contactDetails.lastName }}
+                  </p>
+                  <p class="font-weight-bold">
+                    {{ event.business.contactDetails.email }}
+                    {{ event.business.contactDetails.phoneNumber }}
+                  </p>
+                </v-flex>
+                <v-flex mt-3>
+                  <p>{{ event.description }}</p>
+                </v-flex>
+                <v-flex md12>
+                  <v-divider class="mt-3 mb-3"></v-divider>
+                </v-flex>
+                <v-flex md12>
+                  <p class="display-1">Lineup</p>
+                </v-flex>
+                <v-flex
+                  :key="request.band._id"
+                  v-for="request in approvedRequests"
+                  md4
+                >
+                  <v-layout wrap>
+                    <v-flex md3 align-self-center>
+                      <v-icon large>person</v-icon>
                     </v-flex>
-                    <v-flex :key="request.band._id" md2 align-self-center>
+                    <v-flex
+                      align-self-center
+                      md4
+                      class="subheading font-weight-bold"
+                    >
+                      {{ request.band.name }}</v-flex
+                    >
+                    <v-flex align-self-center md5>
                       <router-link
                         :to="{
                           name: 'Profile',
@@ -106,16 +99,29 @@
                         class="no-underline"
                       >
                         <v-btn icon>
-                          <v-icon color="purple" large>info</v-icon>
+                          <v-icon color="purple">info</v-icon>
                         </v-btn>
                       </router-link>
                     </v-flex>
-                  </template>
-                </v-layout>
-              </v-card-text>
-            </v-card>
+                    <v-flex offset-md3>
+                      <CustomRating
+                        :reviews="request.band.reviews"
+                      ></CustomRating>
+                    </v-flex>
+                  </v-layout>
+                </v-flex>
+              </v-layout>
+            </v-container>
           </v-flex>
-          <v-spacer></v-spacer>
+          <v-flex>
+            <v-carousel>
+              <v-carousel-item
+                v-for="(item, i) in items"
+                :key="i"
+                :src="item.src"
+              ></v-carousel-item>
+            </v-carousel>
+          </v-flex>
         </v-layout>
       </v-container>
     </v-sheet>
@@ -124,6 +130,9 @@
 <style>
 .no-underline {
   text-decoration: none;
+}
+.v-sheet.sheet-background {
+  background-color: rgba(250, 245, 245, 0.8);
 }
 </style>
 
