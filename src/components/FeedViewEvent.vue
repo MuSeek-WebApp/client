@@ -53,7 +53,7 @@
               {{ event.business.name }}
             </h4>
           </router-link>
-          <CustomRating :reviews="event.business.reviews"></CustomRating>
+          <CustomRating :userId="event.business._id"></CustomRating>
         </v-flex>
         <v-flex class="pt-0">
           <h4>

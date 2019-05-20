@@ -1,10 +1,10 @@
 <template>
   <v-container class="pa-0">
     <v-layout>
-      <v-flex md2>({{ rating || computedRating || 0 }})</v-flex>
+      <v-flex md2>({{ rating || 0 }})</v-flex>
       <v-flex>
         <v-rating
-          :value="rating || computedRating || 0"
+          :value="rating || 0"
           dense
           readonly
           background-color="orange lighten-3"
@@ -17,14 +17,18 @@
 </template>
 
 <script>
+import ApiService from "../common/api.service";
 export default {
-  props: ["rating", "reviews"],
-  computed: {
-    computedRating() {
-      return this.reviews
-        ? this.reviews.reduce((a, b) => a + (b["stars"] || 0), 0) /
-            this.reviews.length
-        : 0;
+  props: ["passedRating", "userId"],
+  data: function() {
+    return {
+      rating: this.passedRating
+    };
+  },
+  async created() {
+    if (this.userId) {
+      const { data } = await ApiService.get("api/user/rating/" + this.userId);
+      this.rating = data[0].avgRating;
     }
   }
 };

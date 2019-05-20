@@ -47,9 +47,7 @@
                     {{ event.business.address.city }},
                     {{ event.business.address.streetAddress }}
                   </p>
-                  <CustomRating
-                    :reviews="event.business.reviews"
-                  ></CustomRating>
+                  <CustomRating :userId="event.business._id"></CustomRating>
                 </v-flex>
                 <v-flex md1>
                   <v-icon large>person</v-icon>
@@ -104,9 +102,7 @@
                       </router-link>
                     </v-flex>
                     <v-flex offset-md3>
-                      <CustomRating
-                        :reviews="request.band.reviews"
-                      ></CustomRating>
+                      <CustomRating :userId="request.band._id"></CustomRating>
                     </v-flex>
                   </v-layout>
                 </v-flex>
