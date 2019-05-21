@@ -33,9 +33,7 @@
           </v-flex>
           <v-flex md4>
             <v-tabs slider-color="#1976d2">
-              <v-tab ripple>
-                event details
-              </v-tab>
+              <v-tab ripple>event details</v-tab>
               <v-tab-item>
                 <v-layout row>
                   <v-flex md12>
@@ -54,12 +52,8 @@
           </v-flex>
           <v-flex md8 pl-4>
             <v-tabs slider-color="#1976d2">
-              <v-tab ripple>
-                lineup
-              </v-tab>
-              <v-tab ripple>
-                find bands
-              </v-tab>
+              <v-tab ripple>lineup</v-tab>
+              <v-tab ripple>find bands</v-tab>
               <v-tab-item :transition="false" :reverse-transition="false">
                 <lineup v-model="event.requests"></lineup>
               </v-tab-item>
@@ -67,6 +61,25 @@
                 <find-bands v-model="event.requests"></find-bands>
               </v-tab-item>
             </v-tabs>
+          </v-flex>
+          <v-flex md4>
+            <v-card>
+              <v-card-text>
+                <v-layout wrap>
+                  <v-flex :key="imageUrl" v-for="imageUrl in event.photos">
+                    <v-img :src="imageUrl" aspect-ratio="2" class="ma-1">
+                    </v-img>
+                  </v-flex>
+                </v-layout>
+              </v-card-text>
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn icon>
+                  <v-icon large>cloud_upload</v-icon>
+                </v-btn>
+                <v-spacer></v-spacer>
+              </v-card-actions>
+            </v-card>
           </v-flex>
         </v-layout>
       </v-container>

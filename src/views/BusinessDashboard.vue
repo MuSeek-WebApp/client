@@ -76,7 +76,8 @@ export default {
         description: "",
         genres: [],
         bands: [],
-        requests: []
+        requests: [],
+        photos: []
       }
     };
   },
@@ -124,6 +125,7 @@ export default {
       event.genres = [];
       event.bands = [];
       event.requests = [];
+      event.photos = [];
     }
   }
 };

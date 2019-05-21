@@ -3,7 +3,11 @@
     <v-img
       class="white--text"
       height="150px"
-      src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"
+      :src="
+        event.photos
+          ? event.photos[0]
+          : require('../../public/img/default-event.png')
+      "
     >
       <v-container fill-height class="pa-1">
         <v-layout>
