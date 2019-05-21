@@ -13,7 +13,7 @@
       </template>
 
       <v-list>
-        <v-list-tile @click="routeTo('/profile/' + uid)">
+        <v-list-tile @click="routeTo('/profile/' + getUserUid)">
           <v-icon left>person</v-icon>
           <v-list-tile-title>Profile</v-list-tile-title>
         </v-list-tile>
@@ -29,11 +29,12 @@
 
 <script>
 import { SIGN_OUT } from "@/store/actions.type";
-import { createNamespacedHelpers } from "vuex";
-const { mapState } = createNamespacedHelpers("profile");
+import { mapGetters } from "vuex";
 
 export default {
-  computed: { ...mapState(["uid"]) },
+  computed: {
+    ...mapGetters(["getUserUid"])
+  },
   methods: {
     signOut: async function() {
       await this.$store.dispatch(SIGN_OUT);
