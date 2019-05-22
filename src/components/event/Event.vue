@@ -33,9 +33,7 @@
           </v-flex>
           <v-flex md4>
             <v-tabs slider-color="#1976d2">
-              <v-tab ripple>
-                event details
-              </v-tab>
+              <v-tab ripple>event details</v-tab>
               <v-tab-item>
                 <v-layout row>
                   <v-flex md12>
@@ -54,12 +52,8 @@
           </v-flex>
           <v-flex md8 pl-4>
             <v-tabs slider-color="#1976d2">
-              <v-tab ripple>
-                lineup
-              </v-tab>
-              <v-tab ripple>
-                find bands
-              </v-tab>
+              <v-tab ripple>lineup</v-tab>
+              <v-tab ripple>find bands</v-tab>
               <v-tab-item :transition="false" :reverse-transition="false">
                 <lineup v-model="event.requests"></lineup>
               </v-tab-item>
@@ -68,11 +62,68 @@
               </v-tab-item>
             </v-tabs>
           </v-flex>
+          <v-flex md4>
+            <v-card>
+              <v-card-text>
+                <v-layout wrap>
+                  <v-flex
+                    :key="index"
+                    v-for="(imageUrl, index) in event.photos"
+                    md4
+                    class="text-md-right"
+                  >
+                    <v-img
+                      :src="imageUrl"
+                      aspect-ratio="2"
+                      class="ma-1 event-image"
+                      @mouseover="showRemove = index"
+                      @mouseleave="showRemove = -1"
+                    >
+                      <template v-if="showRemove === index">
+                        <v-btn
+                          dark
+                          icon
+                          style="opacity:1"
+                          @click="removeImage(index)"
+                        >
+                          <v-icon large>cancel</v-icon>
+                        </v-btn>
+                      </template>
+                    </v-img>
+                  </v-flex>
+                </v-layout>
+              </v-card-text>
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <input
+                  class="hide"
+                  type="file"
+                  accept=".png, .jpg, .jpeg"
+                  @change="uploadImage"
+                  ref="imageInput"
+                />
+                <v-btn
+                  @click="$refs.imageInput.click()"
+                  :loading="uploading"
+                  :disabled="uploading"
+                >
+                  UPLOAD
+                  <v-icon right>cloud_upload</v-icon>
+                </v-btn>
+                <v-spacer></v-spacer>
+              </v-card-actions>
+            </v-card>
+          </v-flex>
         </v-layout>
       </v-container>
     </v-form>
   </v-card>
 </template>
+<style scoped>
+.event-image:hover {
+  opacity: 0.8;
+}
+</style>
 
 <script>
 import { NEW_EVENT, UPDATE_EVENT } from "../../store/actions.type";
@@ -82,6 +133,7 @@ import FindBands from "./FindBands";
 import DatetimePicker from "../DatetimePicker";
 import { START_PROGRESS, STOP_PROGRESS } from "../../store/mutations.type";
 import moment from "moment";
+import ApiService from "../../common/api.service";
 
 export default {
   components: {
@@ -104,7 +156,9 @@ export default {
       startDatePicker: false,
       endDatePicker: false,
       event: this.bindedEvent,
-      startTimes: []
+      startTimes: [],
+      uploading: false,
+      showRemove: -1
     };
   },
   beforeMount: function() {
@@ -138,6 +192,23 @@ export default {
     },
     close() {
       this.$emit("dialog-close");
+    },
+    removeImage(index) {
+      this.event.photos.splice(index, 1);
+    },
+    async uploadImage(event) {
+      try {
+        this.uploading = true;
+        const selectedFile = event.target.files[0];
+        const fd = new FormData();
+        fd.append("image", selectedFile, selectedFile.name);
+        const { data } = await ApiService.post("/api/event/uploadImage", fd);
+        this.event.photos.push(data.url);
+      } catch (error) {
+        // show something to user that upload failed
+      } finally {
+        this.uploading = false;
+      }
     }
   }
 };
