@@ -14,3 +14,5 @@ export const SET_USER_DATA = "setUserData";
 export const SET_FIND_BANDS = "setFindBands";
 export const SET_FEED = "setFeed";
 export const SET_VIEWED_EVENT = "setViewedEvent";
+export const DISPATCH_ERROR_MESSAGE = "dispatchErrorMessage";
+export const CLEAR_ERROR_MESSAGE = "clearErrorMessage";

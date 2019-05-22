@@ -10,6 +10,7 @@
     <Header v-if="isAuthenticated" />
     <router-view />
     <Footer />
+    <ErrorSnackbar />
   </v-app>
 </template>
 
@@ -27,12 +28,14 @@ import { createNamespacedHelpers, mapState, mapGetters } from "vuex";
 const { mapActions } = createNamespacedHelpers("profile");
 import Header from "./components/Header.vue";
 import Footer from "./components/Footer.vue";
+import ErrorSnackbar from "./components/ErrorSnackbar.vue";
 
 export default {
   name: "app",
   components: {
     Header,
-    Footer
+    Footer,
+    ErrorSnackbar
   },
   async created() {
     await this.getUid();
