@@ -6,7 +6,7 @@
       :src="
         event.photos
           ? event.photos[0]
-          : require('../../public/img/default-event.png')
+          : require('../../public/img/default-event.jpg')
       "
     >
       <v-container fill-height class="pa-1">

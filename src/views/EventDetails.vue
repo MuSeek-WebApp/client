@@ -1,7 +1,7 @@
 <template>
   <v-container grid-list-xs class="background-image">
     <v-sheet elevation="1" class="sheet-background">
-      <v-container>
+      <v-container fluid>
         <v-layout>
           <v-flex md6>
             <v-container>

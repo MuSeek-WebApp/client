@@ -66,16 +66,31 @@
             <v-card>
               <v-card-text>
                 <v-layout wrap>
-                  <v-flex :key="imageUrl" v-for="imageUrl in event.photos">
-                    <v-img :src="imageUrl" aspect-ratio="2" class="ma-1">
-                    </v-img>
+                  <v-flex :key="imageUrl" v-for="imageUrl in event.photos" md4>
+                    <v-img
+                      :src="imageUrl"
+                      aspect-ratio="2"
+                      class="ma-1"
+                    ></v-img>
                   </v-flex>
                 </v-layout>
               </v-card-text>
               <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn icon>
-                  <v-icon large>cloud_upload</v-icon>
+                <input
+                  class="hide"
+                  type="file"
+                  accept=".png, .jpg, .jpeg"
+                  @change="uploadImage"
+                  ref="imageInput"
+                />
+                <v-btn
+                  @click="$refs.imageInput.click()"
+                  :loading="uploading"
+                  :disabled="uploading"
+                >
+                  UPLOAD
+                  <v-icon right>cloud_upload</v-icon>
                 </v-btn>
                 <v-spacer></v-spacer>
               </v-card-actions>
@@ -95,6 +110,7 @@ import FindBands from "./FindBands";
 import DatetimePicker from "../DatetimePicker";
 import { START_PROGRESS, STOP_PROGRESS } from "../../store/mutations.type";
 import moment from "moment";
+import ApiService from "../../common/api.service";
 
 export default {
   components: {
@@ -117,7 +133,8 @@ export default {
       startDatePicker: false,
       endDatePicker: false,
       event: this.bindedEvent,
-      startTimes: []
+      startTimes: [],
+      uploading: false
     };
   },
   beforeMount: function() {
@@ -151,6 +168,20 @@ export default {
     },
     close() {
       this.$emit("dialog-close");
+    },
+    async uploadImage(event) {
+      try {
+        this.uploading = true;
+        const selectedFile = event.target.files[0];
+        const fd = new FormData();
+        fd.append("image", selectedFile, selectedFile.name);
+        const { data } = await ApiService.post("/api/event/uploadImage", fd);
+        this.event.photos.push(data.url);
+      } catch (error) {
+        // show something to user that upload failed
+      } finally {
+        this.uploading = false;
+      }
     }
   }
 };
