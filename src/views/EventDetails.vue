@@ -1,7 +1,7 @@
 <template>
   <v-container grid-list-xs class="background-image">
     <v-sheet elevation="1" class="sheet-background">
-      <v-container>
+      <v-container fluid>
         <v-layout>
           <v-flex md6>
             <v-container>
@@ -112,9 +112,9 @@
           <v-flex>
             <v-carousel>
               <v-carousel-item
-                v-for="(item, i) in items"
+                v-for="(imageUrl, i) in event.photos"
                 :key="i"
-                :src="item.src"
+                :src="imageUrl"
               ></v-carousel-item>
             </v-carousel>
           </v-flex>
@@ -143,20 +143,6 @@ export default {
   },
   data: function() {
     return {
-      items: [
-        {
-          src: "https://cdn.vuetifyjs.com/images/carousel/squirrel.jpg"
-        },
-        {
-          src: "https://cdn.vuetifyjs.com/images/carousel/sky.jpg"
-        },
-        {
-          src: "https://cdn.vuetifyjs.com/images/carousel/bird.jpg"
-        },
-        {
-          src: "https://cdn.vuetifyjs.com/images/carousel/planet.jpg"
-        }
-      ],
       monthName: null,
       dayName: null,
       date: null,
