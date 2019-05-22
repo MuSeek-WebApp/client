@@ -8,6 +8,7 @@ import router from "./router";
 import firebase from "firebase";
 import store from "./store";
 import ApiService from "./common/api.service";
+import WsService from "./common/ws.service";
 import config from "./common/firebase.js";
 import VueTextareaAutosize from "vue-textarea-autosize";
 import { CHECK_AUTH, GET_USER_DATA } from "./store/actions.type";
@@ -25,7 +26,9 @@ Vue.use(VueGoogleMaps, {
     key: config.apiKey
   }
 });
+
 ApiService.init();
+WsService.init();
 
 router.beforeEach(async (to, from, next) => {
   try {
