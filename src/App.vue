@@ -9,7 +9,6 @@
     ></v-progress-linear>
     <Header v-if="isAuthenticated" />
     <router-view />
-    <Footer />
   </v-app>
 </template>
 
@@ -22,17 +21,16 @@
 </style>
 
 <script>
-import { GET_UID, GET_CURRENT_PROFILE } from "@/store/actions.type";
-import { createNamespacedHelpers, mapState, mapGetters } from "vuex";
-const { mapActions } = createNamespacedHelpers("profile");
+import { GET_CURRENT_PROFILE, GET_UID } from "@/store/actions.type";
+import { createNamespacedHelpers, mapGetters, mapState } from "vuex";
 import Header from "./components/Header.vue";
-import Footer from "./components/Footer.vue";
+
+const { mapActions } = createNamespacedHelpers("profile");
 
 export default {
   name: "app",
   components: {
-    Header,
-    Footer
+    Header
   },
   async created() {
     await this.getUid();

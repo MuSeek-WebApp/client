@@ -1,5 +1,5 @@
 <template>
-  <v-card class="mb-2" v-bind:color="colour" dark>
+  <v-card v-bind:color="colour" dark>
     <v-card-text
       class="headline font-weight-bold"
       v-text="review.description"
@@ -14,7 +14,6 @@
             <router-link
               :to="`/profile/${review.userId}`"
               v-text="review.userName"
-              class="ref"
             ></router-link>
           </v-list-tile-title>
         </v-list-tile-content>
@@ -34,18 +33,18 @@
 
 <script>
 export default {
+  props: ["review", "colour"],
   computed: {
     color: function() {
       return this.colors[Math.floor(Math.random() * this.colors.length)];
     }
-  },
-  props: ["review", "colour"]
+  }
 };
 </script>
 
-<style>
-.ref {
+<style scoped>
+.v-card >>> a {
   color: white;
-  text-decoration: none !important;
+  text-decoration: none;
 }
 </style>

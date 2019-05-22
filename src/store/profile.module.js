@@ -20,6 +20,7 @@ const actions = {
     try {
       commit(SET_UID, await ApiService.get("/api/profile/uid"));
     } catch (error) {
+      // eslint-disable-next-line
       console.log("ERROR");
     }
   },
@@ -31,6 +32,7 @@ const actions = {
         await ApiService.post("/api/profile/get", { userId: userId })
       );
     } catch (error) {
+      // eslint-disable-next-line
       console.log("ERROR");
     }
   },
@@ -40,6 +42,7 @@ const actions = {
       await ApiService.post("/api/profile/upload", file);
       dispatch(GET_PROFILE, state.uid);
     } catch (error) {
+      // eslint-disable-next-line
       console.log("ERROR");
     }
   },
@@ -49,6 +52,7 @@ const actions = {
       await ApiService.post("/api/profile/update", { profile: profile });
       dispatch(GET_PROFILE, state.uid);
     } catch (error) {
+      // eslint-disable-next-line
       console.log("ERROR");
     }
   },
@@ -60,6 +64,7 @@ const actions = {
         await ApiService.post("/api/profile/get", { userId: state.uid })
       );
     } catch (error) {
+      // eslint-disable-next-line
       console.log("ERROR");
     }
   }

@@ -26,9 +26,14 @@ import ProfileDetails from "../components/ProfileDetails";
 import Review from "../components/Review";
 import { GET_PROFILE } from "@/store/actions.type";
 import { createNamespacedHelpers } from "vuex";
+
 const { mapState, mapActions } = createNamespacedHelpers("profile");
 
 export default {
+  components: {
+    ProfileDetails,
+    Review
+  },
   data: () => ({
     colors: ["blue", "purple", "red"]
   }),
@@ -41,10 +46,6 @@ export default {
   },
   methods: {
     ...mapActions([GET_PROFILE])
-  },
-  components: {
-    ProfileDetails,
-    Review
   }
 };
 </script>

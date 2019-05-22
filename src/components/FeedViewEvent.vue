@@ -23,14 +23,14 @@
             <v-layout>
               <v-spacer></v-spacer>
               <v-flex md6>
-                <router-link
-                  :to="{ name: 'EventDetails', params: { id: event._id } }"
+                <v-btn
+                  color="white"
+                  icon
+                  :to="`/event/${event._id}`"
                   target="_blank"
                 >
-                  <v-btn color="white" icon>
-                    <v-icon color="purple" large>info</v-icon>
-                  </v-btn>
-                </router-link>
+                  <v-icon color="purple" large>info</v-icon>
+                </v-btn>
               </v-flex>
             </v-layout>
           </v-flex>
