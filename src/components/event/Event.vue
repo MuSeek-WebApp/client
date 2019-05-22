@@ -66,12 +66,30 @@
             <v-card>
               <v-card-text>
                 <v-layout wrap>
-                  <v-flex :key="imageUrl" v-for="imageUrl in event.photos" md4>
+                  <v-flex
+                    :key="index"
+                    v-for="(imageUrl, index) in event.photos"
+                    md4
+                    class="text-md-right"
+                  >
                     <v-img
                       :src="imageUrl"
                       aspect-ratio="2"
-                      class="ma-1"
-                    ></v-img>
+                      class="ma-1 event-image"
+                      @mouseover="showRemove = index"
+                      @mouseleave="showRemove = -1"
+                    >
+                      <template v-if="showRemove === index">
+                        <v-btn
+                          dark
+                          icon
+                          style="opacity:1"
+                          @click="removeImage(index)"
+                        >
+                          <v-icon large>cancel</v-icon>
+                        </v-btn>
+                      </template>
+                    </v-img>
                   </v-flex>
                 </v-layout>
               </v-card-text>
@@ -101,6 +119,11 @@
     </v-form>
   </v-card>
 </template>
+<style scoped>
+.event-image:hover {
+  opacity: 0.8;
+}
+</style>
 
 <script>
 import { NEW_EVENT, UPDATE_EVENT } from "../../store/actions.type";
@@ -134,7 +157,8 @@ export default {
       endDatePicker: false,
       event: this.bindedEvent,
       startTimes: [],
-      uploading: false
+      uploading: false,
+      showRemove: -1
     };
   },
   beforeMount: function() {
@@ -168,6 +192,9 @@ export default {
     },
     close() {
       this.$emit("dialog-close");
+    },
+    removeImage(index) {
+      this.event.photos.splice(index, 1);
     },
     async uploadImage(event) {
       try {
