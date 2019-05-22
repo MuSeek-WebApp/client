@@ -103,15 +103,12 @@ const actions = {
   },
   async [APPROVE_BY_ARTIST](context, payload) {
     await ApiService.post("api/event/approve-band/", payload);
-    await context.dispatch(FETCH_EVENTS);
   },
   async [DENY_BY_ARTIST](context, payload) {
     await ApiService.post("api/event/deny-band/", payload);
-    await context.dispatch(FETCH_EVENTS);
   },
   async [REGISTER_EVENT](context, event) {
     await ApiService.post("api/event/register-band", event);
-    await context.dispatch(FETCH_EVENTS);
   },
   async [FETCH_SINGLE_EVENT](context, id) {
     const { data } = await ApiService.get("api/event/id/" + id);
