@@ -9,6 +9,7 @@
     ></v-progress-linear>
     <Header v-if="isAuthenticated" />
     <router-view />
+    <ErrorSnackbar />
   </v-app>
 </template>
 
@@ -24,13 +25,15 @@
 import { GET_CURRENT_PROFILE, GET_UID } from "@/store/actions.type";
 import { createNamespacedHelpers, mapGetters, mapState } from "vuex";
 import Header from "./components/Header.vue";
+import ErrorSnackbar from "./components/ErrorSnackbar.vue";
 
 const { mapActions } = createNamespacedHelpers("profile");
 
 export default {
   name: "app",
   components: {
-    Header
+    Header,
+    ErrorSnackbar
   },
   async created() {
     await this.getUid();
