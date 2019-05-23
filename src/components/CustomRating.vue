@@ -28,7 +28,7 @@ export default {
   async created() {
     if (this.userId) {
       const { data } = await ApiService.get("api/user/rating/" + this.userId);
-      this.rating = Number(data[0].avgRating).toFixed(1);
+      this.rating = Number(data[0].avgRating.toFixed(1));
     }
   }
 };
