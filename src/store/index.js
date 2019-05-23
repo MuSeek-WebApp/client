@@ -5,6 +5,7 @@ import progress from "./progress.module";
 import event from "./event.module";
 import profile from "./profile.module";
 import band from "./band.module";
+import error from "./error.module";
 
 Vue.use(Vuex);
 
@@ -14,6 +15,7 @@ export default new Vuex.Store({
     progress,
     event,
     profile,
-    band
+    band,
+    error
   }
 });
