@@ -1,17 +1,16 @@
 <template>
   <v-container class="pa-0">
     <v-layout>
-      <v-flex md2>({{ rating || 0 }})</v-flex>
-      <v-flex>
-        <v-rating
-          :value="rating || 0"
-          dense
-          readonly
-          background-color="orange lighten-3"
-          color="orange"
-          small
-        ></v-rating>
-      </v-flex>
+      ({{ rating || 0 }})
+
+      <v-rating
+        :value="rating || 0"
+        dense
+        readonly
+        background-color="orange lighten-3"
+        color="orange"
+        small
+      ></v-rating>
     </v-layout>
   </v-container>
 </template>
