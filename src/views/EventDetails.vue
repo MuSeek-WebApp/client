@@ -2,15 +2,18 @@
   <v-container grid-list-xs class="background-image">
     <v-sheet elevation="1" class="sheet-background">
       <v-container fluid>
-        <v-layout>
+        <v-layout row>
           <v-flex md6>
             <v-container>
               <v-layout wrap>
+                <v-flex md1 align-self-center>
+                  <v-icon x-large>event</v-icon>
+                </v-flex>
                 <v-flex md1>
                   <p class="mb-0 headline">{{ date }}</p>
                   <p class="subheading">{{ monthName }}</p>
                 </v-flex>
-                <v-flex md11 align-self-center>
+                <v-flex md10 align-self-center>
                   <p class="display-1">{{ event.name }}</p>
                 </v-flex>
                 <v-flex md12>
@@ -19,101 +22,105 @@
                 <v-flex md1>
                   <v-icon large>access_time</v-icon>
                 </v-flex>
-                <v-flex md6>
-                  <p class="subheading font-weight-bold mb-0">{{ dayName }}</p>
-                  <p class="subheading">{{ startTime }} - {{ endTime }}</p>
+                <v-flex md3>
+                  <p class="subheading mb-0 font-weight-bold">{{ dayName }}</p>
+                  <p>{{ startTime }} - {{ endTime }}</p>
                 </v-flex>
                 <v-flex md1>
                   <v-icon large>music_note</v-icon>
                 </v-flex>
-                <v-flex md4>
+                <v-flex md3>
                   <p class="subheading mb-0 font-weight-bold">Genres</p>
-                  <span>{{ event.genres.toString() }}</span>
+                  <p>{{ event.genres.join(", ") }}</p>
+                </v-flex>
+                <v-flex md1>
+                  <v-icon large>thumbs_up_down</v-icon>
+                </v-flex>
+                <v-flex md3>
+                  <p class="subheading mb-0 font-weight-bold">Rating</p>
+                  <custom-rating :userId="event.business._id"></custom-rating>
                 </v-flex>
                 <v-flex md1>
                   <v-icon large>location_on</v-icon>
                 </v-flex>
-                <v-flex md6>
-                  <router-link
-                    :to="{
-                      name: 'Profile',
-                      params: { userId: event.business._id }
-                    }"
-                    target="_blank"
-                  >
-                    <p class="mb-0">{{ event.business.name }}</p>
-                  </router-link>
-                  <p class="mb-0 font-weight-bold">
+                <v-flex md3>
+                  <p class="subheading mb-0 font-weight-bold">
+                    {{ event.business.name }}
+                  </p>
+                  <p>
                     {{ event.business.address.city }},
                     {{ event.business.address.streetAddress }}
                   </p>
-                  <CustomRating :userId="event.business._id"></CustomRating>
                 </v-flex>
                 <v-flex md1>
-                  <v-icon large>person</v-icon>
+                  <v-icon large>contact_mail</v-icon>
                 </v-flex>
-                <v-flex md4>
-                  <p class="mb-0">
-                    {{ event.business.contactDetails.firstName }}
-                    {{ event.business.contactDetails.lastName }}
+                <v-flex md3>
+                  <p class="subheading mb-0 font-weight-bold">
+                    Email
                   </p>
-                  <p class="font-weight-bold">
-                    {{ event.business.contactDetails.email }}
-                    {{ event.business.contactDetails.phoneNumber }}
-                  </p>
+                  <p>{{ event.business.contactDetails.email }}</p>
                 </v-flex>
-                <v-flex mt-3>
+                <v-flex md1>
+                  <v-icon large>contact_mail</v-icon>
+                </v-flex>
+                <v-flex md3>
+                  <p class="subheading mb-0 font-weight-bold">
+                    Phone
+                  </p>
+                  <p>{{ event.business.contactDetails.phoneNumber }}</p>
+                </v-flex>
+                <v-flex md12>
+                  <v-divider class="mb-3"></v-divider>
+                </v-flex>
+                <v-flex md1>
+                  <v-icon>event_note</v-icon>
+                </v-flex>
+                <v-flex md11>
                   <p>{{ event.description }}</p>
                 </v-flex>
                 <v-flex md12>
                   <v-divider class="mt-3 mb-3"></v-divider>
                 </v-flex>
-                <v-flex md12>
+                <v-flex md1>
+                  <v-icon x-large>queue_music</v-icon>
+                </v-flex>
+                <v-flex md11>
                   <p class="display-1">Lineup</p>
                 </v-flex>
-                <v-flex
-                  :key="request.band._id"
-                  v-for="request in approvedRequests"
-                  md4
-                >
-                  <v-layout wrap>
-                    <v-flex md3 align-self-center>
-                      <v-icon large>person</v-icon>
-                    </v-flex>
-                    <v-flex
-                      align-self-center
-                      md4
-                      class="subheading font-weight-bold"
+                <v-flex md12>
+                  <v-list two-line subheader>
+                    <v-list-tile
+                      v-for="request in approvedRequests"
+                      :key="request.band._id"
+                      avatar
                     >
-                      {{ request.band.name }}</v-flex
-                    >
-                    <v-flex align-self-center md5>
-                      <v-tooltip bottom>
-                        <template v-slot:activator="{ on }">
-                          <v-btn
-                            flat
-                            icon
-                            class="mx-0"
-                            color="pink lighten-1"
-                            v-on="on"
-                            :to="`/profile/${request.band._id}`"
-                            target="_blank"
-                          >
-                            <v-icon>person</v-icon>
-                          </v-btn>
-                        </template>
-                        <span>Profile</span>
-                      </v-tooltip>
-                    </v-flex>
-                    <v-flex offset-md3>
-                      <CustomRating :userId="request.band._id"></CustomRating>
-                    </v-flex>
-                  </v-layout>
+                      <v-list-tile-avatar>
+                        <img :src="request.band.profile_photo" alt="" />
+                      </v-list-tile-avatar>
+
+                      <v-list-tile-content>
+                        <v-list-tile-title
+                          v-html="request.band.name"
+                        ></v-list-tile-title>
+                        <v-list-tile-sub-title
+                          v-html="request.band.description"
+                        ></v-list-tile-sub-title>
+                      </v-list-tile-content>
+
+                      <v-list-tile-action>
+                        <custom-rating
+                          :userId="request.band._id"
+                        ></custom-rating>
+                      </v-list-tile-action>
+                    </v-list-tile>
+                    <v-divider inset></v-divider>
+                  </v-list>
                 </v-flex>
               </v-layout>
             </v-container>
           </v-flex>
-          <v-flex>
+          <v-flex md6>
             <v-carousel>
               <v-carousel-item
                 v-for="(imageUrl, i) in event.photos"
@@ -127,14 +134,6 @@
     </v-sheet>
   </v-container>
 </template>
-<style>
-.no-underline {
-  text-decoration: none;
-}
-.v-sheet.sheet-background {
-  background-color: rgba(250, 245, 245, 0.8);
-}
-</style>
 
 <script>
 import { FETCH_SINGLE_EVENT } from "../store/actions.type";
@@ -172,3 +171,15 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+.v-list {
+  background: transparent;
+}
+.no-underline {
+  text-decoration: none;
+}
+.v-sheet.sheet-background {
+  background-color: rgba(250, 245, 245, 0.8);
+}
+</style>
