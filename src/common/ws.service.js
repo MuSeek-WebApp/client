@@ -7,6 +7,7 @@ const WsService = {
     const ws = new WebSocket(WS_URL + "/ws/event");
 
     ws.onopen = () => {
+      // eslint-disable-next-line
       console.log("WebSocket connection has started");
     };
 
@@ -16,6 +17,7 @@ const WsService = {
           await store.dispatch(FETCH_EVENTS);
           await store.dispatch(FETCH_FEED);
         } catch (err) {
+          // eslint-disable-next-line
           console.log("fetch dispatching error " + err);
         }
       }

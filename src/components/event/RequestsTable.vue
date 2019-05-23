@@ -64,6 +64,7 @@
               color="pink lighten-1"
               v-on="on"
               :to="`/profile/${props.item.band._id}`"
+              target="_blank"
             >
               <v-icon>person</v-icon>
             </v-btn>

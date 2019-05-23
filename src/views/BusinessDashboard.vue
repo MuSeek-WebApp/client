@@ -35,7 +35,7 @@
               fixed
               dark
               fab
-              button
+              bottom
               right
               v-on="on"
               color="pink"
@@ -58,6 +58,7 @@ import CalendarEvent from "../components/CalendarEvent";
 import Event from "../components/event/Event";
 import { FETCH_EVENTS } from "../store/actions.type";
 import moment from "moment";
+
 export default {
   components: {
     Event,

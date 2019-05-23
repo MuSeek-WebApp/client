@@ -88,18 +88,22 @@
                       {{ request.band.name }}</v-flex
                     >
                     <v-flex align-self-center md5>
-                      <router-link
-                        :to="{
-                          name: 'Profile',
-                          params: { userId: request.band._id }
-                        }"
-                        target="_blank"
-                        class="no-underline"
-                      >
-                        <v-btn icon>
-                          <v-icon color="purple">info</v-icon>
-                        </v-btn>
-                      </router-link>
+                      <v-tooltip bottom>
+                        <template v-slot:activator="{ on }">
+                          <v-btn
+                            flat
+                            icon
+                            class="mx-0"
+                            color="pink lighten-1"
+                            v-on="on"
+                            :to="`/profile/${request.band._id}`"
+                            target="_blank"
+                          >
+                            <v-icon>person</v-icon>
+                          </v-btn>
+                        </template>
+                        <span>Profile</span>
+                      </v-tooltip>
                     </v-flex>
                     <v-flex offset-md3>
                       <CustomRating :userId="request.band._id"></CustomRating>

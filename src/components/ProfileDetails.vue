@@ -71,9 +71,9 @@
                 v-model="profileCopy.contactDetails.email"
               />
             </v-list-tile-title>
-            <v-list-tile-sub-title
-              >Electronic Mail Address</v-list-tile-sub-title
-            >
+            <v-list-tile-sub-title>
+              Electronic Mail Address
+            </v-list-tile-sub-title>
             <span class="error--text" v-if="!isEmailValid"
               >Invalid email format.</span
             >
@@ -236,10 +236,11 @@
 </template>
 
 <script>
-import { UPLOAD_PROFILE_IMAGE, SAVE_PROFILE_DATA } from "@/store/actions.type";
+import { SAVE_PROFILE_DATA, UPLOAD_PROFILE_IMAGE } from "@/store/actions.type";
 import { createNamespacedHelpers } from "vuex";
 import BandMembersList from "./BandMembersList";
 import genres from "../common/genres";
+
 const { mapActions } = createNamespacedHelpers("profile");
 
 export default {
@@ -267,6 +268,7 @@ export default {
       );
     },
     isEmailValid: function() {
+      // eslint-disable-next-line
       const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
       return re.test(
         String(this.profileCopy.contactDetails.email).toLowerCase()
