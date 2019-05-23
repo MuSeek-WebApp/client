@@ -1,11 +1,25 @@
 <template>
   <v-container class="background-image">
     <v-layout justify-center>
-      <v-flex md8>
+      <v-flex md11>
         <v-sheet elevation="1">
-          <v-layout wrap>
-            <v-flex xs12>
-              <v-sheet height="600">
+          <v-layout wrap justify-center>
+            <v-flex class="text-sm-center" xs1>
+              <v-btn icon @click="$refs.calendar.prev()">
+                <v-icon>chevron_left</v-icon>
+              </v-btn>
+            </v-flex>
+            <v-flex class="text-sm-center headline" align-self-center xs1>{{
+              getSelectedMonthAndYear
+            }}</v-flex>
+            <v-flex class="text-xs-center" xs1>
+              <v-btn icon @click="$refs.calendar.next()">
+                <v-icon>chevron_right</v-icon>
+              </v-btn>
+            </v-flex>
+
+            <v-flex xs12 mt-2>
+              <v-sheet height="700" elevation="2">
                 <v-calendar
                   ref="calendar"
                   v-model="date"
@@ -20,27 +34,23 @@
                 </v-calendar>
               </v-sheet>
             </v-flex>
-            <v-flex class="text-sm-left" xs6>
-              <v-btn @click="$refs.calendar.prev()">Prev</v-btn>
-            </v-flex>
-            <v-flex class="text-xs-right" xs6>
-              <v-btn @click="$refs.calendar.next()">Next</v-btn>
-            </v-flex>
           </v-layout>
         </v-sheet>
         <v-dialog v-model="dialog" persistent fullscreen>
           <template v-slot:activator="{ on }">
             <v-btn
               @click="addEvent()"
+              large
               fixed
-              dark
               fab
               bottom
               right
+              color="white"
               v-on="on"
-              color="pink"
+              class="ma-5"
+              style="opacity:0.8"
             >
-              <v-icon>add</v-icon>
+              <v-icon color="pink" large>add</v-icon>
             </v-btn>
           </template>
           <Event
@@ -97,6 +107,13 @@ export default {
       }
 
       return eventsByDate;
+    },
+    getSelectedMonthAndYear() {
+      let seletedMonth = moment();
+      if (this.date) {
+        seletedMonth = moment(this.date);
+      }
+      return seletedMonth.format("MMM") + " " + seletedMonth.format("YYYY");
     }
   },
   created() {
