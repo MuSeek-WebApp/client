@@ -35,14 +35,7 @@ export default {
     Header,
     ErrorSnackbar
   },
-  async created() {
-    await this.getUid();
-    await this.getCurrentProfile();
-  },
-  methods: {
-    ...mapActions([GET_UID]),
-    ...mapActions([GET_CURRENT_PROFILE])
-  },
+  async created() {},
   computed: {
     ...mapGetters(["isAuthenticated"]),
     ...mapState({

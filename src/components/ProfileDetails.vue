@@ -1,65 +1,213 @@
 <template>
   <v-container class="py-0">
-    <v-card>
-      <input
-        class="hide"
-        type="file"
-        accept=".png, .jpg, .jpeg"
-        @change="onFileSelected"
-        ref="imageInput"
-      />
-      <v-hover>
-        <v-avatar slot-scope="{ hover }" class="mx-auto d-block" size="175">
-          <v-img :src="profile.profile_photo" class="mt-2">
+    <input
+      class="hide"
+      type="file"
+      accept=".png, .jpg, .jpeg"
+      @change="onFileSelected"
+      ref="imageInput"
+    />
+    <v-layout align-center>
+      <v-flex offset-xs1 xs2>
+        <v-hover>
+          <v-avatar slot-scope="{ hover }" class="mx-auto" size="125">
+            <v-img :src="profile.profile_photo" class="mt-2">
+              <v-expand-transition>
+                <v-btn
+                  v-if="hover && isCurrentUser"
+                  dark
+                  fab
+                  color="blue"
+                  class="transition-fast-in-fast-out v-card--reveal mt-4"
+                  @click="$refs.imageInput.click()"
+                >
+                  <v-icon dark>cloud_upload</v-icon>
+                </v-btn>
+              </v-expand-transition>
+            </v-img>
+          </v-avatar>
+        </v-hover>
+      </v-flex>
+
+      <v-flex xs10>
+        <v-layout row>
+          <v-flex xs10 class="no-pad ml-2">
+            <span
+              class="display-1 font-weight-bold ml-3"
+              v-text="profile.name"
+            ></span>
+          </v-flex>
+          <v-flex xs1 class="no-pad">
             <v-expand-transition>
-              <v-btn
-                v-if="hover"
-                dark
-                fab
-                color="blue"
-                class="transition-fast-in-fast-out v-card--reveal my-5"
-                @click="$refs.imageInput.click()"
-              >
-                <v-icon dark>cloud_upload</v-icon>
-              </v-btn>
+              <div v-if="isEditing" class="moveGroup">
+                <v-btn icon @click="cancelEdit()" small>
+                  <v-icon color="red">cancel</v-icon>
+                </v-btn>
+              </div>
             </v-expand-transition>
-          </v-img>
-        </v-avatar>
-      </v-hover>
-
-      <v-card-text class="text-xs-center">
-        <v-layout justify-center>
-          <span
-            class="display-1 mx-2 my-1 font-weight-bold"
-            v-text="profile.name"
-          ></span>
-          <v-chip small color="blue" text-color="white" class="my-auto">
-            <v-avatar>
-              <v-icon v-if="isBand">music_note</v-icon>
-              <v-icon v-else>business_center</v-icon>
-            </v-avatar>
-            <span v-text="type"></span>
-          </v-chip>
+          </v-flex>
+          <v-flex xs1 class="no-pad">
+            <v-expand-transition>
+              <div v-if="!isEditing && isCurrentUser">
+                <v-btn icon @click="startEdit()" small>
+                  <v-icon color="black">edit</v-icon>
+                </v-btn>
+              </div>
+            </v-expand-transition>
+            <v-expand-transition>
+              <div v-if="isEditing" class="moveGroup">
+                <v-btn
+                  icon
+                  @click="saveEdit()"
+                  :disabled="validationErrors"
+                  small
+                >
+                  <v-icon color="indigo">save</v-icon>
+                </v-btn>
+              </div>
+            </v-expand-transition>
+          </v-flex>
         </v-layout>
+        <v-layout row class="ml-2">
+          <v-flex class="no-pad">
+            <v-chip small color="blue" text-color="white" class="my-auto">
+              <v-avatar>
+                <v-icon v-if="isBand">music_note</v-icon>
+                <v-icon v-else>business_center</v-icon>
+              </v-avatar>
+              <span v-text="type"></span>
+            </v-chip>
+          </v-flex>
+        </v-layout>
+      </v-flex>
+    </v-layout>
 
+    <v-layout align-center>
+      <v-flex xs1 class="no-pad">
+        <v-icon x-large>
+          contact_support
+        </v-icon>
+      </v-flex>
+      <v-flex xs3 class="no-pad">
+        <span class="display-h1">Who are we?</span>
+      </v-flex>
+      <v-flex>
+        <v-divider></v-divider>
+      </v-flex>
+    </v-layout>
+
+    <v-layout>
+      <v-flex offset-xs1 class="no-pad">
         <textarea-autosize
           v-model="profileCopy.description"
-          class="full"
+          class="full font-size-medium"
           :readonly="!isEditing"
           placeholder="A Profile's short description (40-400 characters)."
         ></textarea-autosize>
-        <span class="error--text" v-if="!isDescriptionValid"
+        <span class="error-text font-size-medium" v-if="!isDescriptionValid"
           >A description has to be at least 40 characters and 400 characters
           maximum.</span
         >
-      </v-card-text>
+      </v-flex>
+    </v-layout>
 
-      <v-divider></v-divider>
+    <v-divider></v-divider>
 
-      <v-list two-line>
+    <v-layout row class="mt-2">
+      <v-flex xs1 class="no-pad">
+        <v-icon x-large>
+          people
+        </v-icon>
+      </v-flex>
+      <v-flex xs3 class="no-pad">
+        <span class="display-h1">Band Members</span>
+      </v-flex>
+      <v-flex offset-xs7 xs1 class="no-pad">
+        <v-dialog v-model="membersDialog" width="700">
+          <template v-slot:activator="{ on }">
+            <v-expand-transition>
+              <v-btn icon ripple v-if="isEditing" small>
+                <v-icon color="green lighten-1" v-on="on">edit</v-icon>
+              </v-btn>
+            </v-expand-transition>
+          </template>
+          <v-card>
+            <BandMembersList
+              class="pa-4"
+              :members="profileCopy.bandMembers"
+              :headline="false"
+            ></BandMembersList>
+          </v-card>
+        </v-dialog>
+      </v-flex>
+    </v-layout>
+
+    <v-layout row wrap>
+      <v-flex v-for="(artist, n) in profileCopy.bandMembers" :key="n" xs12 md6>
+        <v-list-tile class="grow">
+          <v-list-tile-avatar>
+            <img class="elevation-6" src="../../public/img/download.jpg" />
+          </v-list-tile-avatar>
+          <v-list-tile-content>
+            <v-list-tile-title
+              v-text="artist.name"
+              class="font-size-medium font-weight-bold"
+            ></v-list-tile-title>
+            <v-list-tile-sub-title
+              v-text="arrayFormat(artist.roles)"
+              class="font-size-medium"
+            ></v-list-tile-sub-title>
+          </v-list-tile-content>
+        </v-list-tile>
+      </v-flex>
+    </v-layout>
+
+    <v-divider></v-divider>
+
+    <v-layout row class="mt-2">
+      <v-flex offset-xs1 xs3 class="no-pad">
+        <span class="display-h1">Contact Details</span>
+      </v-flex>
+      <v-flex offset-xs2 xs1 class="no-pad">
+        <v-icon x-large>
+          music_note
+        </v-icon>
+      </v-flex>
+      <v-flex xs2 class="no-pad" v-if="isBand">
+        <span class="display-h1">Genres</span>
+      </v-flex>
+      <v-flex offset-xs2 xs1 class="no-pad" v-if="isBand">
+        <v-dialog v-model="genresDialog" width="400">
+          <template v-slot:activator="{ on }">
+            <v-expand-transition>
+              <v-btn icon ripple v-if="isEditing" small>
+                <v-icon color="green lighten-1" v-on="on">edit</v-icon>
+              </v-btn>
+            </v-expand-transition>
+          </template>
+          <v-card class="pa-3">
+            <v-select
+              prepend-icon="music_note"
+              dense
+              v-model="profileCopy.genres"
+              required
+              deletable-chips
+              chips
+              clearable
+              multiple
+              label="Select Your Genres"
+              :items="genres"
+            ></v-select>
+          </v-card>
+        </v-dialog>
+      </v-flex>
+    </v-layout>
+
+    <v-layout row align-center>
+      <v-flex xs6 class="no-pad">
         <v-list-tile>
           <v-list-tile-action>
-            <v-icon color="indigo">mail</v-icon>
+            <v-icon>mail</v-icon>
           </v-list-tile-action>
 
           <v-list-tile-content>
@@ -71,139 +219,49 @@
                 v-model="profileCopy.contactDetails.email"
               />
             </v-list-tile-title>
-            <v-list-tile-sub-title>
-              Electronic Mail Address
-            </v-list-tile-sub-title>
-            <span class="error--text" v-if="!isEmailValid"
+            <span class="error-text" v-if="!isEmailValid"
               >Invalid email format.</span
             >
           </v-list-tile-content>
-
-          <v-expand-x-transition>
-            <div v-if="!isEditing && isCurrentUser">
-              <v-btn icon @click="startEdit()">
-                <v-icon color="black">edit</v-icon>
-              </v-btn>
-            </div>
-          </v-expand-x-transition>
-          <v-expand-x-transition>
-            <div v-if="isEditing" class="moveGroup">
-              <v-btn icon @click="cancelEdit()">
-                <v-icon color="red">cancel</v-icon>
-              </v-btn>
-              <v-btn icon @click="saveEdit()" :disabled="validationErrors">
-                <v-icon color="indigo">save</v-icon>
-              </v-btn>
-            </div>
-          </v-expand-x-transition>
         </v-list-tile>
+      </v-flex>
+      <v-flex offset-xs1 xs5 class="no-pad" v-if="isBand">
+        <span v-text="selectedGenres" class="font-size-medium"> </span>
+      </v-flex>
+    </v-layout>
 
+    <v-layout row>
+      <v-flex class="no-pad">
         <v-list-tile>
           <v-list-tile-action>
-            <v-icon color="indigo">phone</v-icon>
-          </v-list-tile-action>
-
-          <v-list-tile-content>
-            <input
-              :readonly="!isEditing"
-              type="text"
-              class="full"
-              v-model="profileCopy.contactDetails.phoneNumber"
-            />
-            <v-list-tile-sub-title>Cellphone Number</v-list-tile-sub-title>
-            <span class="error--text" v-if="!isCellphoneValid"
-              >A cellphone must have 9 digits only.</span
-            >
-          </v-list-tile-content>
-        </v-list-tile>
-
-        <v-divider inset></v-divider>
-
-        <v-list-tile>
-          <v-list-tile-action>
-            <v-icon color="indigo">person</v-icon>
-          </v-list-tile-action>
-          <v-list-tile-title>
-            Band Members
-          </v-list-tile-title>
-
-          <v-dialog v-model="membersDialog" width="700">
-            <template v-slot:activator="{ on }">
-              <v-expand-x-transition>
-                <v-btn icon ripple v-if="isEditing">
-                  <v-icon color="green lighten-1" v-on="on">edit</v-icon>
-                </v-btn>
-              </v-expand-x-transition>
-            </template>
-            <BandMembersList
-              class="pa-4"
-              :members="profileCopy.bandMembers"
-              :headline="false"
-            ></BandMembersList>
-          </v-dialog>
-        </v-list-tile>
-
-        <v-list-tile
-          v-for="(artist, index) in profileCopy.bandMembers"
-          :key="index"
-        >
-          <v-list-tile-action></v-list-tile-action>
-          <v-list-tile-content>
-            <v-list-tile-title v-text="artist.name"></v-list-tile-title>
-            <v-list-tile-sub-title
-              v-for="(role, index2) in artist.roles"
-              v-text="role"
-              :key="index2"
-            ></v-list-tile-sub-title>
-          </v-list-tile-content>
-        </v-list-tile>
-
-        <v-divider inset></v-divider>
-
-        <v-list-tile readonly v-if="isBand">
-          <v-list-tile-action>
-            <v-icon color="indigo">music_note</v-icon>
+            <v-icon>phone</v-icon>
           </v-list-tile-action>
 
           <v-list-tile-content>
             <v-list-tile-title>
-              Genres: <span v-text="selectedGenres"></span>
+              <input
+                :readonly="!isEditing"
+                type="text"
+                class="full"
+                v-model="profileCopy.contactDetails.phoneNumber"
+              />
             </v-list-tile-title>
+            <span class="error-text" v-if="!isCellphoneValid"
+              >Cellphone must have 9 digits.</span
+            >
           </v-list-tile-content>
-
-          <v-dialog v-model="genresDialog" width="500">
-            <template v-slot:activator="{ on }">
-              <v-expand-x-transition>
-                <v-btn icon ripple v-if="isEditing">
-                  <v-icon color="green lighten-1" v-on="on">edit</v-icon>
-                </v-btn>
-              </v-expand-x-transition>
-            </template>
-            <v-card class="pa-3">
-              <v-select
-                prepend-icon="music_note"
-                dense
-                v-model="profileCopy.genres"
-                required
-                deletable-chips
-                chips
-                clearable
-                multiple
-                label="Select Your Genres"
-                :items="genres"
-              ></v-select>
-            </v-card>
-          </v-dialog>
         </v-list-tile>
+      </v-flex>
+    </v-layout>
 
-        <v-divider inset v-if="isBand"></v-divider>
-
-        <v-list-tile class="mt-4">
+    <v-layout row class="mb-3">
+      <v-flex class="no-pad">
+        <v-list-tile>
           <v-list-tile-action>
-            <v-icon color="indigo">location_on</v-icon>
+            <v-icon>location_on</v-icon>
           </v-list-tile-action>
 
-          <v-list-tile-content>
+          <v-list-tile-content class="longer">
             <v-list-tile-title>
               <input
                 :readonly="!isEditing"
@@ -230,13 +288,13 @@
             </v-list-tile-sub-title>
           </v-list-tile-content>
         </v-list-tile>
-      </v-list>
-    </v-card>
+      </v-flex>
+    </v-layout>
   </v-container>
 </template>
 
 <script>
-import { SAVE_PROFILE_DATA, UPLOAD_PROFILE_IMAGE } from "@/store/actions.type";
+import { UPLOAD_PROFILE_IMAGE, SAVE_PROFILE_DATA } from "@/store/actions.type";
 import { createNamespacedHelpers } from "vuex";
 import BandMembersList from "./BandMembersList";
 import genres from "../common/genres";
@@ -259,7 +317,7 @@ export default {
       return this.profile.type === "band";
     },
     selectedGenres: function() {
-      return this.profileCopy.genres.join().replace(",", ", ");
+      return this.arrayFormat(this.profileCopy.genres);
     },
     isDescriptionValid: function() {
       return (
@@ -268,7 +326,6 @@ export default {
       );
     },
     isEmailValid: function() {
-      // eslint-disable-next-line
       const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
       return re.test(
         String(this.profileCopy.contactDetails.email).toLowerCase()
@@ -309,8 +366,8 @@ export default {
       this.isEditing = false;
     },
 
-    removeBandMember: function(index) {
-      this.$delete(this.profileCopy.bandMembers, index);
+    arrayFormat: function(roles) {
+      return roles.join(", ");
     },
 
     onFileSelected: async function(event) {
@@ -318,7 +375,7 @@ export default {
       const fd = new FormData();
       fd.append("image", selectedFile, selectedFile.name);
 
-      await this.uploadProfileImage(fd);
+      await this.uploadProfileImage({ file: fd, uid: this.profile._id });
     }
   },
   props: ["profile", "isCurrentUser"]
@@ -326,6 +383,26 @@ export default {
 </script>
 
 <style>
+.no-pad {
+  padding: 0 !important;
+}
+
+.display-h1 {
+  font-size: 24px;
+  font-weight: bold;
+  font-family: "Roboto", sans-serif;
+  line-height: 40px;
+}
+
+.font-size-medium {
+  font-family: "Roboto", sans-serif !important;
+  font-size: 16px !important;
+}
+
+.longer {
+  height: 120%;
+}
+
 .v-card--reveal {
   opacity: 0.65;
 }
@@ -356,7 +433,12 @@ textarea {
   display: none;
 }
 
-.error--text {
+.error-text {
   font-size: 14px;
+  color: #b92311;
+}
+
+textarea::placeholder {
+  color: #000;
 }
 </style>

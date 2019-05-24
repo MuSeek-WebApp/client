@@ -34,7 +34,7 @@
           <v-list-tile-content>
             <v-list-tile-title>{{ member.name }}</v-list-tile-title>
             <v-list-tile-sub-title>
-              <span :key="role" v-for="role in member.roles">{{ role }},</span>
+              <span v-text="member.roles.join(', ')"></span>
             </v-list-tile-sub-title>
           </v-list-tile-content>
           <v-list-tile-action>
