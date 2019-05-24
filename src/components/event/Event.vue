@@ -33,9 +33,7 @@
           </v-flex>
           <v-flex md4>
             <v-tabs slider-color="#1976d2">
-              <v-tab ripple>
-                event details
-              </v-tab>
+              <v-tab ripple>event details</v-tab>
               <v-tab-item>
                 <v-layout row>
                   <v-flex md12>
@@ -47,6 +45,7 @@
                       v-model="event.description"
                     ></v-textarea>
                     <genre-select v-model="event.genres"></genre-select>
+                    <upload-image v-model="event.photos"></upload-image>
                   </v-flex>
                 </v-layout>
               </v-tab-item>
@@ -54,12 +53,8 @@
           </v-flex>
           <v-flex md8 pl-4>
             <v-tabs slider-color="#1976d2">
-              <v-tab ripple>
-                lineup
-              </v-tab>
-              <v-tab ripple>
-                find bands
-              </v-tab>
+              <v-tab ripple>lineup</v-tab>
+              <v-tab ripple>find bands</v-tab>
               <v-tab-item :transition="false" :reverse-transition="false">
                 <lineup v-model="event.requests"></lineup>
               </v-tab-item>
@@ -82,9 +77,11 @@ import FindBands from "./FindBands";
 import DatetimePicker from "../DatetimePicker";
 import { START_PROGRESS, STOP_PROGRESS } from "../../store/mutations.type";
 import moment from "moment";
+import UploadImage from "../UploadImage";
 
 export default {
   components: {
+    UploadImage,
     GenreSelect,
     Lineup,
     FindBands,

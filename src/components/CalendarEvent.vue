@@ -14,9 +14,25 @@
           <v-icon>close</v-icon>
         </v-btn>
         <v-spacer></v-spacer>
+        <v-tooltip bottom>
+          <template v-slot:activator="{ on }">
+            <v-btn
+              flat
+              icon
+              class="mx-0"
+              color="purple lighten-1"
+              v-on="on"
+              :to="`/event/${event._id}`"
+              target="_blank"
+            >
+              <v-icon>info</v-icon>
+            </v-btn>
+          </template>
+          <span>Info</span>
+        </v-tooltip>
         <v-dialog v-model="dialog" persistent fullscreen scrollable>
           <template v-slot:activator="{ on }">
-            <v-btn icon v-on="on">
+            <v-btn flat icon class="mx-0" color="blue lighten-1" v-on="on">
               <v-icon>edit</v-icon>
             </v-btn>
           </template>
@@ -25,9 +41,21 @@
             v-on:dialog-close="onDialogClose"
           ></Event>
         </v-dialog>
-        <v-btn icon @click="remove()">
-          <v-icon>delete_outline</v-icon>
-        </v-btn>
+        <v-tooltip bottom>
+          <template v-slot:activator="{ on }">
+            <v-btn
+              flat
+              icon
+              class="mx-0"
+              color="red lighten-1"
+              v-on="on"
+              @click="remove()"
+            >
+              <v-icon>delete_outline</v-icon>
+            </v-btn>
+          </template>
+          <span>Delete</span>
+        </v-tooltip>
       </v-toolbar>
       <v-card-title class="pt-1" primary-title>
         <div>
@@ -38,7 +66,7 @@
           </h4>
           <h4 class="mb-2">
             <v-icon>music_note</v-icon>
-            {{ event.genres.toString() }}
+            {{ event.genres.join(", ") }}
           </h4>
         </div>
       </v-card-title>

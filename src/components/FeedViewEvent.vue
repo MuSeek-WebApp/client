@@ -3,7 +3,11 @@
     <v-img
       class="white--text"
       height="150px"
-      src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"
+      :src="
+        event.photos
+          ? event.photos[0]
+          : require('../../public/img/default-event.jpg')
+      "
     >
       <v-container fill-height class="pa-1">
         <v-layout>
@@ -19,14 +23,14 @@
             <v-layout>
               <v-spacer></v-spacer>
               <v-flex md6>
-                <router-link
-                  :to="{ name: 'EventDetails', params: { id: event._id } }"
+                <v-btn
+                  color="white"
+                  icon
+                  :to="`/event/${event._id}`"
                   target="_blank"
                 >
-                  <v-btn color="white" icon>
-                    <v-icon color="purple" large>info</v-icon>
-                  </v-btn>
-                </router-link>
+                  <v-icon color="purple" large>info</v-icon>
+                </v-btn>
               </v-flex>
             </v-layout>
           </v-flex>
@@ -53,7 +57,7 @@
               {{ event.business.name }}
             </h4>
           </router-link>
-          <CustomRating :rating="rating"></CustomRating>
+          <CustomRating :userId="event.business._id"></CustomRating>
         </v-flex>
         <v-flex class="pt-0">
           <h4>
@@ -118,12 +122,6 @@ export default {
     };
   },
   computed: {
-    rating() {
-      return (
-        this.event.business.reviews.reduce((a, b) => a + (b["stars"] || 0), 0) /
-        this.event.business.reviews.length
-      );
-    },
     cardActionStyle() {
       let color = null;
       switch (this.currentStatus) {

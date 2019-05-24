@@ -86,6 +86,7 @@
 import _ from "lodash";
 import moment from "moment";
 import { FETCH_FEED } from "../store/actions.type.js";
+import { DISPATCH_ERROR_MESSAGE } from "../store/mutations.type";
 
 export default {
   data: function() {
@@ -127,15 +128,21 @@ export default {
       this.endDate = null;
       this.debouncedFilter();
     },
-    filter() {
+    async filter() {
       let filterData = {
         lowerDateLimit: moment(this.startDate),
         higherDateLimit: moment(this.endDate),
         genres: this.selectedGenres,
         name: this.search
       };
-
-      this.$store.dispatch(FETCH_FEED, filterData);
+      try {
+        await this.$store.dispatch(FETCH_FEED, filterData);
+      } catch (error) {
+        this.$store.commit(
+          DISPATCH_ERROR_MESSAGE,
+          "An error has accured in server"
+        );
+      }
     }
   },
   created: function() {
