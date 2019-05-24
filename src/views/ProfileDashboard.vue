@@ -8,22 +8,14 @@
               <profile-details
                 :profile="profileData"
                 :is-current-user="profileData._id === getUserUid"
+                v-if="profileData.type"
               ></profile-details>
             </v-flex>
             <v-flex xs12 md6>
-              <v-layout row wrap>
-                <v-flex
-                  v-for="n in profileData.reviews.length"
-                  :key="n"
-                  xs12
-                  md6
-                >
-                  <review
-                    :review="profileData.reviews[n - 1]"
-                    :colour="colors[(n - 1) % 3]"
-                  ></review>
-                </v-flex>
-              </v-layout>
+              <all-reviews
+                :reviews="profileData.reviews"
+                v-if="profileData.reviews"
+              ></all-reviews>
             </v-flex>
           </v-layout>
         </v-card>
@@ -34,7 +26,7 @@
 
 <script>
 import ProfileDetails from "../components/ProfileDetails";
-import Review from "../components/Review";
+import AllReviews from "../components/AllReviews";
 import { GET_PROFILE } from "@/store/actions.type";
 import { createNamespacedHelpers, mapGetters } from "vuex";
 const { mapState, mapActions } = createNamespacedHelpers("profile");
@@ -55,7 +47,7 @@ export default {
   },
   components: {
     ProfileDetails,
-    Review
+    AllReviews
   }
 };
 </script>
