@@ -43,15 +43,11 @@ const getters = {
 
 const actions = {
   async [CHECK_AUTH](context) {
-    if (JwtService.getToken()) {
-      try {
-        await ApiService.get("/auth/checkAuth");
-      } catch (error) {
-        throw error;
-      }
-    } else {
+    try {
+      await ApiService.get("/auth/checkAuth");
+    } catch (error) {
       context.commit(PURGE_AUTH);
-      throw "no token";
+      throw error;
     }
   },
 
