@@ -46,8 +46,12 @@ const actions = {
     try {
       await ApiService.get("/auth/checkAuth");
     } catch (error) {
-      context.commit(PURGE_AUTH);
-      throw error;
+      switch (error.response.status) {
+        default: {
+          context.commit(PURGE_AUTH);
+          throw error;
+        }
+      }
     }
   },
 
