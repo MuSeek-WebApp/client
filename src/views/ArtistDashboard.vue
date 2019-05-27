@@ -1,12 +1,12 @@
 <template>
-  <v-container grid-list-xl class="background-image">
+  <v-container grid-list-xs class="background-image">
     <v-layout>
       <v-flex md8>
         <FilterBar></FilterBar>
         <v-sheet max-height="700" height="700" class="scroll-y" elevation="1">
           <v-container>
             <v-layout wrap>
-              <v-flex md4 :key="item._id" v-for="item in feed">
+              <v-flex md6 lg4 xs12 :key="item._id" v-for="item in feed">
                 <FeedViewEvent
                   :currentStatus="getFeedEventStatus(item)"
                   :event="item"

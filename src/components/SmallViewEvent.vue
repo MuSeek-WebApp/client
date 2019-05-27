@@ -15,7 +15,6 @@
         </h3>
         <span>{{ startTime }} - {{ endTime }}</span>
       </v-flex>
-      <v-spacer></v-spacer>
       <template v-if="event.requests.status === 'WAITING_FOR_BAND_APPROVAL'">
         <v-flex md3>
           <v-btn color="green lighten-1" small round @click="approve()">
@@ -30,7 +29,7 @@
       </template>
 
       <template v-if="event.requests.status === 'APPROVED'">
-        <v-flex md3>
+        <v-flex offset-md1 offset-lg2 offset-xl3 md3>
           <v-menu offset-y content-class="rounded-menu">
             <template v-slot:activator="{ on }">
               <v-btn round color="green lighten-1" v-on="on" small depressed>
@@ -56,12 +55,12 @@
       <template
         v-if="event.requests.status === 'WAITING_FOR_BUSINESS_APPROVAL'"
       >
-        <v-flex md3>
+        <v-flex offset-md1 offset-lg2 offset-xl3 md3>
           <v-btn round disabled small depressed>Request Sent</v-btn>
         </v-flex>
       </template>
       <template v-if="event.requests.status === 'DENIED'">
-        <v-flex md3>
+        <v-flex offset-md1 offset-lg2 offset-xl3 md3>
           <v-btn round disabled small depressed>Ignored</v-btn>
         </v-flex>
       </template>

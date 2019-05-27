@@ -1,5 +1,5 @@
 <template>
-  <v-card>
+  <v-card class="ma-1">
     <v-img
       class="white--text"
       height="150px"
@@ -71,7 +71,7 @@
     <v-divider></v-divider>
 
     <template v-if="currentStatus !== null">
-      <v-card-actions :class="cardActionStyle">
+      <v-card-actions :class="cardActionStyle" class="text-md-center">
         <v-flex md4>
           <h5>IN PROGRESS</h5>
         </v-flex>
