@@ -110,7 +110,7 @@
                       >Page Information</v-stepper-step
                     >
                     <v-divider></v-divider>
-                    <v-stepper-step step="2">Social Media Links</v-stepper-step>
+                    <v-stepper-step step="2">Social Media</v-stepper-step>
                   </v-stepper-header>
                   <v-stepper-items>
                     <!-- regular info -->
@@ -236,7 +236,7 @@
                           ></BandMembersList>
                         </v-flex>
                       </v-layout>
-                      <v-btn color="primary" @click="step = 2">
+                      <v-btn color="primary" @click="nextStep">
                         Continue <v-icon class="pl-3">arrow_forward</v-icon>
                       </v-btn>
                     </v-stepper-content>
@@ -318,7 +318,7 @@
                       <v-btn @click="step = 1">
                         <v-icon class="pr-3">arrow_back</v-icon> Back
                       </v-btn>
-                      <v-btn color="primary">
+                      <v-btn color="primary" @click="register">
                         Finish <v-icon class="pl-3">check</v-icon>
                       </v-btn>
                     </v-stepper-content>
