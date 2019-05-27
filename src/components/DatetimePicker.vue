@@ -51,11 +51,11 @@ export default {
     times() {
       const times = [];
       let minHour = 0;
-
       if (!moment(this.date).isAfter(this.minDate) && this.minTime) {
+        minHour = parseInt(this.minTime.split(":")[0]);
         if (this.minTime.split(":")[1] === "30") {
           times.push(this.minTime);
-          minHour = parseInt(this.minTime.split(":")[0]) + 1;
+          minHour += 1;
         }
       }
 

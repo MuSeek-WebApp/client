@@ -37,9 +37,28 @@
             <v-spacer></v-spacer>
           </v-flex>
           <v-flex md6>
-            <v-layout row>
+            <v-layout row wrap>
+              <v-flex md4>
+                <v-text-field
+                  type="number"
+                  label="Minimum bands in lineup"
+                  prepend-icon="arrow_downward"
+                  v-model="event.min_bands_number"
+                ></v-text-field>
+              </v-flex>
+              <v-flex md4>
+                <v-text-field
+                  type="number"
+                  label="Maximum bands in lineup"
+                  prepend-icon="arrow_upward"
+                  v-model="event.max_bands_number"
+                ></v-text-field>
+              </v-flex>
               <v-flex md12>
                 <genre-select v-model="event.genres"></genre-select>
+              </v-flex>
+
+              <v-flex md12>
                 <v-textarea
                   prepend-icon="subject"
                   solo
@@ -47,6 +66,8 @@
                   label="More details..."
                   v-model="event.description"
                 ></v-textarea>
+              </v-flex>
+              <v-flex md12>
                 <upload-image v-model="event.photos"></upload-image>
               </v-flex>
             </v-layout>

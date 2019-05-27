@@ -159,6 +159,8 @@ export default {
       event.bands = [];
       event.requests = [];
       event.photos = [];
+      event.max_bands_number = 1;
+      event.min_bands_number = 1;
     }
   }
 };
