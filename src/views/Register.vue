@@ -243,7 +243,18 @@
                     <!-- social media -->
                     <v-stepper-content step="2">
                       <v-layout wrap>
-                        <v-flex md12 class="px-1">
+                        <v-flex md6 class="px-1 ma-1">
+                          <file-pond
+                            name="test"
+                            ref="pond"
+                            label-idle="Drop Profile Picture Here..."
+                            accepted-file-types="image/jpeg, image/png"
+                            server="/api"
+                            v-bind:files="myFiles"
+                            v-on:init="handleFilePondInit"
+                          />
+                        </v-flex>
+                        <v-flex md6 class="px-1">
                           <v-layout align-center justify-center row fill-height>
                             <img
                               src="../../public/img/icons/youtube.png"
@@ -258,7 +269,7 @@
                             ></v-text-field>
                           </v-layout>
                         </v-flex>
-                        <v-flex md12 class="px-1">
+                        <v-flex md6 class="px-1">
                           <v-layout align-center justify-center row fill-height>
                             <img
                               src="../../public/img/icons/spotify.png"
@@ -273,7 +284,7 @@
                             ></v-text-field>
                           </v-layout>
                         </v-flex>
-                        <v-flex md12 class="px-1">
+                        <v-flex md6 class="px-1">
                           <v-layout align-center justify-center row fill-height>
                             <img
                               src="../../public/img/icons/facebook-icon.png"
@@ -288,7 +299,7 @@
                             ></v-text-field>
                           </v-layout>
                         </v-flex>
-                        <v-flex md12 class="px-1">
+                        <v-flex md6 class="px-1">
                           <v-layout align-center justify-center row fill-height>
                             <img
                               src="../../public/img/icons/instagram.png"
@@ -348,12 +359,14 @@ import { START_PROGRESS, STOP_PROGRESS } from "../store/mutations.type";
 import GenreSelect from "../components/GenreSelect";
 import CountrySelect from "../components/CountrySelect";
 import BandMembersList from "../components/BandMembersList";
+import FilePond from "../components/FilePond";
 
 export default {
   components: {
     GenreSelect,
     CountrySelect,
-    BandMembersList
+    BandMembersList,
+    FilePond
   },
   $_veeValidate: {
     validator: "new"
@@ -370,6 +383,7 @@ export default {
     passwordFocus: false,
     userInformationFormValidation: false,
     extraInformationFormValidation: false,
+    myFiles: [],
     userData: {
       type: {
         band: true
@@ -444,6 +458,10 @@ export default {
     }
   },
   methods: {
+    handleFilePondInit: function() {
+      // console.log('FilePond has initialized');
+      // FilePond instance methods are available on `this.$refs.pond`
+    },
     nextStep: function() {
       this.$validator.validate().then(() => {
         if (this.userInformationFormValidation) {

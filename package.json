@@ -15,6 +15,8 @@
   "dependencies": {
     "animate.css": "^3.7.0",
     "axios": "^0.18.0",
+    "filepond": "^4.4.7",
+    "filepond-plugin-image-preview": "^4.2.0",
     "firebase": "^5.8.5",
     "lodash": "^4.17.11",
     "material-design-icons-iconfont": "^4.0.5",
@@ -23,6 +25,7 @@
     "vue": "^2.6.8",
     "vue-axios": "^2.1.4",
     "vue-cookies": "^1.5.12",
+    "vue-filepond": "^5.1.1",
     "vue-router": "^3.0.2",
     "vue-textarea-autosize": "^1.0.4",
     "vue2-google-maps": "^0.10.6",
