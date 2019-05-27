@@ -15,7 +15,7 @@ export default {
     return {
       rating: this.passedRating,
       likes: 0,
-      dislike: 0
+      dislikes: 0
     };
   },
   async created() {
