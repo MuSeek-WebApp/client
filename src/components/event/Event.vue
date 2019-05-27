@@ -11,19 +11,21 @@
       <v-container fluid>
         <v-layout wrap>
           <v-flex md12>
-            <v-text-field
-              prepend-icon="event_note"
-              v-model="event.name"
-              label="Event Name"
-            ></v-text-field>
+            <v-flex md8>
+              <v-text-field
+                prepend-icon="event_note"
+                v-model="event.name"
+                label="Event Name"
+              ></v-text-field>
+            </v-flex>
           </v-flex>
-          <v-flex md6>
+          <v-flex md3>
             <DatetimePicker
               v-model="event.startDate"
               format="YYYY-MM-DD"
             ></DatetimePicker>
           </v-flex>
-          <v-flex md6>
+          <v-flex md3>
             <DatetimePicker
               v-model="event.endDate"
               format="YYYY-MM-DD"
@@ -31,27 +33,26 @@
               :minDate="minDate"
             ></DatetimePicker>
           </v-flex>
-          <v-flex md4>
-            <v-tabs slider-color="#1976d2">
-              <v-tab ripple>event details</v-tab>
-              <v-tab-item>
-                <v-layout row>
-                  <v-flex md12>
-                    <v-textarea
-                      prepend-icon="subject"
-                      solo
-                      no-resize
-                      label="More details..."
-                      v-model="event.description"
-                    ></v-textarea>
-                    <genre-select v-model="event.genres"></genre-select>
-                    <upload-image v-model="event.photos"></upload-image>
-                  </v-flex>
-                </v-layout>
-              </v-tab-item>
-            </v-tabs>
+          <v-flex md6>
+            <v-spacer></v-spacer>
           </v-flex>
-          <v-flex md8 pl-4>
+          <v-flex md6>
+            <v-layout row>
+              <v-flex md12>
+                <genre-select v-model="event.genres"></genre-select>
+                <v-textarea
+                  prepend-icon="subject"
+                  solo
+                  auto-grow
+                  label="More details..."
+                  v-model="event.description"
+                ></v-textarea>
+                <upload-image v-model="event.photos"></upload-image>
+              </v-flex>
+            </v-layout>
+          </v-flex>
+          <v-divider vertical></v-divider>
+          <v-flex md5>
             <v-tabs slider-color="#1976d2">
               <v-tab ripple>lineup</v-tab>
               <v-tab ripple>find bands</v-tab>
