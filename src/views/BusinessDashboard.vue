@@ -9,9 +9,9 @@
                 <v-icon>chevron_left</v-icon>
               </v-btn>
             </v-flex>
-            <v-flex class="text-sm-center headline" align-self-center xs1>{{
-              getSelectedMonthAndYear
-            }}</v-flex>
+            <v-flex class="text-sm-center headline" align-self-center xs1>
+              {{ getSelectedMonthAndYear }}
+            </v-flex>
             <v-flex class="text-xs-center" xs1>
               <v-btn icon @click="$refs.calendar.next()">
                 <v-icon>chevron_right</v-icon>
@@ -68,6 +68,11 @@ import CalendarEvent from "../components/CalendarEvent";
 import Event from "../components/event/Event";
 import { FETCH_EVENTS } from "../store/actions.type";
 import moment from "moment";
+import {
+  START_PROGRESS,
+  STOP_PROGRESS,
+  DISPATCH_ERROR_MESSAGE
+} from "../store/mutations.type";
 
 export default {
   components: {
@@ -116,8 +121,18 @@ export default {
       return seletedMonth.format("MMM") + " " + seletedMonth.format("YYYY");
     }
   },
-  created() {
-    this.$store.dispatch(FETCH_EVENTS);
+  async created() {
+    try {
+      this.$store.commit(START_PROGRESS);
+      await this.$store.dispatch(FETCH_EVENTS);
+    } catch (error) {
+      this.$store.commit(
+        DISPATCH_ERROR_MESSAGE,
+        "Error fetching data from server"
+      );
+    } finally {
+      this.$store.commit(STOP_PROGRESS);
+    }
   },
   methods: {
     onDialogClose() {

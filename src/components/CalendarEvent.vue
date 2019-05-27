@@ -43,16 +43,31 @@
         </v-dialog>
         <v-tooltip bottom>
           <template v-slot:activator="{ on }">
-            <v-btn
-              flat
-              icon
-              class="mx-0"
-              color="red lighten-1"
-              v-on="on"
-              @click="remove()"
-            >
-              <v-icon>delete_outline</v-icon>
-            </v-btn>
+            <v-dialog v-model="deleteDialog" width="400">
+              <template v-slot:activator="{ on }">
+                <v-btn flat icon class="mx-0" color="red lighten-1" v-on="on">
+                  <v-icon>delete_outline</v-icon>
+                </v-btn>
+              </template>
+              <v-card>
+                <v-card-title class="grey lighten-3">
+                  <v-flex class="text-md-center subheading font-weight-bold"
+                    >WARNING</v-flex
+                  >
+                </v-card-title>
+                <v-divider></v-divider>
+                <v-card-text class="text-md-center">
+                  <p>Are you sure you want to delete the following event?</p>
+                  <p>'{{ event.name }}'</p>
+                </v-card-text>
+                <v-divider></v-divider>
+                <v-card-actions>
+                  <v-btn @click="deleteDialog = false">CANCEL</v-btn>
+                  <v-spacer></v-spacer>
+                  <v-btn color="red lighten-3" @click="remove()">DELETE</v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-dialog>
           </template>
           <span>Delete</span>
         </v-tooltip>
@@ -87,7 +102,8 @@ export default {
   data: function() {
     return {
       menu: false,
-      dialog: false
+      dialog: false,
+      deleteDialog: false
     };
   },
   computed: {
@@ -109,6 +125,7 @@ export default {
       this.$store
         .dispatch(REMOVE_EVENT, this.event)
         .then(() => {
+          this.deleteDialog = false;
           this.menu = false;
         })
         .catch(() => {
