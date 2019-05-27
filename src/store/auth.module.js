@@ -42,22 +42,17 @@ const getters = {
 };
 
 const actions = {
-  [CHECK_AUTH](context) {
-    return new Promise((resolve, reject) => {
-      if (JwtService.getToken()) {
-        //TODO: validate token with backend server. resolve in success otherwise reject.
-        resolve();
-        firebase
-          .auth()
-          .currentUser.getIdToken()
-          .then(idToken => {
-            JwtService.setToken(idToken);
-          });
-      } else {
-        context.commit(PURGE_AUTH);
-        reject();
+  async [CHECK_AUTH](context) {
+    try {
+      await ApiService.get("/auth/checkAuth");
+    } catch (error) {
+      switch (error.response.status) {
+        default: {
+          context.commit(PURGE_AUTH);
+          throw error;
+        }
       }
-    });
+    }
   },
 
   [SIGN_IN](context, credentials) {
