@@ -254,7 +254,7 @@
                             v-on:init="handleFilePondInit"
                           />
                         </v-flex>
-                        <v-flex md6 class="px-1">
+                        <v-flex md6 class="px-1" v-if="userData.type.band">
                           <v-layout align-center justify-center row fill-height>
                             <img
                               src="../../public/img/icons/youtube.png"
@@ -269,7 +269,7 @@
                             ></v-text-field>
                           </v-layout>
                         </v-flex>
-                        <v-flex md6 class="px-1">
+                        <v-flex md6 class="px-1" v-if="userData.type.band">
                           <v-layout align-center justify-center row fill-height>
                             <img
                               src="../../public/img/icons/spotify.png"
