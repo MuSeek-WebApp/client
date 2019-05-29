@@ -25,15 +25,7 @@
         </template>
       </td>
       <td>
-        <v-rating
-          v-model="props.item.band.rating"
-          color="yellow darken-3"
-          background-color="grey darken-1"
-          half-increments
-          readonly
-          dense
-          size="20"
-        ></v-rating>
+        <CustomRating :userId="props.item.band._id"></CustomRating>
       </td>
       <td class="justify-end layout px-0">
         <v-tooltip
@@ -77,8 +69,13 @@
 </template>
 
 <script>
+import CustomRating from "../CustomRating";
+
 export default {
   name: "RequestsTable",
+  components: {
+    CustomRating
+  },
   props: ["requests", "isShowStatus", "sortable"],
   computed: {
     headers() {
