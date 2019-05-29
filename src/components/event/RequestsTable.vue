@@ -15,17 +15,23 @@
       </td>
       <td>{{ props.item.band.name }}</td>
       <td>
-        <v-chip v-for="genre in props.item.band.genres" :key="genre">{{
-          genre
-        }}</v-chip>
+        <v-chip v-for="genre in props.item.band.genres" :key="genre">
+          {{ genre }}
+        </v-chip>
       </td>
       <td>
-        <template v-if="typeof props.item.band.address !== 'undefined'">
-          {{ props.item.band.address.city }}
-        </template>
+        <template v-if="typeof props.item.band.address !== 'undefined'">{{
+          props.item.band.address.city
+        }}</template>
       </td>
       <td>
-        <CustomRating :userId="props.item.band._id"></CustomRating>
+        <CustomRating
+          :userId="
+            typeof props.item.band._id !== 'undefined'
+              ? props.item.band._id
+              : props.item._id
+          "
+        ></CustomRating>
       </td>
       <td class="justify-end layout px-0">
         <v-tooltip
