@@ -14,3 +14,5 @@ export const SET_FEED = "setFeed";
 export const SET_VIEWED_EVENT = "setViewedEvent";
 export const DISPATCH_ERROR_MESSAGE = "dispatchErrorMessage";
 export const CLEAR_ERROR_MESSAGE = "clearErrorMessage";
+export const SET_EVENT_REVIEWS = "setEventReviews";
+export const ADD_OR_UPDATE_EVENT_REVIEWS = "addOrUpdateEventReviews";
