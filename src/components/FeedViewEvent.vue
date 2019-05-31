@@ -57,7 +57,10 @@
               {{ event.business.name }}
             </h4>
           </router-link>
-          <CustomRating :userId="event.business._id"></CustomRating>
+          <custom-rating
+            :reviewed-id="event.business._id"
+            disabled
+          ></custom-rating>
         </v-flex>
         <v-flex class="pt-0">
           <h4>

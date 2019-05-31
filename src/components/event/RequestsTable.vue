@@ -25,13 +25,14 @@
         }}</template>
       </td>
       <td>
-        <CustomRating
-          :userId="
+        <custom-rating
+          disabled
+          :reviewed-id="
             typeof props.item.band._id !== 'undefined'
               ? props.item.band._id
               : props.item._id
           "
-        ></CustomRating>
+        ></custom-rating>
       </td>
       <td class="justify-end layout px-0">
         <v-tooltip

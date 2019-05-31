@@ -19,3 +19,6 @@ export const FIND_BANDS = "findBands";
 export const FETCH_FEED = "fetchFeed";
 export const REGISTER_EVENT = "registerEvent";
 export const FETCH_SINGLE_EVENT = "fetchSingleEvent";
+export const FETCH_EVENT_REVIEWS = "fetchEventReviews";
+export const NEW_REVIEW = "saveReview";
+export const UPDATE_REVIEW = "updateReview";
