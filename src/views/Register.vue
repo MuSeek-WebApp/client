@@ -236,9 +236,15 @@
                           ></BandMembersList>
                         </v-flex>
                       </v-layout>
-                      <v-btn color="primary" @click="nextStep">
-                        Continue <v-icon class="pl-3">arrow_forward</v-icon>
-                      </v-btn>
+                      <v-layout align-end justify-end row fill-height>
+                        <v-btn
+                          class="ma-1 mt-3"
+                          color="primary"
+                          @click="nextStep"
+                        >
+                          Continue <v-icon class="pl-3">arrow_forward</v-icon>
+                        </v-btn>
+                      </v-layout>
                     </v-stepper-content>
                     <!-- social media -->
                     <v-stepper-content step="2">
@@ -315,12 +321,18 @@
                           </v-layout>
                         </v-flex>
                       </v-layout>
-                      <v-btn @click="step = 1">
-                        <v-icon class="pr-3">arrow_back</v-icon> Back
-                      </v-btn>
-                      <v-btn color="primary" @click="register">
-                        Finish <v-icon class="pl-3">check</v-icon>
-                      </v-btn>
+                      <v-layout align-end justify-space-between row fill-height>
+                        <v-btn class="ma-1 mt-3" @click="step = 1">
+                          <v-icon class="pr-3">arrow_back</v-icon> Back
+                        </v-btn>
+                        <v-btn
+                          class="ma-1 mt-3"
+                          color="primary"
+                          @click="register"
+                        >
+                          Finish <v-icon class="pl-3">check</v-icon>
+                        </v-btn>
+                      </v-layout>
                     </v-stepper-content>
                   </v-stepper-items>
                 </v-stepper>
@@ -464,8 +476,8 @@ export default {
     },
     nextStep: function() {
       this.$validator.validate().then(() => {
-        if (this.userInformationFormValidation) {
-          // if (true) {
+        // if (this.userInformationFormValidation) {
+        if (true) {
           this.$validator.reset();
           // Todo: Check if this email already exist in firebase users before procceed to next step.
           this.step = 2;
