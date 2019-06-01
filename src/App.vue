@@ -1,5 +1,5 @@
 <template>
-  <v-app>
+  <v-app id="app">
     <v-progress-linear
       v-if="showProgress"
       class="ma-0"
@@ -8,7 +8,7 @@
       height="2"
     ></v-progress-linear>
     <Header v-if="isAuthenticated" />
-    <router-view />
+    <router-view></router-view>
     <ErrorSnackbar />
   </v-app>
 </template>

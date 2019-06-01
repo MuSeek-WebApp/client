@@ -13,19 +13,30 @@
           <span>{{ props.item.icon.tooltip }}</span>
         </v-tooltip>
       </td>
-      <td>{{ props.item.band.name }}</td>
+
       <td>
-        <v-chip v-for="genre in props.item.band.genres" :key="genre">
-          {{ genre }}
-        </v-chip>
+        <v-avatar size="48" class="pr-2">
+          <v-img :src="props.item.band.profile_photo" alt="avatar"></v-img>
+        </v-avatar>
+        {{ props.item.band.name }}
       </td>
       <td>
-        <template v-if="typeof props.item.band.address !== 'undefined'">{{
-          props.item.band.address.city
-        }}</template>
+        <v-chip v-for="genre in props.item.band.genres" :key="genre">{{
+          genre
+        }}</v-chip>
+      </td>
+      <td>
+        <template v-if="typeof props.item.band.address !== 'undefined'">
+          {{ props.item.band.address.city }}
+        </template>
       </td>
       <td>
         <custom-rating
+          :key="
+            typeof props.item.band._id !== 'undefined'
+              ? props.item.band._id
+              : props.item._id
+          "
           disabled
           :reviewed-id="
             typeof props.item.band._id !== 'undefined'

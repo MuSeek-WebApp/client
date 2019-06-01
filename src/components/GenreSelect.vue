@@ -1,5 +1,20 @@
 <template>
   <v-select
+    v-if="noValidate || false"
+    prepend-icon="music_note"
+    dense
+    data-vv-name="geners"
+    :value="value"
+    @input="$emit('input', $event)"
+    deletable-chips
+    chips
+    clearable
+    multiple
+    label="Select Your Genres"
+    :items="genres"
+  ></v-select>
+  <v-select
+    v-else
     prepend-icon="music_note"
     dense
     v-validate="genresRule"
@@ -29,9 +44,11 @@ export default {
     }
   }),
   created: function() {
-    this.$validator = this.validator;
+    if (this.validator) {
+      this.$validator = this.validator;
+    }
     this.genres = genres;
   },
-  props: ["value"]
+  props: ["value", "noValidate"]
 };
 </script>

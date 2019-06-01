@@ -30,17 +30,9 @@
           </template>
           <span>Info</span>
         </v-tooltip>
-        <v-dialog v-model="dialog" persistent fullscreen scrollable>
-          <template v-slot:activator="{ on }">
-            <v-btn flat icon class="mx-0" color="blue lighten-1" v-on="on">
-              <v-icon>edit</v-icon>
-            </v-btn>
-          </template>
-          <Event
-            v-bind:bindedEvent="{ ...event }"
-            v-on:dialog-close="onDialogClose"
-          ></Event>
-        </v-dialog>
+        <v-btn flat icon class="mx-0" color="blue lighten-1" @click="edit()">
+          <v-icon>edit</v-icon>
+        </v-btn>
         <v-tooltip bottom>
           <template v-slot:activator="{ on }">
             <v-dialog v-model="deleteDialog" width="400">
@@ -90,14 +82,10 @@
 </template>
 
 <script>
-import Event from "./event/Event";
 import { REMOVE_EVENT } from "../store/actions.type";
 import { STOP_PROGRESS, START_PROGRESS } from "../store/mutations.type";
 import moment from "moment";
 export default {
-  components: {
-    Event
-  },
   props: ["event"],
   data: function() {
     return {
@@ -134,6 +122,9 @@ export default {
         .finally(() => {
           this.$store.commit(STOP_PROGRESS);
         });
+    },
+    edit() {
+      this.$router.push("/event/edit/" + this.event._id);
     },
     isActive() {
       return !moment(this.event.endDate).isBefore(moment());

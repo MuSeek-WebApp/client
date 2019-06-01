@@ -5,6 +5,7 @@ import Home from "../views/Home.vue";
 import Register from "../views/Register.vue";
 import Profile from "../views/Profile.vue";
 import EventDetails from "../views/EventDetails.vue";
+import EditEvent from "../views/EditEvent.vue";
 
 Vue.use(VueRouter);
 
@@ -42,6 +43,11 @@ export default new VueRouter({
       path: "/event/:id",
       name: "EventDetails",
       component: EventDetails
+    },
+    {
+      path: "/event/edit/:id",
+      name: "EditEvent",
+      component: EditEvent
     }
   ]
 });
