@@ -9,7 +9,11 @@
       ></v-text-field>
     </v-flex>
     <v-flex md6>
-      <genre-select v-model="genresInput" @input="findByGenres"></genre-select>
+      <genre-select
+        :no-validate="true"
+        v-model="genresInput"
+        @input="findByGenres"
+      ></genre-select>
     </v-flex>
     <v-flex md12>
       <requests-table :requests="requests" :sortable="true"></requests-table>
