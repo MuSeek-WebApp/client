@@ -26,6 +26,11 @@
       </td>
       <td>
         <custom-rating
+          :key="
+            typeof props.item.band._id !== 'undefined'
+              ? props.item.band._id
+              : props.item._id
+          "
           disabled
           :reviewed-id="
             typeof props.item.band._id !== 'undefined'
