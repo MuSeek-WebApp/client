@@ -94,4 +94,7 @@ export default {
 .event-image:hover {
   opacity: 0.8;
 }
+.hide {
+  display: none;
+}
 </style>

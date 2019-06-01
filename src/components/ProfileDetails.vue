@@ -382,7 +382,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .no-pad {
   padding: 0 !important;
 }
