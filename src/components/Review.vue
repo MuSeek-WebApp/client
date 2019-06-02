@@ -4,27 +4,25 @@
       <v-list-tile-avatar>
         <v-img class="elevation-6" :src="review.photo"></v-img>
       </v-list-tile-avatar>
-      <v-list-tile-content>
+      <v-list-tile-content style="height: 150%">
         <v-list-tile-title>
-          <v-layout row>
-            <v-flex xs7>
-              <router-link
-                :to="`/profile/${review.userId}`"
-                v-text="review.userName"
-                class="ref"
-              ></router-link>
-            </v-flex>
-            <v-flex xs5 class="py-1">
-              <v-rating
-                color="yellow darken-1"
-                background-color="yellow darken-3"
-                half-increments
-                readonly
-                :value="review.stars"
-              ></v-rating>
-            </v-flex>
-          </v-layout>
+          <router-link
+            :to="`/profile/${review.userId}`"
+            v-text="review.userName"
+            class="ref font-weight-bold"
+          ></router-link>
+          <v-icon v-if="review.like" class="ml-2">thumb_up</v-icon>
+          <v-icon v-else class="ml-2">thumb_down</v-icon>
         </v-list-tile-title>
+        <v-list-tile-sub-title>
+          <span v-text="review.timestamp"></span>
+          @
+          <router-link
+            :to="`/event/${review.eventId}`"
+            v-text="review.eventName"
+            class="font-weight-bold ref"
+          ></router-link>
+        </v-list-tile-sub-title>
         <v-list-tile-sub-title
           v-text="review.description"
         ></v-list-tile-sub-title>
@@ -32,7 +30,7 @@
 
       <v-list-tile-action>
         <v-btn icon ripple>
-          <v-icon>delete</v-icon>
+          <v-icon v-if="isCurrentUserReview">delete</v-icon>
         </v-btn>
       </v-list-tile-action>
     </v-list-tile>
@@ -40,8 +38,15 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+
 export default {
-  computed: {},
+  computed: {
+    ...mapGetters(["getUserUid"]),
+    isCurrentUserReview: function() {
+      return this.getUserUid === this.review.userId;
+    }
+  },
   props: ["review"]
 };
 </script>
