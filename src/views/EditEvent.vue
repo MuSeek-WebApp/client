@@ -5,71 +5,78 @@
         <v-form>
           <v-container fluid>
             <v-layout wrap>
-              <v-flex md8>
-                <v-text-field
-                  prepend-icon="event_note"
-                  v-model="event.name"
-                  label="Event Name"
-                ></v-text-field>
-              </v-flex>
-              <v-flex md4 class="text-md-right">
-                <v-btn color="primary" @click="save">Save</v-btn>
-              </v-flex>
-              <v-flex md3>
-                <DatetimePicker
-                  v-model="event.startDate"
-                  format="YYYY-MM-DD"
-                ></DatetimePicker>
-              </v-flex>
-              <v-flex md3>
-                <DatetimePicker
-                  v-model="event.endDate"
-                  format="YYYY-MM-DD"
-                  :minTime="minTime"
-                  :minDate="minDate"
-                ></DatetimePicker>
-              </v-flex>
-              <v-flex md6>
-                <v-spacer></v-spacer>
-              </v-flex>
-              <v-flex md6>
-                <v-layout row wrap>
-                  <v-flex md4>
+              <v-flex md5>
+                <v-layout wrap>
+                  <v-flex md12>
                     <v-text-field
-                      type="number"
-                      label="Minimum bands in lineup"
-                      prepend-icon="arrow_downward"
-                      v-model="event.min_bands_number"
+                      prepend-icon="event_note"
+                      v-model="event.name"
+                      label="Event Name"
                     ></v-text-field>
                   </v-flex>
-                  <v-flex md4>
-                    <v-text-field
-                      type="number"
-                      label="Maximum bands in lineup"
-                      prepend-icon="arrow_upward"
-                      v-model="event.max_bands_number"
-                    ></v-text-field>
+                  <v-flex md5 class="pr-2">
+                    <DatetimePicker
+                      v-model="event.startDate"
+                      format="YYYY-MM-DD"
+                    ></DatetimePicker>
                   </v-flex>
-                  <v-flex md12>
-                    <genre-select v-model="event.genres"></genre-select>
-                  </v-flex>
-
-                  <v-flex md12>
-                    <v-textarea
-                      prepend-icon="subject"
-                      solo
-                      auto-grow
-                      label="More details..."
-                      v-model="event.description"
-                    ></v-textarea>
-                  </v-flex>
-                  <v-flex md12>
-                    <upload-image v-model="event.photos"></upload-image>
+                  <v-flex md5 class="pl-2">
+                    <DatetimePicker
+                      v-model="event.endDate"
+                      format="YYYY-MM-DD"
+                      :minTime="minTime"
+                      :minDate="minDate"
+                    ></DatetimePicker>
                   </v-flex>
                 </v-layout>
               </v-flex>
-              <v-divider vertical></v-divider>
+              <v-flex md7>
+                <v-btn color="pink lighten-1" class="white--text" @click="save"
+                  >Save</v-btn
+                >
+                <v-btn color="primary" @click="cancel">Cancel</v-btn>
+              </v-flex>
               <v-flex md5>
+                <v-tabs slider-color="#1976d2">
+                  <v-tab ripple>event details</v-tab>
+                  <v-tab-item>
+                    <v-layout wrap>
+                      <v-flex md3 class="pr-2">
+                        <v-text-field
+                          type="number"
+                          label="Minimum lineup"
+                          prepend-icon="arrow_downward"
+                          v-model="event.min_bands_number"
+                        ></v-text-field>
+                      </v-flex>
+                      <v-flex md3 class="pl-2">
+                        <v-text-field
+                          type="number"
+                          label="Maximum lineup"
+                          prepend-icon="arrow_upward"
+                          v-model="event.max_bands_number"
+                        ></v-text-field>
+                      </v-flex>
+                      <v-flex md12>
+                        <genre-select v-model="event.genres"></genre-select>
+                      </v-flex>
+                      <v-flex md12>
+                        <v-textarea
+                          prepend-icon="subject"
+                          solo
+                          auto-grow
+                          label="More details..."
+                          v-model="event.description"
+                        ></v-textarea>
+                      </v-flex>
+                      <v-flex md12>
+                        <upload-image v-model="event.photos"></upload-image>
+                      </v-flex>
+                    </v-layout>
+                  </v-tab-item>
+                </v-tabs>
+              </v-flex>
+              <v-flex md7>
                 <v-tabs slider-color="#1976d2">
                   <v-tab ripple>lineup</v-tab>
                   <v-tab ripple>find bands</v-tab>
