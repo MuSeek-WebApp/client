@@ -69,15 +69,32 @@
           </v-flex>
         </v-layout>
         <v-layout row class="ml-2">
-          <v-flex class="no-pad">
-            <v-chip small color="blue" text-color="white" class="my-auto">
+          <v-flex xs12 class="no-pad">
+            <v-chip small color="blue" text-color="white">
               <v-avatar>
                 <v-icon v-if="isBand">music_note</v-icon>
                 <v-icon v-else>business_center</v-icon>
               </v-avatar>
               <span v-text="type"></span>
             </v-chip>
+            <v-chip
+              small
+              :color="media.color"
+              text-color="white"
+              v-for="media in medias"
+              v-if="isEditing || hasProfile(media.name)"
+              @click="uploadSocialProfile(media.name)"
+            >
+              <v-icon>fa-{{ media.name }}</v-icon>
+            </v-chip>
           </v-flex>
+          <v-dialog v-model="uploadSocialDialog" width="700">
+            <SocialMediaUpload
+              :media="socialMedia"
+              :currentProfile="profileCopy.profiles[socialMedia]"
+              :profiles="profileCopy.profiles"
+            ></SocialMediaUpload>
+          </v-dialog>
         </v-layout>
       </v-flex>
     </v-layout>
@@ -298,16 +315,37 @@ import { UPLOAD_PROFILE_IMAGE, SAVE_PROFILE_DATA } from "@/store/actions.type";
 import { createNamespacedHelpers } from "vuex";
 import BandMembersList from "./BandMembersList";
 import genres from "../common/genres";
+import SocialMediaUpload from "./SocialMediaUpload";
 
 const { mapActions } = createNamespacedHelpers("profile");
 
 export default {
-  components: { BandMembersList },
+  components: { SocialMediaUpload, BandMembersList },
   data: () => ({
+    medias: [
+      {
+        name: "facebook",
+        color: "rgba(66, 103, 178, 1)"
+      },
+      {
+        name: "instagram",
+        color: "rgba(162, 50, 196, 1)"
+      },
+      {
+        name: "spotify",
+        color: "rgba(29, 209, 93, 1)"
+      },
+      {
+        name: "youtube",
+        color: "rgba(247, 0, 2, 1)"
+      }
+    ],
     isEditing: false,
     profileCopy: {},
     membersDialog: false,
-    genresDialog: false
+    genresDialog: false,
+    uploadSocialDialog: false,
+    socialMedia: ""
   }),
   computed: {
     type: function() {
@@ -376,6 +414,22 @@ export default {
       fd.append("image", selectedFile, selectedFile.name);
 
       await this.uploadProfileImage({ file: fd, uid: this.profile._id });
+    },
+
+    hasProfile: function(profile) {
+      return (
+        this.profileCopy.profiles[profile] &&
+        this.profileCopy.profiles[profile] !== "X"
+      );
+    },
+
+    uploadSocialProfile: function(profile) {
+      if (this.isEditing) {
+        this.socialMedia = profile;
+        this.uploadSocialDialog = true;
+      } else {
+        window.open(this.profileCopy.profiles[profile], "_blank");
+      }
     }
   },
   props: ["profile", "isCurrentUser"]
