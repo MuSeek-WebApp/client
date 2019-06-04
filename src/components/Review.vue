@@ -4,7 +4,7 @@
       <v-list-tile-avatar>
         <v-img class="elevation-6" :src="review.photo"></v-img>
       </v-list-tile-avatar>
-      <v-list-tile-content style="height: 150%">
+      <v-list-tile-content class="maxHeight">
         <v-list-tile-title>
           <router-link
             :to="`/profile/${review.userId}`"
@@ -15,7 +15,7 @@
           <v-icon v-else class="ml-2">thumb_down</v-icon>
         </v-list-tile-title>
         <v-list-tile-sub-title>
-          <span v-text="review.timestamp"></span>
+          <span v-text="date"></span>
           @
           <router-link
             :to="`/event/${review.eventId}`"
@@ -45,6 +45,9 @@ export default {
     ...mapGetters(["getUserUid"]),
     isCurrentUserReview: function() {
       return this.getUserUid === this.review.userId;
+    },
+    date: function() {
+      return new Date(this.review.timestamp).toDateString();
     }
   },
   props: ["review"]
@@ -55,6 +58,10 @@ export default {
 .ref {
   color: black;
   text-decoration: none !important;
+}
+
+.maxHeight {
+  height: 150%;
 }
 
 .elevation-6 {

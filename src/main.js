@@ -3,6 +3,7 @@ import Vuetify from "vuetify";
 import VeeValidate from "vee-validate";
 import "vuetify/src/stylus/app.styl";
 import "material-design-icons-iconfont/dist/material-design-icons.css";
+import "font-awesome/css/font-awesome.min.css";
 import App from "./App.vue";
 import router from "./router";
 import firebase from "firebase";
@@ -14,9 +15,7 @@ import VueTextareaAutosize from "vue-textarea-autosize";
 import { CHECK_AUTH, GET_USER_DATA } from "./store/actions.type";
 import * as VueGoogleMaps from "vue2-google-maps";
 
-Vue.use(Vuetify, {
-  iconfont: "md"
-});
+Vue.use(Vuetify);
 Vue.use(VeeValidate, {
   events: "change"
 });
