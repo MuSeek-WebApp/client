@@ -5,8 +5,7 @@
       <v-layout>
         <v-flex md10>
           <v-text-field
-            v-model="profile[media]"
-            :rules="urlRules"
+            v-model="profileUrl"
             label="Social Media URL"
           ></v-text-field>
         </v-flex>
@@ -19,6 +18,9 @@
       <span class="error-text" v-if="!validURL"
         >Invalid {{ this.media }} URL.</span
       >
+      <span v-if="isSaved" class="green--text">
+        URL for {{ this.media }} has been saved.
+      </span>
     </v-form>
   </v-card>
 </template>
@@ -29,18 +31,19 @@ export default {
   props: ["media", "profiles"],
   data: function() {
     return {
-      profile: [],
-      validURL: true
+      validURL: true,
+      isSaved: false
     };
   },
   created: function() {
-    this.profile = this.profiles;
+    this.profileUrl = this.profiles[this.media];
   },
   methods: {
     setProfile: function() {
       let regex;
-      if (this.profile[this.media] === "") {
+      if (this.profileUrl === "") {
         this.profiles[this.media] = "";
+        this.isSaved = true;
       } else {
         if (this.media === "facebook") {
           regex = /^https?:\/\/?(?:www\.)?facebook\.com\/(?:(?:\w)*#!\/)?(?:pages\/)?(?:[\w\-]*\/)*([\w\-]*)/;
@@ -51,9 +54,12 @@ export default {
         } else if (this.media === "spotify") {
           regex = /^https?:\/\/(?:open|play)\.spotify\.com\/artist\/[\w\d]+$/i;
         }
-        this.validURL = regex.test(this.profile[this.media]);
+        this.validURL = regex.test(this.profileUrl);
         if (this.validURL) {
-          this.profiles[this.media] = this.profile[this.media];
+          this.profiles[this.media] = this.profileUrl;
+          this.isSaved = true;
+        } else {
+          this.isSaved = false;
         }
       }
     }

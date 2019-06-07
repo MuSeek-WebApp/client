@@ -29,25 +29,13 @@
           v-text="review.description"
         ></v-list-tile-sub-title>
       </v-list-tile-content>
-
-      <v-list-tile-action>
-        <v-btn icon ripple>
-          <v-icon v-if="isCurrentUserReview">delete</v-icon>
-        </v-btn>
-      </v-list-tile-action>
     </v-list-tile>
   </v-container>
 </template>
 
 <script>
-import { mapGetters } from "vuex";
-
 export default {
   computed: {
-    ...mapGetters(["getUserUid"]),
-    isCurrentUserReview: function() {
-      return this.getUserUid === this.review.userId;
-    },
     date: function() {
       return new Date(this.review.timestamp).toDateString();
     }

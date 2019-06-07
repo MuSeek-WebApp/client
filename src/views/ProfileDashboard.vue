@@ -8,12 +8,14 @@
               <profile-details
                 :profile="profileData"
                 :is-current-user="profileData._id === getUserUid"
+                :key="profileData._id"
                 v-if="profileData.type"
               ></profile-details>
             </v-flex>
             <v-flex xs12 md6>
               <all-reviews
                 :reviews="profileData.reviews"
+                :key="profileData._id"
                 v-if="profileData.reviews"
               ></all-reviews>
             </v-flex>

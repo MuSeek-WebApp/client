@@ -84,6 +84,7 @@
               v-for="media in medias"
               v-if="isEditing || hasProfile(media.name)"
               @click="uploadSocialProfile(media.name)"
+              :key="media.name"
             >
               <v-icon>fa-{{ media.name }}</v-icon>
             </v-chip>
@@ -92,6 +93,7 @@
             <SocialMediaUpload
               :media="socialMedia"
               :profiles="profileCopy.profiles"
+              :key="socialMedia"
             ></SocialMediaUpload>
           </v-dialog>
         </v-layout>
