@@ -8,7 +8,8 @@
       ref="imageInput"
     />
     <v-layout align-center>
-      <v-flex offset-xs1 xs2>
+      <v-spacer grow></v-spacer>
+      <v-flex shrink>
         <v-hover>
           <v-avatar slot-scope="{ hover }" class="mx-auto" size="125">
             <v-img :src="profilePhoto" class="mt-2">
@@ -29,15 +30,15 @@
         </v-hover>
       </v-flex>
 
-      <v-flex xs10>
+      <v-flex grow>
         <v-layout row>
-          <v-flex xs10 class="no-pad ml-2">
+          <v-flex grow class="no-pad ml-2">
             <span
               class="large-text font-weight-bold ml-3"
               v-text="profile.name"
             ></span>
           </v-flex>
-          <v-flex xs1 class="no-pad">
+          <v-flex shrink class="no-pad">
             <v-expand-transition>
               <div v-if="isEditing" class="moveGroup">
                 <v-btn icon @click="cancelEdit()" small>
@@ -46,7 +47,7 @@
               </div>
             </v-expand-transition>
           </v-flex>
-          <v-flex xs1 class="no-pad">
+          <v-flex shrink class="no-pad">
             <v-expand-transition>
               <div v-if="!isEditing && isCurrentUser">
                 <v-btn icon @click="startEdit()" small>
@@ -82,6 +83,7 @@
               :color="media.color"
               text-color="white"
               v-for="media in medias"
+              :key="media.name"
               v-if="isEditing || hasProfile(media.name)"
               @click="uploadSocialProfile(media.name)"
               :key="media.name"
@@ -101,15 +103,15 @@
     </v-layout>
 
     <v-layout align-center>
-      <v-flex xs1 class="no-pad">
+      <v-flex shrink class="no-pad">
         <v-icon x-large>
           contact_support
         </v-icon>
       </v-flex>
-      <v-flex xs3 class="no-pad">
+      <v-flex shrink class="no-pad">
         <span class="display-h1">Who are we?</span>
       </v-flex>
-      <v-flex>
+      <v-flex grow>
         <v-divider></v-divider>
       </v-flex>
     </v-layout>
@@ -131,15 +133,15 @@
     <v-divider></v-divider>
 
     <v-layout row class="mt-2" v-if="isBand">
-      <v-flex xs1 class="no-pad">
+      <v-flex shrink class="no-pad">
         <v-icon x-large>
           people
         </v-icon>
       </v-flex>
-      <v-flex xs3 class="no-pad">
+      <v-flex grow class="no-pad">
         <span class="display-h1">Band Members</span>
       </v-flex>
-      <v-flex offset-xs7 xs1 class="no-pad">
+      <v-flex shrink class="no-pad">
         <v-dialog v-model="membersDialog" width="700">
           <template v-slot:activator="{ on }">
             <v-expand-transition>

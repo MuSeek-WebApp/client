@@ -117,14 +117,16 @@ export default {
           value: "actions",
           sortable: false,
           align: "right",
-          class: "pr-3"
+          class: "pr-3",
+          width: "1%"
         }
       ];
       if (this.isShowStatus) {
         headers.unshift({
           text: "Status",
           value: "status",
-          sortable: false
+          sortable: false,
+          width: "1%"
         });
       }
       return headers;

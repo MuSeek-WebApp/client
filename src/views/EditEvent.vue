@@ -4,7 +4,7 @@
       <v-layout>
         <v-form>
           <v-container fluid>
-            <v-layout wrap>
+            <v-layout row wrap>
               <v-flex md5>
                 <v-layout wrap>
                   <v-flex md12>
@@ -34,11 +34,27 @@
                 <v-btn color="pink lighten-1" class="white--text" @click="save"
                   >Save</v-btn
                 >
-                <v-btn color="primary" @click="cancel">Cancel</v-btn>
+                <v-btn color="primary" @click="close">Cancel</v-btn>
               </v-flex>
               <v-flex md5>
                 <v-tabs slider-color="#1976d2">
                   <v-tab ripple>event details</v-tab>
+                  <v-tab-item>
+                    <genre-select v-model="event.genres"></genre-select>
+                    <v-textarea
+                      prepend-icon="subject"
+                      solo
+                      auto-grow
+                      label="More details..."
+                      v-model="event.description"
+                    ></v-textarea>
+                    <upload-image v-model="event.photos"></upload-image>
+                  </v-tab-item>
+                </v-tabs>
+              </v-flex>
+              <v-flex md7>
+                <v-tabs slider-color="#1976d2">
+                  <v-tab ripple>lineup</v-tab>
                   <v-tab-item>
                     <v-layout wrap>
                       <v-flex md3 class="pr-2">
@@ -58,33 +74,9 @@
                         ></v-text-field>
                       </v-flex>
                       <v-flex md12>
-                        <genre-select v-model="event.genres"></genre-select>
-                      </v-flex>
-                      <v-flex md12>
-                        <v-textarea
-                          prepend-icon="subject"
-                          solo
-                          auto-grow
-                          label="More details..."
-                          v-model="event.description"
-                        ></v-textarea>
-                      </v-flex>
-                      <v-flex md12>
-                        <upload-image v-model="event.photos"></upload-image>
+                        <lineup v-model="event.requests"></lineup>
                       </v-flex>
                     </v-layout>
-                  </v-tab-item>
-                </v-tabs>
-              </v-flex>
-              <v-flex md7>
-                <v-tabs slider-color="#1976d2">
-                  <v-tab ripple>lineup</v-tab>
-                  <v-tab ripple>find bands</v-tab>
-                  <v-tab-item :transition="false" :reverse-transition="false">
-                    <lineup v-model="event.requests"></lineup>
-                  </v-tab-item>
-                  <v-tab-item :transition="false" :reverse-transition="false">
-                    <find-bands v-model="event.requests"></find-bands>
                   </v-tab-item>
                 </v-tabs>
               </v-flex>
@@ -93,6 +85,28 @@
         </v-form>
       </v-layout>
     </v-container>
+    <v-dialog v-model="dialog" width="75%">
+      <template v-slot:activator="{ on }">
+        <v-btn
+          large
+          fixed
+          fab
+          bottom
+          right
+          color="white"
+          v-on="on"
+          style="opacity:0.8"
+        >
+          <v-icon color="pink" large>add</v-icon>
+        </v-btn>
+      </template>
+      <find-bands
+        v-model="event"
+        :key="event._id"
+        @close="dialog = false"
+        v-if="dialog"
+      ></find-bands>
+    </v-dialog>
   </v-sheet>
 </template>
 
@@ -127,7 +141,8 @@ export default {
     return {
       startDatePicker: false,
       endDatePicker: false,
-      event: null
+      event: null,
+      dialog: false
     };
   },
   async created() {

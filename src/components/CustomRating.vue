@@ -80,8 +80,6 @@ export default {
       viewedEvent: state => state.event.viewedEvent
     }),
     myReview: function() {
-      console.log("eventReviews");
-      console.log(this.eventReviews);
       const userReviews = this.eventReviews
         .filter(eventReview => eventReview._id === this.reviewedId)
         .map(eventReview => eventReview.reviews)[0];
@@ -89,8 +87,6 @@ export default {
         let res = userReviews.filter(
           review => review.userId === this.userData._id
         )[0];
-        console.log("res");
-        console.log(res);
         if (res) {
           return res;
         }
