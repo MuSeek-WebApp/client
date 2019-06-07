@@ -11,7 +11,7 @@
       <v-flex offset-xs1 xs2>
         <v-hover>
           <v-avatar slot-scope="{ hover }" class="mx-auto" size="125">
-            <v-img :src="profile.profile_photo" class="mt-2">
+            <v-img :src="profilePhoto" class="mt-2">
               <v-expand-transition>
                 <v-btn
                   v-if="hover && isCurrentUser"
@@ -91,7 +91,6 @@
           <v-dialog v-model="uploadSocialDialog" width="700">
             <SocialMediaUpload
               :media="socialMedia"
-              :currentProfile="profileCopy.profiles[socialMedia]"
               :profiles="profileCopy.profiles"
             ></SocialMediaUpload>
           </v-dialog>
@@ -121,16 +120,15 @@
           :readonly="!isEditing"
           placeholder="A Profile's short description (40-400 characters)."
         ></textarea-autosize>
-        <span class="error-text font-size-medium" v-if="!isDescriptionValid"
-          >A description has to be at least 40 characters and 400 characters
-          maximum.</span
-        >
+        <span class="error-text font-size-medium" v-if="!isDescriptionValid">
+          A description has to be maximum 400 characters maximum.
+        </span>
       </v-flex>
     </v-layout>
 
     <v-divider></v-divider>
 
-    <v-layout row class="mt-2">
+    <v-layout row class="mt-2" v-if="isBand">
       <v-flex xs1 class="no-pad">
         <v-icon x-large>
           people
@@ -159,7 +157,7 @@
       </v-flex>
     </v-layout>
 
-    <v-layout row wrap>
+    <v-layout row wrap class="mb-1" v-if="isBand">
       <v-flex v-for="(artist, n) in profileCopy.bandMembers" :key="n" xs12 md6>
         <v-list-tile class="grow">
           <v-list-tile-avatar>
@@ -177,15 +175,23 @@
           </v-list-tile-content>
         </v-list-tile>
       </v-flex>
+      <v-flex offset-xs1 xs11 class="no-pad">
+        <span
+          class="font-size-medium"
+          v-if="profileCopy.bandMembers.length === 0"
+        >
+          There are no band members yet.
+        </span>
+      </v-flex>
     </v-layout>
 
-    <v-divider></v-divider>
+    <v-divider v-if="isBand"></v-divider>
 
     <v-layout row class="mt-2">
       <v-flex offset-xs1 xs3 class="no-pad">
         <span class="display-h1">Contact Details</span>
       </v-flex>
-      <v-flex offset-xs2 xs1 class="no-pad">
+      <v-flex offset-xs2 xs1 class="no-pad" v-if="isBand">
         <v-icon x-large>
           music_note
         </v-icon>
@@ -264,7 +270,7 @@
               />
             </v-list-tile-title>
             <span class="error-text" v-if="!isCellphoneValid"
-              >Cellphone must have 9 digits.</span
+              >Cellphone must contain digits only.</span
             >
           </v-list-tile-content>
         </v-list-tile>
@@ -354,14 +360,17 @@ export default {
     isBand: function() {
       return this.profile.type === "band";
     },
+    profilePhoto: function() {
+      return (
+        this.profile.profile_photo ||
+        "http://res.cloudinary.com/do9yffex2/image/upload/v1559899942/xxw1tidv76g572j7ni8w.jpg"
+      );
+    },
     selectedGenres: function() {
       return this.arrayFormat(this.profileCopy.genres);
     },
     isDescriptionValid: function() {
-      return (
-        this.profileCopy.description.length > 40 &&
-        this.profileCopy.description.length < 400
-      );
+      return this.profileCopy.description.length < 400;
     },
     isEmailValid: function() {
       const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -370,10 +379,7 @@ export default {
       );
     },
     isCellphoneValid: function() {
-      return (
-        this.profileCopy.contactDetails.phoneNumber.length === 9 &&
-        parseInt(this.profileCopy.contactDetails.phoneNumber)
-      );
+      return parseInt(this.profileCopy.contactDetails.phoneNumber);
     },
     validationErrors: function() {
       if (!this.isDescriptionValid) return true;

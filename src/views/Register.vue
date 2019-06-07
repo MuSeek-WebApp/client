@@ -270,7 +270,7 @@
                               v-validate="validationRules.urlRule"
                               data-vv-name="youtube"
                               :error-messages="errors.collect('youtube')"
-                              v-model="userData.socialMedia.youtube"
+                              v-model="userData.profiles.youtube"
                               label="Youtube"
                             ></v-text-field>
                           </v-layout>
@@ -285,7 +285,7 @@
                               v-validate="validationRules.urlRule"
                               data-vv-name="spotify"
                               :error-messages="errors.collect('spotify')"
-                              v-model="userData.socialMedia.spotify"
+                              v-model="userData.profiles.spotify"
                               label="Spotify"
                             ></v-text-field>
                           </v-layout>
@@ -300,7 +300,7 @@
                               v-validate="validationRules.urlRule"
                               data-vv-name="facebook"
                               :error-messages="errors.collect('facebook')"
-                              v-model="userData.socialMedia.facebook"
+                              v-model="userData.profiles.facebook"
                               label="Facebook"
                             ></v-text-field>
                           </v-layout>
@@ -315,7 +315,7 @@
                               v-validate="validationRules.urlRule"
                               data-vv-name="instagram"
                               :error-messages="errors.collect('instagram')"
-                              v-model="userData.socialMedia.instagram"
+                              v-model="userData.profiles.instagram"
                               label="Instagram"
                             ></v-text-field>
                           </v-layout>
@@ -415,7 +415,7 @@ export default {
         city: "",
         streetAddress: ""
       },
-      socialMedia: {
+      profiles: {
         youtube: "",
         spotify: "",
         facebook: "",
