@@ -8,7 +8,6 @@
             v-model="profile[media]"
             :rules="urlRules"
             label="Social Media URL"
-            required
           ></v-text-field>
         </v-flex>
         <v-flex md2>
@@ -31,7 +30,6 @@ export default {
   data: function() {
     return {
       profile: [],
-      urlRules: [v => !!v || "URL is required"],
       validURL: true
     };
   },
@@ -41,18 +39,22 @@ export default {
   methods: {
     setProfile: function() {
       let regex;
-      if (this.media === "facebook") {
-        regex = /^https?:\/\/?(?:www\.)?facebook\.com\/(?:(?:\w)*#!\/)?(?:pages\/)?(?:[\w\-]*\/)*([\w\-]*)/;
-      } else if (this.media === "youtube") {
-        regex = /^https?:\/\/?(www\.youtube\.com|youtu\.?be)\/.+$/;
-      } else if (this.media === "instagram") {
-        regex = /^https?:\/\/?(?:www.)?(?:instagram.com|instagr.am)\/([A-Za-z0-9-_\.]+)/im;
-      } else if (this.media === "spotify") {
-        regex = /^https?:\/\/(?:open|play)\.spotify\.com\/artist\/[\w\d]+$/i;
-      }
-      this.validURL = regex.test(this.profile[this.media]);
-      if (this.validURL) {
-        this.profiles[this.media] = this.profile[this.media];
+      if (this.profile[this.media] === "") {
+        this.profiles[this.media] = "";
+      } else {
+        if (this.media === "facebook") {
+          regex = /^https?:\/\/?(?:www\.)?facebook\.com\/(?:(?:\w)*#!\/)?(?:pages\/)?(?:[\w\-]*\/)*([\w\-]*)/;
+        } else if (this.media === "youtube") {
+          regex = /^https?:\/\/?(www\.youtube\.com|youtu\.?be)\/.+$/;
+        } else if (this.media === "instagram") {
+          regex = /^https?:\/\/?(?:www.)?(?:instagram.com|instagr.am)\/([A-Za-z0-9-_\.]+)/im;
+        } else if (this.media === "spotify") {
+          regex = /^https?:\/\/(?:open|play)\.spotify\.com\/artist\/[\w\d]+$/i;
+        }
+        this.validURL = regex.test(this.profile[this.media]);
+        if (this.validURL) {
+          this.profiles[this.media] = this.profile[this.media];
+        }
       }
     }
   }
