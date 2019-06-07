@@ -16,6 +16,7 @@ export const UPLOAD_PROFILE_IMAGE = "uploadProfileImage";
 export const SAVE_PROFILE_DATA = "saveProfileData";
 export const GET_USER_DATA = "getUserData";
 export const FIND_BANDS = "findBands";
+export const SUGGEST_BANDS = "suggestBands";
 export const FETCH_FEED = "fetchFeed";
 export const REGISTER_EVENT = "registerEvent";
 export const FETCH_SINGLE_EVENT = "fetchSingleEvent";

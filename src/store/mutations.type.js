@@ -10,6 +10,7 @@ export const CLEAR_FEED = "clearFeed";
 export const SET_PROFILE = "setProfile";
 export const SET_USER_DATA = "setUserData";
 export const SET_FIND_BANDS = "setFindBands";
+export const SET_SUGGEST_BANDS = "setSuggestBands";
 export const SET_FEED = "setFeed";
 export const SET_VIEWED_EVENT = "setViewedEvent";
 export const DISPATCH_ERROR_MESSAGE = "dispatchErrorMessage";

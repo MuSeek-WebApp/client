@@ -1,9 +1,10 @@
 import ApiService from "@/common/api.service";
-import { FIND_BANDS } from "./actions.type";
-import { SET_FIND_BANDS } from "./mutations.type";
+import { FIND_BANDS, SUGGEST_BANDS } from "./actions.type";
+import { SET_FIND_BANDS, SET_SUGGEST_BANDS } from "./mutations.type";
 
 const state = {
-  filteredBands: []
+  filteredBands: [],
+  suggestedBands: []
 };
 
 const actions = {
@@ -14,8 +15,19 @@ const actions = {
           SET_FIND_BANDS,
           await ApiService.get("/api/band/findBands", args)
         );
-      } else {
-        commit(SET_FIND_BANDS, await ApiService.get("/api/band/all"));
+      }
+    } catch (error) {
+      throw error;
+    }
+  },
+  async [SUGGEST_BANDS]({ commit }, args) {
+    try {
+      commit(SET_SUGGEST_BANDS, []);
+      if (args) {
+        commit(
+          SET_SUGGEST_BANDS,
+          await ApiService.post("/api/event/recommend", args)
+        );
       }
     } catch (error) {
       throw error;
@@ -26,6 +38,9 @@ const actions = {
 const mutations = {
   [SET_FIND_BANDS](state, { data }) {
     state.filteredBands = data;
+  },
+  [SET_SUGGEST_BANDS](state, { data }) {
+    state.suggestedBands = data;
   }
 };
 
