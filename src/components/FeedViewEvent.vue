@@ -74,7 +74,10 @@
     <v-divider></v-divider>
 
     <template v-if="currentStatus !== null">
-      <v-card-actions :class="cardActionStyle" class="text-md-center">
+      <v-card-actions
+        :class="cardActionStyle"
+        class="text-md-center bottom-buttons"
+      >
         <v-flex md4>
           <h5>IN PROGRESS</h5>
         </v-flex>
@@ -85,7 +88,7 @@
       </v-card-actions>
     </template>
     <template v-else>
-      <v-card-actions>
+      <v-card-actions class="bottom-buttons">
         <v-spacer></v-spacer>
         <v-btn dark color="black" @click="sendRequest">RSVP</v-btn>
         <v-spacer></v-spacer>
@@ -101,6 +104,7 @@
   -webkit-line-clamp: 5;
   -webkit-box-orient: vertical;
 }
+
 a {
   text-decoration: none;
 }
@@ -111,6 +115,7 @@ import moment from "moment";
 import { REGISTER_EVENT } from "../store/actions.type";
 import { START_PROGRESS, STOP_PROGRESS } from "../store/mutations.type";
 import CustomRating from "../components/CustomRating.vue";
+
 export default {
   components: {
     CustomRating
@@ -161,3 +166,9 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+.bottom-buttons {
+  height: 7vh;
+}
+</style>

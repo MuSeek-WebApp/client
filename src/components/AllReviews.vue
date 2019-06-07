@@ -5,7 +5,7 @@
         <v-icon x-large>stars</v-icon>
       </v-flex>
       <v-flex xs11>
-        <span class="display-1">Reviews</span>
+        <span class="large-text font-weight-bold">Reviews</span>
       </v-flex>
     </v-layout>
     <v-layout row wrap>
@@ -42,3 +42,9 @@ export default {
   props: ["reviews"]
 };
 </script>
+
+<style scoped>
+.large-text {
+  font-size: 1.5vw;
+}
+</style>

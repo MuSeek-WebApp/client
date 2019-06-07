@@ -33,7 +33,7 @@
         <v-layout row>
           <v-flex xs10 class="no-pad ml-2">
             <span
-              class="display-1 font-weight-bold ml-3"
+              class="large-text font-weight-bold ml-3"
               v-text="profile.name"
             ></span>
           </v-flex>
@@ -448,8 +448,12 @@ export default {
   padding: 0 !important;
 }
 
+.large-text {
+  font-size: 1.75vw;
+}
+
 .display-h1 {
-  font-size: 24px;
+  font-size: 1.25vw;
   font-weight: bold;
   font-family: "Roboto", sans-serif;
   line-height: 40px;
