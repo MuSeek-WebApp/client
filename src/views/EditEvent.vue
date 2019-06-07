@@ -166,7 +166,7 @@ export default {
       this.$store
         .dispatch(action, this.event)
         .then(() => {
-          this.$emit("dialog-close");
+          this.$router.push("/home");
         })
         .catch(() => {
           // // TODO print error message
@@ -176,7 +176,7 @@ export default {
         });
     },
     close() {
-      this.$router.back();
+      this.$router.push("/home");
     }
   }
 };
