@@ -39,10 +39,14 @@ router.beforeEach(async (to, from, next) => {
       next();
     }
   } catch {
-    if (to.name === "Login" || to.name === "Register") {
+    if (
+      to.name === "Login" ||
+      to.name === "Register" ||
+      to.name === "Landing"
+    ) {
       next();
     } else {
-      next("/login");
+      next("/");
     }
   }
 });

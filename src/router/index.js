@@ -6,6 +6,7 @@ import Register from "../views/Register.vue";
 import Profile from "../views/Profile.vue";
 import EventDetails from "../views/EventDetails.vue";
 import EditEvent from "../views/EditEvent.vue";
+import Landing from "../views/Landing.vue";
 
 Vue.use(VueRouter);
 
@@ -13,11 +14,12 @@ export default new VueRouter({
   routes: [
     {
       path: "*",
-      redirect: "/login"
+      redirect: "/"
     },
     {
       path: "/",
-      redirect: "/login"
+      name: "Landing",
+      component: Landing
     },
     {
       path: "/login",
