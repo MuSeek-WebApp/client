@@ -1,10 +1,9 @@
 import store from "../store";
 import { FETCH_EVENTS, FETCH_FEED } from "../store/actions.type";
-import { WS_URL } from "./config";
 
 const WsService = {
   init() {
-    const ws = new WebSocket(WS_URL + "/ws/event");
+    const ws = new WebSocket(process.env.VUE_APP_WS_URL + "/ws/event");
 
     ws.onopen = () => {
       // eslint-disable-next-line
