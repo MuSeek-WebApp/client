@@ -19,24 +19,27 @@ const actions = {
         await ApiService.post("/api/profile/get", { userId: userId })
       );
     } catch (error) {
+      // eslint-disable-next-line
       console.log("ERROR");
     }
   },
 
-  async [UPLOAD_PROFILE_IMAGE]({ state, dispatch }, { file, uid }) {
+  async [UPLOAD_PROFILE_IMAGE]({ dispatch }, { file, uid }) {
     try {
       await ApiService.post("/api/profile/upload", file);
       dispatch(GET_PROFILE, uid);
     } catch (error) {
+      // eslint-disable-next-line
       console.log("ERROR");
     }
   },
 
-  async [SAVE_PROFILE_DATA]({ state, dispatch }, profile) {
+  async [SAVE_PROFILE_DATA]({ dispatch }, profile) {
     try {
       await ApiService.post("/api/profile/update", { profile: profile });
       dispatch(GET_PROFILE, profile._id);
     } catch (error) {
+      // eslint-disable-next-line
       console.log("ERROR");
     }
   }

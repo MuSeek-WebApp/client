@@ -46,12 +46,16 @@ export default {
         this.isSaved = true;
       } else {
         if (this.media === "facebook") {
+          // eslint-disable-next-line
           regex = /^https?:\/\/?(?:www\.)?facebook\.com\/(?:(?:\w)*#!\/)?(?:pages\/)?(?:[\w\-]*\/)*([\w\-]*)/;
         } else if (this.media === "youtube") {
+          // eslint-disable-next-line
           regex = /^https?:\/\/?(www\.youtube\.com|youtu\.?be)\/.+$/;
         } else if (this.media === "instagram") {
+          // eslint-disable-next-line
           regex = /^https?:\/\/?(?:www.)?(?:instagram.com|instagr.am)\/([A-Za-z0-9-_\.]+)/im;
         } else if (this.media === "spotify") {
+          // eslint-disable-next-line
           regex = /^https?:\/\/(?:open|play)\.spotify\.com\/artist\/[\w\d]+$/i;
         }
         this.validURL = regex.test(this.profileUrl);

@@ -83,7 +83,6 @@
               :color="media.color"
               text-color="white"
               v-for="media in medias"
-              :key="media.name"
               v-if="isEditing || hasProfile(media.name)"
               @click="uploadSocialProfile(media.name)"
               :key="media.name"
@@ -321,7 +320,7 @@
 </template>
 
 <script>
-import { UPLOAD_PROFILE_IMAGE, SAVE_PROFILE_DATA } from "@/store/actions.type";
+import { SAVE_PROFILE_DATA, UPLOAD_PROFILE_IMAGE } from "@/store/actions.type";
 import { createNamespacedHelpers } from "vuex";
 import BandMembersList from "./BandMembersList";
 import genres from "../common/genres";
@@ -377,6 +376,7 @@ export default {
       return this.profileCopy.description.length < 400;
     },
     isEmailValid: function() {
+      // eslint-disable-next-line
       const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
       return re.test(
         String(this.profileCopy.contactDetails.email).toLowerCase()

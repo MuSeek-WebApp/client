@@ -477,6 +477,7 @@ export default {
     nextStep: function() {
       this.$validator.validate().then(() => {
         // if (this.userInformationFormValidation) {
+        // eslint-disable-next-line
         if (true) {
           this.$validator.reset();
           // Todo: Check if this email already exist in firebase users before procceed to next step.

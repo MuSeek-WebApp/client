@@ -22,12 +22,9 @@
 </style>
 
 <script>
-import { GET_CURRENT_PROFILE, GET_UID } from "@/store/actions.type";
-import { createNamespacedHelpers, mapGetters, mapState } from "vuex";
+import { mapGetters, mapState } from "vuex";
 import Header from "./components/Header.vue";
 import ErrorSnackbar from "./components/ErrorSnackbar.vue";
-
-const { mapActions } = createNamespacedHelpers("profile");
 
 export default {
   name: "app",
