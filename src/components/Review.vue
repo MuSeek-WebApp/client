@@ -7,6 +7,7 @@
       <v-list-tile-content class="maxHeight">
         <v-list-tile-title>
           <router-link
+            target="_blank"
             :to="`/profile/${review.userId}`"
             v-text="review.userName"
             class="ref font-weight-bold"
@@ -18,6 +19,7 @@
           <span v-text="date"></span>
           @
           <router-link
+            target="_blank"
             :to="`/event/${review.eventId}`"
             v-text="review.eventName"
             class="font-weight-bold ref"

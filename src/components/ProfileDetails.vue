@@ -424,6 +424,7 @@ export default {
 
     hasProfile: function(profile) {
       return (
+        this.profileCopy.profiles &&
         this.profileCopy.profiles[profile] &&
         this.profileCopy.profiles[profile] !== "X"
       );
