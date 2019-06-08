@@ -413,7 +413,6 @@ export default {
     passwordFocus: false,
     userInformationFormValidation: false,
     extraInformationFormValidation: false,
-    myFiles: [],
     userData: {
       type: {
         band: true
@@ -438,7 +437,8 @@ export default {
         spotify: "",
         facebook: "",
         instagram: ""
-      }
+      },
+      profilePicture: {}
     },
     password: "",
     confirmPassword: "",
@@ -487,10 +487,6 @@ export default {
     }
   },
   methods: {
-    handleFilePondInit: function() {
-      // console.log('FilePond has initialized');
-      // FilePond instance methods are available on `this.$refs.pond`
-    },
     nextStep: function() {
       this.$validator.validate().then(() => {
         // if (this.userInformationFormValidation) {
@@ -506,13 +502,22 @@ export default {
       this.$validator.validate().then(() => {
         if (this.extraInformationFormValidation) {
           this.$store.commit(START_PROGRESS);
+
+          const selectedFile = this.$refs.pond.getFile().file;
+
+          let fd = new FormData();
+          fd.append("image", selectedFile, selectedFile.name);
+
           let user = {
             auth: {
               email: this.userData.contactDetails.email,
               phoneNumber: this.userData.contactDetails.phoneNumber,
               password: this.password
             },
-            userData: this.userData
+            userData: this.userData,
+            profilePicture: selectedFile,
+            selectedFile: selectedFile,
+            fd: fd
           };
           this.$store
             .dispatch(REGISTER, user)
