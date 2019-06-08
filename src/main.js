@@ -32,7 +32,7 @@ WsService.init();
 router.beforeEach(async (to, from, next) => {
   try {
     await store.dispatch(CHECK_AUTH);
-    if (to.name === "Login") {
+    if (to.name === "Login" || to.name === "Landing") {
       next("/home");
     } else {
       await store.dispatch(GET_USER_DATA);
