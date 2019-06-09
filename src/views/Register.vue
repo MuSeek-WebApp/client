@@ -363,8 +363,9 @@
 </style>
 
 <script>
-import { REGISTER } from "../store/actions.type";
+import { REGISTER, UPLOAD_PROFILE_PICTURE } from "../store/actions.type";
 import { START_PROGRESS, STOP_PROGRESS } from "../store/mutations.type";
+import { mapState } from "vuex";
 import GenreSelect from "../components/GenreSelect";
 import CountrySelect from "../components/CountrySelect";
 import BandMembersList from "../components/BandMembersList";
@@ -437,8 +438,7 @@ export default {
         spotify: "",
         facebook: "",
         instagram: ""
-      },
-      profilePicture: {}
+      }
     },
     password: "",
     confirmPassword: "",
@@ -479,6 +479,9 @@ export default {
     }
   }),
   computed: {
+    ...mapState({
+      profilePicture: state => state.auth.profilePicture
+    }),
     confirmPasswordRule: function() {
       return {
         required: true,
@@ -489,9 +492,7 @@ export default {
   methods: {
     nextStep: function() {
       this.$validator.validate().then(() => {
-        // if (this.userInformationFormValidation) {
-        // eslint-disable-next-line
-        if (true) {
+        if (this.userInformationFormValidation) {
           this.$validator.reset();
           // Todo: Check if this email already exist in firebase users before procceed to next step.
           this.step = 2;
@@ -504,28 +505,32 @@ export default {
           this.$store.commit(START_PROGRESS);
 
           const selectedFile = this.$refs.pond.getFile().file;
-
           let fd = new FormData();
           fd.append("image", selectedFile, selectedFile.name);
-
-          let user = {
-            auth: {
-              email: this.userData.contactDetails.email,
-              phoneNumber: this.userData.contactDetails.phoneNumber,
-              password: this.password
-            },
-            userData: this.userData,
-            profilePicture: selectedFile,
-            selectedFile: selectedFile,
-            fd: fd
-          };
           this.$store
-            .dispatch(REGISTER, user)
+            .dispatch(UPLOAD_PROFILE_PICTURE, fd)
             .then(() => {
-              this.$router.push("/home");
+              let user = {
+                auth: {
+                  email: this.userData.contactDetails.email,
+                  phoneNumber: this.userData.contactDetails.phoneNumber,
+                  password: this.password
+                },
+                userData: this.userData,
+                profile_photo: this.profilePicture
+              };
+              this.$store
+                .dispatch(REGISTER, user)
+                .then(() => {
+                  this.$router.push("/home");
+                })
+                .finally(() => {
+                  this.$store.commit(STOP_PROGRESS);
+                });
             })
-            .finally(() => {
-              this.$store.commit(STOP_PROGRESS);
+            .catch(err => {
+              // eslint-disable-next-line
+              console.log(err);
             });
         }
       });
