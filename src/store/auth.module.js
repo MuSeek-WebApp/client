@@ -7,9 +7,15 @@ import {
   SIGN_IN_WITH_FACEBOOK,
   CHECK_AUTH,
   REGISTER,
+  UPLOAD_PROFILE_PICTURE,
   GET_USER_DATA
 } from "./actions.type";
-import { SET_AUTH, PURGE_AUTH, SET_USER_DATA } from "./mutations.type";
+import {
+  SET_AUTH,
+  PURGE_AUTH,
+  SET_USER_DATA,
+  SET_PROFILE_PIC
+} from "./mutations.type";
 import firebase from "firebase";
 
 setInterval(function() {
@@ -153,6 +159,14 @@ const actions = {
         });
     });
   },
+  async [UPLOAD_PROFILE_PICTURE](context, fd) {
+    try {
+      let res = await ApiService.post("/auth/uploadProfilePic", fd);
+      context.commit(SET_PROFILE_PIC, res.data.profile_picture.url);
+    } catch (error) {
+      throw error;
+    }
+  },
   async [GET_USER_DATA](context) {
     try {
       if (!context.state.userData) {
@@ -178,6 +192,9 @@ const mutations = {
   },
   [SET_USER_DATA](state, userData) {
     state.userData = userData;
+  },
+  [SET_PROFILE_PIC](state, picUrl) {
+    state.profilePicture = picUrl;
   }
 };
 

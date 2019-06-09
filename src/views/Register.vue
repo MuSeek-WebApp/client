@@ -255,9 +255,6 @@
                             ref="pond"
                             label-idle="Drop Profile Picture Here..."
                             accepted-file-types="image/jpeg, image/png"
-                            server="/api"
-                            v-bind:files="myFiles"
-                            v-on:init="handleFilePondInit"
                           />
                         </v-flex>
                         <v-flex md6 class="px-1" v-if="userData.type.band">
@@ -366,12 +363,34 @@
 </style>
 
 <script>
-import { REGISTER } from "../store/actions.type";
+import { REGISTER, UPLOAD_PROFILE_PICTURE } from "../store/actions.type";
 import { START_PROGRESS, STOP_PROGRESS } from "../store/mutations.type";
+import { mapState } from "vuex";
 import GenreSelect from "../components/GenreSelect";
 import CountrySelect from "../components/CountrySelect";
 import BandMembersList from "../components/BandMembersList";
-import FilePond from "../components/FilePond";
+
+// Import Vue FilePond
+import vueFilePond from "vue-filepond";
+
+// Import FilePond styles
+import "filepond/dist/filepond.min.css";
+
+// Import FilePond plugins
+// Please note that you need to install these plugins separately
+
+// Import image preview plugin styles
+import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css";
+
+// Import image preview and file type validation plugins
+import FilePondPluginFileValidateType from "filepond-plugin-file-validate-type";
+import FilePondPluginImagePreview from "filepond-plugin-image-preview";
+
+// Create component
+const FilePond = vueFilePond(
+  FilePondPluginFileValidateType,
+  FilePondPluginImagePreview
+);
 
 export default {
   components: {
@@ -395,7 +414,6 @@ export default {
     passwordFocus: false,
     userInformationFormValidation: false,
     extraInformationFormValidation: false,
-    myFiles: [],
     userData: {
       type: {
         band: true
@@ -456,12 +474,14 @@ export default {
       },
       urlRule: {
         required: false,
-        url: true,
-        require_protocol: true
+        url: true
       }
     }
   }),
   computed: {
+    ...mapState({
+      profilePicture: state => state.auth.profilePicture
+    }),
     confirmPasswordRule: function() {
       return {
         required: true,
@@ -470,15 +490,9 @@ export default {
     }
   },
   methods: {
-    handleFilePondInit: function() {
-      // console.log('FilePond has initialized');
-      // FilePond instance methods are available on `this.$refs.pond`
-    },
     nextStep: function() {
       this.$validator.validate().then(() => {
-        // if (this.userInformationFormValidation) {
-        // eslint-disable-next-line
-        if (true) {
+        if (this.userInformationFormValidation) {
           this.$validator.reset();
           // Todo: Check if this email already exist in firebase users before procceed to next step.
           this.step = 2;
@@ -489,21 +503,34 @@ export default {
       this.$validator.validate().then(() => {
         if (this.extraInformationFormValidation) {
           this.$store.commit(START_PROGRESS);
-          let user = {
-            auth: {
-              email: this.userData.contactDetails.email,
-              phoneNumber: this.userData.contactDetails.phoneNumber,
-              password: this.password
-            },
-            userData: this.userData
-          };
+
+          const selectedFile = this.$refs.pond.getFile().file;
+          let fd = new FormData();
+          fd.append("image", selectedFile, selectedFile.name);
           this.$store
-            .dispatch(REGISTER, user)
+            .dispatch(UPLOAD_PROFILE_PICTURE, fd)
             .then(() => {
-              this.$router.push("/home");
+              let user = {
+                auth: {
+                  email: this.userData.contactDetails.email,
+                  phoneNumber: this.userData.contactDetails.phoneNumber,
+                  password: this.password
+                },
+                userData: this.userData,
+                profile_photo: this.profilePicture
+              };
+              this.$store
+                .dispatch(REGISTER, user)
+                .then(() => {
+                  this.$router.push("/home");
+                })
+                .finally(() => {
+                  this.$store.commit(STOP_PROGRESS);
+                });
             })
-            .finally(() => {
-              this.$store.commit(STOP_PROGRESS);
+            .catch(err => {
+              // eslint-disable-next-line
+              console.log(err);
             });
         }
       });

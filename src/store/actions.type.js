@@ -4,6 +4,7 @@ export const SIGN_IN_WITH_FACEBOOK = "signInWithFacebook";
 export const SIGN_OUT = "signOut";
 export const CHECK_AUTH = "checkAuth";
 export const REGISTER = "register";
+export const UPLOAD_PROFILE_PICTURE = "uploadProfilePicture";
 export const NEW_EVENT = "saveEvent";
 export const FETCH_EVENTS = "fetchEvents";
 export const UPDATE_EVENT = "updateEvent";
