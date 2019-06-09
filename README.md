@@ -1,6 +1,6 @@
 # museek
 
-Find your stage
+Find your stage!
 http://museek.live
 
 ## Project setup
