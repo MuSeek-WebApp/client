@@ -434,10 +434,11 @@ export default {
         streetAddress: ""
       },
       profiles: {
-        youtube: "",
-        spotify: "",
         facebook: "",
-        instagram: ""
+        instagram: "",
+        spotify: "",
+        soundCloud: "",
+        youtube: ""
       }
     },
     password: "",
