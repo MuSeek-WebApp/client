@@ -52,7 +52,9 @@
                       :error-messages="errors.collect('e-mail')"
                       v-model="userData.contactDetails.email"
                       label="E-mail"
+                      @change="clearError('')"
                     ></v-text-field>
+                    <p class="ma-0 red--text">{{ error }}</p>
                   </v-flex>
                   <!-- phone number -->
                   <v-flex md12 class="px-1">
@@ -414,6 +416,7 @@ export default {
     passwordFocus: false,
     userInformationFormValidation: false,
     extraInformationFormValidation: false,
+    error: "",
     userData: {
       type: {
         band: true
@@ -525,6 +528,10 @@ export default {
                 .then(() => {
                   this.$router.push("/home");
                 })
+                .catch(() => {
+                  this.error =
+                    "The email address is already in use by another account";
+                })
                 .finally(() => {
                   this.$store.commit(STOP_PROGRESS);
                 });
@@ -535,6 +542,9 @@ export default {
             });
         }
       });
+    },
+    clearError: function(str) {
+      this.error = str;
     }
   }
 };
