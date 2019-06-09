@@ -13,7 +13,7 @@
       <div class="header__text-box">
         <h1 class="heading-primary">
           <span class="heading-primary--main">Museek</span>
-          <span class="heading-primary--sub">find your stage</span>
+          <span class="heading-primary--sub">Find your stage</span>
         </h1>
         <router-link :to="'/login'">
           <a class="btn btn--white btn--animated">Sign In</a>
