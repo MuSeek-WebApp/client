@@ -23,7 +23,7 @@
         </v-list-tile>
       </v-list>
     </v-menu>
-    <v-toolbar-items> </v-toolbar-items>
+    <v-toolbar-items></v-toolbar-items>
   </v-toolbar>
 </template>
 
@@ -47,3 +47,9 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+.mt-2 {
+  cursor: pointer;
+}
+</style>
