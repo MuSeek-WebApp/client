@@ -1,6 +1,9 @@
 <template>
   <v-card height="500" class="scroll-y">
     <v-container grid-list-md class="pa-3">
+      <div class="display-1 font-weight-medium grey--text">
+        Similar events also liked:
+      </div>
       <v-progress-circular
         v-if="!bands"
         :size="255"
@@ -30,21 +33,21 @@
                   </v-avatar>
                 </v-flex>
                 <v-flex xs8 xl9>
-                  <v-layout wrap>
+                  <v-layout pl-5 pt-2 wrap>
                     <v-flex xs2 xl1>
                       <v-icon>location_on</v-icon>
                     </v-flex>
-                    <v-flex xs10 xl11 class="black--text">
-                      <template v-if="band.address">
-                        {{ band.address.city }}
-                      </template>
+                    <v-flex pl-3 xs10 xl11 class="black--text">
+                      <template v-if="band.address">{{
+                        band.address.city
+                      }}</template>
                     </v-flex>
                     <v-flex xs2 xl1>
                       <v-icon>music_note</v-icon>
                     </v-flex>
-                    <v-flex xs10 xl11 class="black--text">
-                      {{ band.genres.join(", ") }}
-                    </v-flex>
+                    <v-flex pl-3 xs10 xl11 class="black--text">{{
+                      band.genres.join(", ")
+                    }}</v-flex>
                   </v-layout>
                 </v-flex>
                 <custom-rating
