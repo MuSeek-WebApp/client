@@ -11,7 +11,6 @@ import Landing from "../views/Landing.vue";
 Vue.use(VueRouter);
 
 export default new VueRouter({
-  mode: "history",
   routes: [
     {
       path: "*",
