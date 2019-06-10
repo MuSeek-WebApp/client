@@ -1,6 +1,13 @@
 <template>
   <v-card height="500" class="scroll-y">
     <v-container grid-list-md class="pa-3">
+      <v-progress-circular
+        v-if="!bands"
+        :size="250"
+        :width="20"
+        color="pink"
+        indeterminate
+      ></v-progress-circular>
       <v-layout row wrap>
         <v-flex xs6 lg4 xl3 v-for="band in bands" :key="band._id" class="pa-3">
           <v-card color="grey lighten-2" class="white--text" height="210">
@@ -11,7 +18,7 @@
                   target="_blank"
                   class="no-underline black--text"
                 >
-                  <span> {{ band.name }}</span>
+                  <span>{{ band.name }}</span>
                 </router-link>
               </div>
             </v-card-title>
@@ -28,16 +35,16 @@
                       <v-icon>location_on</v-icon>
                     </v-flex>
                     <v-flex xs10 xl11 class="black--text">
-                      <template v-if="band.address">
-                        {{ band.address.city }}
-                      </template>
+                      <template v-if="band.address">{{
+                        band.address.city
+                      }}</template>
                     </v-flex>
                     <v-flex xs2 xl1>
                       <v-icon>music_note</v-icon>
                     </v-flex>
-                    <v-flex xs10 xl11 class="black--text">
-                      {{ band.genres.join(", ") }}
-                    </v-flex>
+                    <v-flex xs10 xl11 class="black--text">{{
+                      band.genres.join(", ")
+                    }}</v-flex>
                   </v-layout>
                 </v-flex>
                 <custom-rating
@@ -50,9 +57,8 @@
                   color="pink lighten-2"
                   @click="$emit('add', band)"
                   class="white--text"
+                  >Add to lineup</v-btn
                 >
-                  Add to lineup
-                </v-btn>
               </v-layout>
             </v-card-text>
           </v-card>
@@ -75,6 +81,12 @@ export default {
 </script>
 
 <style scoped>
+.v-progress-circular {
+  position: absolute;
+  top: 20%;
+  right: 50%;
+  transform: translateX(50%);
+}
 .no-underline {
   text-decoration: none;
 }
