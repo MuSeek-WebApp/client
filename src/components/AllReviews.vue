@@ -44,28 +44,32 @@ export default {
   }),
   computed: {
     filteredReviews: function() {
+      let reviews = this.reviews.concat();
       if (this.filterDate === this.dates[1]) {
-        return this.reviews.filter(
+        reviews = this.reviews.filter(
           review =>
             new Date(review.timestamp) > new Date() - 24 * 60 * 60 * 1000
         );
       } else if (this.filterDate === this.dates[2]) {
-        return this.reviews.filter(
+        reviews = this.reviews.filter(
           review =>
             new Date(review.timestamp) > new Date() - 7 * 24 * 60 * 60 * 1000
         );
       } else if (this.filterDate === this.dates[3]) {
-        return this.reviews.filter(
+        reviews = this.reviews.filter(
           review =>
             new Date(review.timestamp) > new Date() - 30 * 24 * 60 * 60 * 1000
         );
       } else if (this.filterDate === this.dates[4]) {
-        return this.reviews.filter(
+        reviews = this.reviews.filter(
           review =>
             new Date(review.timestamp) > new Date() - 365 * 24 * 60 * 60 * 1000
         );
       }
-      return this.reviews;
+
+      return reviews.sort(
+        (a, b) => new Date(b.timestamp) - new Date(a.timestamp)
+      );
     }
   },
   props: ["reviews"]
