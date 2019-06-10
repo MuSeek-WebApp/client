@@ -3,7 +3,7 @@
     <v-container grid-list-md class="pa-3">
       <v-progress-circular
         v-if="!bands"
-        :size="250"
+        :size="255"
         :width="20"
         color="pink"
         indeterminate
@@ -35,16 +35,16 @@
                       <v-icon>location_on</v-icon>
                     </v-flex>
                     <v-flex xs10 xl11 class="black--text">
-                      <template v-if="band.address">{{
-                        band.address.city
-                      }}</template>
+                      <template v-if="band.address">
+                        {{ band.address.city }}
+                      </template>
                     </v-flex>
                     <v-flex xs2 xl1>
                       <v-icon>music_note</v-icon>
                     </v-flex>
-                    <v-flex xs10 xl11 class="black--text">{{
-                      band.genres.join(", ")
-                    }}</v-flex>
+                    <v-flex xs10 xl11 class="black--text">
+                      {{ band.genres.join(", ") }}
+                    </v-flex>
                   </v-layout>
                 </v-flex>
                 <custom-rating
