@@ -113,8 +113,8 @@ export default {
       this.myReview.dislike = this.chosenRate === this.dislikeIcon ? 1 : 0;
       this.chosenRate = null;
       this.$store.commit(START_PROGRESS);
+      this.myReview.timestamp = new Date().toJSON();
       if (this.myReview._id) {
-        this.myReview.timestamp = new Date().toJSON();
         this.$store
           .dispatch(UPDATE_REVIEW, {
             userId: this.reviewedId,
