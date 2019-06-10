@@ -32,13 +32,13 @@
 
       <v-flex grow>
         <v-layout row>
-          <v-flex grow class="no-pad ml-2">
+          <v-flex grow class="pa-0 ml-2">
             <span
               class="large-text font-weight-bold ml-3"
               v-text="profile.name"
             ></span>
           </v-flex>
-          <v-flex shrink class="no-pad">
+          <v-flex shrink class="pa-0">
             <v-expand-transition>
               <div v-if="isEditing" class="moveGroup">
                 <v-btn icon @click="cancelEdit()" small>
@@ -47,7 +47,7 @@
               </div>
             </v-expand-transition>
           </v-flex>
-          <v-flex shrink class="no-pad">
+          <v-flex shrink class="pa-0">
             <v-expand-transition>
               <div v-if="!isEditing && isCurrentUser">
                 <v-btn icon @click="startEdit()" small>
@@ -70,7 +70,7 @@
           </v-flex>
         </v-layout>
         <v-layout row class="ml-2">
-          <v-flex xs12 class="no-pad">
+          <v-flex xs12 class="pa-0">
             <v-chip small color="blue" text-color="white">
               <v-avatar>
                 <v-icon v-if="isBand">music_note</v-icon>
@@ -102,12 +102,12 @@
     </v-layout>
 
     <v-layout align-center>
-      <v-flex shrink class="no-pad">
+      <v-flex shrink class="pa-0">
         <v-icon x-large>
           contact_support
         </v-icon>
       </v-flex>
-      <v-flex shrink class="no-pad">
+      <v-flex shrink class="pa-0">
         <span class="display-h1">Who are we?</span>
       </v-flex>
       <v-flex grow>
@@ -116,7 +116,7 @@
     </v-layout>
 
     <v-layout>
-      <v-flex offset-xs1 class="no-pad">
+      <v-flex offset-xs1 class="pa-0">
         <textarea-autosize
           v-model="profileCopy.description"
           class="full font-size-medium"
@@ -132,15 +132,15 @@
     <v-divider></v-divider>
 
     <v-layout row class="mt-2" v-if="isBand">
-      <v-flex shrink class="no-pad">
+      <v-flex shrink class="pa-0">
         <v-icon x-large>
           people
         </v-icon>
       </v-flex>
-      <v-flex grow class="no-pad">
+      <v-flex grow class="pa-0">
         <span class="display-h1">Band Members</span>
       </v-flex>
-      <v-flex shrink class="no-pad">
+      <v-flex shrink class="pa-0">
         <v-dialog v-model="membersDialog" width="700">
           <template v-slot:activator="{ on }">
             <v-expand-transition>
@@ -178,7 +178,7 @@
           </v-list-tile-content>
         </v-list-tile>
       </v-flex>
-      <v-flex offset-xs1 xs11 class="no-pad">
+      <v-flex offset-xs1 xs11 class="pa-0">
         <span
           class="font-size-medium"
           v-if="profileCopy.bandMembers.length === 0"
@@ -191,18 +191,18 @@
     <v-divider v-if="isBand"></v-divider>
 
     <v-layout row class="mt-2">
-      <v-flex offset-xs1 xs3 class="no-pad">
+      <v-flex offset-xs1 xs3 class="pa-0">
         <span class="display-h1">Contact Details</span>
       </v-flex>
-      <v-flex offset-xs2 xs1 class="no-pad" v-if="isBand">
+      <v-flex offset-xs2 xs1 class="pa-0" v-if="isBand">
         <v-icon x-large>
           music_note
         </v-icon>
       </v-flex>
-      <v-flex xs2 class="no-pad" v-if="isBand">
+      <v-flex xs2 class="pa-0" v-if="isBand">
         <span class="display-h1">Genres</span>
       </v-flex>
-      <v-flex offset-xs2 xs1 class="no-pad" v-if="isBand">
+      <v-flex offset-xs2 xs1 class="pa-0" v-if="isBand">
         <v-dialog v-model="genresDialog" width="400">
           <template v-slot:activator="{ on }">
             <v-expand-transition>
@@ -230,7 +230,7 @@
     </v-layout>
 
     <v-layout row align-center>
-      <v-flex xs6 class="no-pad">
+      <v-flex xs6 class="pa-0">
         <v-list-tile>
           <v-list-tile-action>
             <v-icon>mail</v-icon>
@@ -251,13 +251,13 @@
           </v-list-tile-content>
         </v-list-tile>
       </v-flex>
-      <v-flex offset-xs1 xs5 class="no-pad" v-if="isBand">
+      <v-flex offset-xs1 xs5 class="pa-0" v-if="isBand">
         <span v-text="selectedGenres" class="font-size-medium"> </span>
       </v-flex>
     </v-layout>
 
     <v-layout row>
-      <v-flex class="no-pad">
+      <v-flex class="pa-0">
         <v-list-tile>
           <v-list-tile-action>
             <v-icon>phone</v-icon>
@@ -281,7 +281,7 @@
     </v-layout>
 
     <v-layout row class="mb-3">
-      <v-flex class="no-pad">
+      <v-flex class="pa-0">
         <v-list-tile>
           <v-list-tile-action>
             <v-icon>location_on</v-icon>
@@ -448,10 +448,6 @@ export default {
 </script>
 
 <style scoped>
-.no-pad {
-  padding: 0 !important;
-}
-
 .large-text {
   font-size: 1.75vw;
 }
@@ -465,7 +461,7 @@ export default {
 
 .font-size-medium {
   font-family: "Roboto", sans-serif !important;
-  font-size: 16px !important;
+  font-size: 0.85vw !important;
 }
 
 .longer {

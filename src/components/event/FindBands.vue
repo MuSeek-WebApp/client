@@ -105,6 +105,9 @@ export default {
         });
     },
     bandsExists() {
+      if (!this.value.requests) {
+        return [];
+      }
       return this.value.requests.map(request => {
         const { _id } = request.band;
         return _id;

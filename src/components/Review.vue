@@ -2,7 +2,7 @@
   <v-container class="py-2">
     <v-list-tile>
       <v-list-tile-avatar>
-        <v-img class="elevation-6" :src="review.photo"></v-img>
+        <v-img class="elevation-6" :src="profilePhoto"></v-img>
       </v-list-tile-avatar>
       <v-list-tile-content class="maxHeight">
         <v-list-tile-title>
@@ -38,6 +38,12 @@ export default {
   computed: {
     date: function() {
       return new Date(this.review.timestamp).toDateString();
+    },
+    profilePhoto: function() {
+      return (
+        this.review.photo ||
+        "http://res.cloudinary.com/do9yffex2/image/upload/v1559899942/xxw1tidv76g572j7ni8w.jpg"
+      );
     }
   },
   props: ["review"]
