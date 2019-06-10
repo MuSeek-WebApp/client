@@ -226,7 +226,7 @@
                             v-if="userData.type.band"
                           >
                             <GenreSelect
-                              v-model="userData.selectedGenres"
+                              v-model="userData.genres"
                             ></GenreSelect>
                           </v-flex>
                         </v-layout>
@@ -430,7 +430,7 @@ export default {
       name: "",
       description: "",
       bandMembers: [],
-      selectedGenres: [],
+      genres: [],
       address: {
         country: "",
         city: "",
@@ -508,37 +508,33 @@ export default {
         if (this.extraInformationFormValidation) {
           this.$store.commit(START_PROGRESS);
 
-          const selectedFile = this.$refs.pond.getFile().file;
-          let fd = new FormData();
-          fd.append("image", selectedFile, selectedFile.name);
+          if (this.$refs.pond.getFile()) {
+            const selectedFile = this.$refs.pond.getFile().file;
+            let fd = new FormData();
+            fd.append("image", selectedFile, selectedFile.name);
+            this.$store.dispatch(UPLOAD_PROFILE_PICTURE, fd);
+          }
+
+          let user = {
+            auth: {
+              email: this.userData.contactDetails.email,
+              phoneNumber: this.userData.contactDetails.phoneNumber,
+              password: this.password
+            },
+            userData: this.userData,
+            profile_photo: this.profilePicture
+          };
           this.$store
-            .dispatch(UPLOAD_PROFILE_PICTURE, fd)
+            .dispatch(REGISTER, user)
             .then(() => {
-              let user = {
-                auth: {
-                  email: this.userData.contactDetails.email,
-                  phoneNumber: this.userData.contactDetails.phoneNumber,
-                  password: this.password
-                },
-                userData: this.userData,
-                profile_photo: this.profilePicture
-              };
-              this.$store
-                .dispatch(REGISTER, user)
-                .then(() => {
-                  this.$router.push("/home");
-                })
-                .catch(() => {
-                  this.error =
-                    "The email address is already in use by another account";
-                })
-                .finally(() => {
-                  this.$store.commit(STOP_PROGRESS);
-                });
+              this.$router.push("/home");
             })
-            .catch(err => {
-              // eslint-disable-next-line
-              console.log(err);
+            .catch(() => {
+              this.error =
+                "The email address is already in use by another account";
+            })
+            .finally(() => {
+              this.$store.commit(STOP_PROGRESS);
             });
         }
       });
