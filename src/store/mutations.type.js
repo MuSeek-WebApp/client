@@ -18,3 +18,4 @@ export const CLEAR_ERROR_MESSAGE = "clearErrorMessage";
 export const SET_EVENT_REVIEWS = "setEventReviews";
 export const ADD_OR_UPDATE_EVENT_REVIEWS = "addOrUpdateEventReviews";
 export const SET_PROFILE_PIC = "setProfilePicUrl";
+export const SET_SEARCHED_DATA = "setSearchedData";
