@@ -12,7 +12,7 @@
             v-model="nameInput"
             prepend-icon="search"
             label="Band Name"
-            @input="findByName"
+            @input="debounceFilter"
           ></v-text-field>
         </v-flex>
         <v-flex xs6>
@@ -22,6 +22,9 @@
             @input="findByGenres"
           ></genre-select>
         </v-flex>
+        <v-flex xs12 class="display-1 font-weight-medium grey--text">{{
+          nameInput ? "Search Results" : "Similar events also liked"
+        }}</v-flex>
         <v-flex xs12>
           <band-cards :bands="bands" @add="addRequest"></band-cards>
         </v-flex>
@@ -35,7 +38,7 @@ import { FIND_BANDS, SUGGEST_BANDS } from "@/store/actions.type";
 import { createNamespacedHelpers } from "vuex";
 import GenreSelect from "../GenreSelect";
 import BandCards from "./BandCards";
-
+import _ from "lodash";
 const { mapState, mapActions } = createNamespacedHelpers("band");
 
 export default {
@@ -63,12 +66,13 @@ export default {
     } else {
       this.suggestBands();
     }
+
+    this.debounceFilter = _.debounce(this.findByName, 500);
   },
   methods: {
     ...mapActions([FIND_BANDS, SUGGEST_BANDS]),
-    findByName: function(name) {
-      this.nameInput = name;
-      this.findBands({ name: name, genres: this.genresInput });
+    findByName: function() {
+      this.findBands({ name: this.nameInput, genres: this.genresInput });
     },
     findByGenres: function(genres) {
       if (genres.length === 0) {
