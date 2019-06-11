@@ -22,9 +22,13 @@
             @input="findByGenres"
           ></genre-select>
         </v-flex>
-        <v-flex xs12 class="display-1 font-weight-medium grey--text">{{
-          nameInput ? "Search Results" : "Similar events also liked"
-        }}</v-flex>
+        <v-flex
+          xs12
+          class="display-1 font-weight-medium grey--text"
+          v-if="bands"
+        >
+          {{ nameInput ? "Search Results" : "Similar events also liked" }}
+        </v-flex>
         <v-flex xs12>
           <band-cards :bands="bands" @add="addRequest"></band-cards>
         </v-flex>
