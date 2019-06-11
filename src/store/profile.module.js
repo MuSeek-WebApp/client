@@ -23,7 +23,6 @@ const actions = {
       console.log("ERROR");
     }
   },
-
   async [UPLOAD_PROFILE_IMAGE]({ dispatch }, { file, uid }) {
     try {
       await ApiService.post("/api/profile/upload", file);

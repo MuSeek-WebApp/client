@@ -97,6 +97,7 @@ export default {
       endDate: null,
       selectedGenres: [],
       genres: [
+        "Hip Hop",
         "Pop",
         "Rock",
         "Metal",

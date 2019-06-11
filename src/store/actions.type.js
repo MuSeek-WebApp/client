@@ -3,6 +3,7 @@ export const SIGN_IN_WITH_GOOGLE = "signInWithGoogle";
 export const SIGN_IN_WITH_FACEBOOK = "signInWithFacebook";
 export const SIGN_OUT = "signOut";
 export const CHECK_AUTH = "checkAuth";
+export const GET_SEARCH = "getSearch";
 export const REGISTER = "register";
 export const UPLOAD_PROFILE_PICTURE = "uploadProfilePicture";
 export const NEW_EVENT = "saveEvent";
