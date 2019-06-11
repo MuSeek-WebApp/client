@@ -7,9 +7,11 @@ const state = {
 };
 
 const actions = {
-  async [GET_SEARCH](context, name) {
-    const { data } = await ApiService.get("api/general/search/" + name);
-    context.commit(SET_SEARCHED_DATA, data);
+  async [GET_SEARCH]({ commit }, name) {
+    if (name) {
+      const { data } = await ApiService.get("api/general/search/" + name);
+      commit(SET_SEARCHED_DATA, data);
+    }
   }
 };
 

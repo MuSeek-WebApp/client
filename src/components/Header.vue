@@ -7,15 +7,16 @@
       <v-spacer></v-spacer>
       <div>
         <multiselect
-          v-model="selectedItems"
-          :options="options"
+          v-model="value"
+          :options="searchedData"
           group-values="values"
           group-label="itemType"
           placeholder="Type to search"
           track-by="name"
           label="name"
-          :clear-on-select="true"
-          :close-on-select="true"
+          close-on-select
+          @search-change="debouncedSearch"
+          @input="selectSearched"
         >
           <span slot="noResult"
             >Oops! No elements found. Consider changing the search query.</span
@@ -47,20 +48,23 @@
 </template>
 
 <script>
-import { SIGN_OUT } from "@/store/actions.type";
-import { mapGetters, mapState } from "vuex";
+import { SIGN_OUT, GET_SEARCH } from "@/store/actions.type";
+import { mapGetters, mapState, createNamespacedHelpers } from "vuex";
 import Multiselect from "vue-multiselect";
 import _ from "lodash";
-import { GET_SEARCH } from "../store/actions.type.js";
-import { SET_SEARCHED_DATA } from "../store/mutations.type";
+
+const { mapActions } = createNamespacedHelpers("general");
 
 export default {
   components: { Multiselect },
-
   computed: {
+    ...mapState({
+      searchedData: state => state.general.searchedData
+    }),
     ...mapGetters(["getUserUid"])
   },
   methods: {
+    ...mapActions([GET_SEARCH]),
     signOut: async function() {
       await this.$store.dispatch(SIGN_OUT);
       this.$router.push("/login");
@@ -68,35 +72,26 @@ export default {
 
     routeTo: function(page) {
       this.$router.push(page);
+    },
+
+    debounceSearch: function(searchQuery) {
+      this.getSearch(searchQuery);
+    },
+
+    selectSearched: function() {
+      if (this.value.type == "business" || this.value.type == "band") {
+        this.routeTo("/profile/" + this.value._id);
+      } else {
+        this.routeTo("/event/" + this.value._id);
+      }
     }
   },
-
+  created: function() {
+    this.debouncedSearch = _.debounce(this.debounceSearch, 500);
+  },
   data() {
     return {
-      options: [
-        {
-          itemType: "Events",
-          values: [
-            { _id: "312312", name: "Amazing Event" },
-            { _id: "3123dewrew12", name: "Amazing Event 2" }
-          ]
-        },
-        {
-          itemType: "Bands",
-          values: [
-            { _id: "3123dd12", name: "Amazing Band" },
-            { _id: "fdsfdsf", name: "Amazing Band 2" }
-          ]
-        },
-        {
-          itemType: "Businesses",
-          values: [
-            { _id: "ssss", name: "Amazing Business" },
-            { _id: "3123dewgggssrew12", name: "Amazing Business 2" }
-          ]
-        }
-      ],
-      selectedItems: []
+      value: []
     };
   }
 };
@@ -107,6 +102,7 @@ export default {
 .mt-2 {
   cursor: pointer;
 }
+
 .multiselect {
   width: 30vw;
 }
