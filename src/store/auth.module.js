@@ -67,6 +67,7 @@ const actions = {
         .auth()
         .signInWithEmailAndPassword(credentials.email, credentials.password)
         .then(result => {
+          // debugger;
           result.user.getIdToken().then(idToken => {
             ApiService.post("/auth/login", { idToken: idToken })
               .then(() => {
@@ -89,16 +90,22 @@ const actions = {
         .auth()
         .signInWithPopup(new firebase.auth.FacebookAuthProvider())
         .then(result => {
-          result.user.getIdToken().then(idToken => {
-            ApiService.post("/auth/login", { idToken: idToken })
-              .then(() => {
-                context.commit(SET_AUTH, idToken);
-                resolve();
-              })
-              .catch(error => {
-                reject(error);
-              });
-          });
+          // debugger;
+          // result.additionalUserInfo.profile.email/.first_name/.last_name
+          if (!result.additionalUserInfo.isNewUser) {
+            result.user.getIdToken().then(idToken => {
+              ApiService.post("/auth/login", { idToken: idToken })
+                .then(() => {
+                  context.commit(SET_AUTH, idToken);
+                  resolve();
+                })
+                .catch(error => {
+                  reject(error);
+                });
+            });
+          } else {
+            // register screen
+          }
         })
         .catch(error => {
           reject(error);
@@ -111,16 +118,22 @@ const actions = {
         .auth()
         .signInWithPopup(new firebase.auth.GoogleAuthProvider())
         .then(result => {
-          result.user.getIdToken().then(idToken => {
-            ApiService.post("/auth/login", { idToken: idToken })
-              .then(() => {
-                context.commit(SET_AUTH, idToken);
-                resolve();
-              })
-              .catch(error => {
-                reject(error);
-              });
-          });
+          // debugger;
+          // result.additionalUserInfo.profile.email/.family_name/.given_name
+          if (!result.additionalUserInfo.isNewUser) {
+            result.user.getIdToken().then(idToken => {
+              ApiService.post("/auth/login", { idToken: idToken })
+                .then(() => {
+                  context.commit(SET_AUTH, idToken);
+                  resolve();
+                })
+                .catch(error => {
+                  reject(error);
+                });
+            });
+          } else {
+            // register screen
+          }
         })
         .catch(error => {
           reject(error);
