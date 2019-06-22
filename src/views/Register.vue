@@ -10,6 +10,21 @@
               <v-form v-model="userInformationFormValidation">
                 <v-layout wrap class="my-3">
                   <v-flex md12>
+                    <v-card v-if="isSocial">
+                      <v-card-title primary-title>
+                        <div>
+                          <h3 class="headline mb-0">
+                            Thank you for signing in with social media account
+                          </h3>
+                          <div>
+                            <br />
+                            Since it's your first time here we need you to
+                            complete the registration process
+                            <br />
+                          </div>
+                        </div>
+                      </v-card-title>
+                    </v-card>
                     <div class="py-3 title">1. User Information</div>
                   </v-flex>
                   <!-- first name -->
@@ -26,6 +41,7 @@
                         v-validate="validationRules.nameRule"
                         data-vv-name="first name"
                         :error-messages="errors.collect('first name')"
+                        :disabled="isSocial"
                         v-model="userData.contactDetails.firstName"
                         label="First name"
                       ></v-text-field>
@@ -39,6 +55,7 @@
                       v-validate="validationRules.nameRule"
                       data-vv-name="last name"
                       :error-messages="errors.collect('last name')"
+                      :disabled="isSocial"
                       v-model="userData.contactDetails.lastName"
                       label="Last name"
                     ></v-text-field>
@@ -50,6 +67,7 @@
                       v-validate="validationRules.emailRule"
                       data-vv-name="e-mail"
                       :error-messages="errors.collect('e-mail')"
+                      :disabled="isSocial"
                       v-model="userData.contactDetails.email"
                       label="E-mail"
                       @change="clearError('')"
@@ -81,6 +99,7 @@
                         v-validate="validationRules.passwordRule"
                         data-vv-name="password"
                         :error-messages="errors.collect('password')"
+                        :disabled="isSocial"
                         v-model="password"
                         label="Password"
                         type="password"
@@ -95,6 +114,7 @@
                       v-validate="confirmPasswordRule"
                       data-vv-name="confirm"
                       :error-messages="errors.collect('confirm')"
+                      :disabled="isSocial"
                       v-model="confirmPassword"
                       label="Confirm"
                       type="password"
