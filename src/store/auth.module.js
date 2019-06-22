@@ -122,7 +122,7 @@ const actions = {
         .then(result => {
           // debugger;
           // result.additionalUserInfo.profile.email/.family_name/.given_name
-          if (!result.additionalUserInfo.isNewUser) {
+          if (result.additionalUserInfo.isNewUser) {
             // register screen
             // Set state - indication + details
             throw "Its the user first time usen the site";
