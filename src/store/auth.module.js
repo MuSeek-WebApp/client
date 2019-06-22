@@ -92,7 +92,11 @@ const actions = {
         .then(result => {
           // debugger;
           // result.additionalUserInfo.profile.email/.first_name/.last_name
-          if (!result.additionalUserInfo.isNewUser) {
+          if (result.additionalUserInfo.isNewUser) {
+            // register screen
+            // Set state - indication + details
+            throw "Its the user first time usen the site";
+          } else {
             result.user.getIdToken().then(idToken => {
               ApiService.post("/auth/login", { idToken: idToken })
                 .then(() => {
@@ -103,8 +107,6 @@ const actions = {
                   reject(error);
                 });
             });
-          } else {
-            // register screen
           }
         })
         .catch(error => {
@@ -121,6 +123,10 @@ const actions = {
           // debugger;
           // result.additionalUserInfo.profile.email/.family_name/.given_name
           if (!result.additionalUserInfo.isNewUser) {
+            // register screen
+            // Set state - indication + details
+            throw "Its the user first time usen the site";
+          } else {
             result.user.getIdToken().then(idToken => {
               ApiService.post("/auth/login", { idToken: idToken })
                 .then(() => {
@@ -131,8 +137,6 @@ const actions = {
                   reject(error);
                 });
             });
-          } else {
-            // register screen
           }
         })
         .catch(error => {

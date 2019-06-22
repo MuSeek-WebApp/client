@@ -162,8 +162,14 @@ export default {
     signInWithFacebook: async function() {
       this.$store.commit(START_PROGRESS);
       try {
-        await this.$store.dispatch(SIGN_IN_WITH_FACEBOOK);
-        this.$router.push("/home");
+        await this.$store
+          .dispatch(SIGN_IN_WITH_FACEBOOK)
+          .then(() => {
+            this.$router.push("/home");
+          })
+          .catch(() => {
+            this.$router.push("/register");
+          });
       } catch (error) {
         this.error = error.message;
       } finally {
@@ -173,8 +179,14 @@ export default {
     signInWithGoogle: async function() {
       this.$store.commit(START_PROGRESS);
       try {
-        await this.$store.dispatch(SIGN_IN_WITH_GOOGLE);
-        this.$router.push("/home");
+        await this.$store
+          .dispatch(SIGN_IN_WITH_GOOGLE)
+          .then(() => {
+            this.$router.push("/home");
+          })
+          .catch(() => {
+            this.$router.push("/register");
+          });
       } catch (error) {
         this.error = error.message;
       } finally {
