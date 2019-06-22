@@ -14,7 +14,8 @@ import {
   SET_AUTH,
   PURGE_AUTH,
   SET_USER_DATA,
-  SET_PROFILE_PIC
+  SET_PROFILE_PIC,
+  SET_USER_SOCIAL_DATA
 } from "./mutations.type";
 import firebase from "firebase";
 
@@ -32,7 +33,9 @@ setInterval(function() {
 const state = {
   idToken: null,
   isAuthenticated: !!JwtService.getToken(),
-  userData: null
+  userData: null,
+  userSocialData: null,
+  isSocial: false
 };
 
 const getters = {
@@ -67,7 +70,6 @@ const actions = {
         .auth()
         .signInWithEmailAndPassword(credentials.email, credentials.password)
         .then(result => {
-          // debugger;
           result.user.getIdToken().then(idToken => {
             ApiService.post("/auth/login", { idToken: idToken })
               .then(() => {
@@ -90,12 +92,13 @@ const actions = {
         .auth()
         .signInWithPopup(new firebase.auth.FacebookAuthProvider())
         .then(result => {
-          // debugger;
-          // result.additionalUserInfo.profile.email/.first_name/.last_name
           if (result.additionalUserInfo.isNewUser) {
-            // register screen
-            // Set state - indication + details
-            throw "Its the user first time usen the site";
+            context.commit(SET_USER_SOCIAL_DATA, {
+              email: result.additionalUserInfo.profile.email,
+              firstName: result.additionalUserInfo.profile.first_name,
+              lastName: result.additionalUserInfo.profile.last_name
+            });
+            throw "Its the user first time using this site";
           } else {
             result.user.getIdToken().then(idToken => {
               ApiService.post("/auth/login", { idToken: idToken })
@@ -120,12 +123,13 @@ const actions = {
         .auth()
         .signInWithPopup(new firebase.auth.GoogleAuthProvider())
         .then(result => {
-          // debugger;
-          // result.additionalUserInfo.profile.email/.family_name/.given_name
           if (result.additionalUserInfo.isNewUser) {
-            // register screen
-            // Set state - indication + details
-            throw "Its the user first time usen the site";
+            context.commit(SET_USER_SOCIAL_DATA, {
+              email: result.additionalUserInfo.profile.email,
+              firstName: result.additionalUserInfo.profile.given_name,
+              lastName: result.additionalUserInfo.profile.family_name
+            });
+            throw "Its the user first time using this site";
           } else {
             result.user.getIdToken().then(idToken => {
               ApiService.post("/auth/login", { idToken: idToken })
@@ -212,6 +216,10 @@ const mutations = {
   },
   [SET_PROFILE_PIC](state, picUrl) {
     state.profilePicture = picUrl;
+  },
+  [SET_USER_SOCIAL_DATA](state, userSocialData) {
+    state.userSocialData = userSocialData;
+    state.isSocial = true;
   }
 };
 

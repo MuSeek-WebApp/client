@@ -484,13 +484,22 @@ export default {
   }),
   computed: {
     ...mapState({
-      profilePicture: state => state.auth.profilePicture
+      profilePicture: state => state.auth.profilePicture,
+      userSocialData: state => state.auth.userSocialData,
+      isSocial: state => state.auth.isSocial
     }),
     confirmPasswordRule: function() {
       return {
         required: true,
         is: this.password
       };
+    }
+  },
+  mounted() {
+    if (this.isSocial && this.userSocialData) {
+      this.userData.contactDetails.email = this.userSocialData.email;
+      this.userData.contactDetails.firstName = this.userSocialData.firstName;
+      this.userData.contactDetails.lastName = this.userSocialData.lastName;
     }
   },
   methods: {
