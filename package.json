@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "animate.css": "^3.7.0",
-    "axios": "^0.19.0",
+    "axios": "^0.21.1",
     "filepond": "^4.4.7",
     "filepond-plugin-file-validate-type": "^1.2.4",
     "filepond-plugin-image-preview": "^4.2.0",
